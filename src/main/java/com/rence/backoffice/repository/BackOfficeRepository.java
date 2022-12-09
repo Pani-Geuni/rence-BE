@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.BackOfficeListVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
 import com.rence.backoffice.model.BackOfficeVO;
