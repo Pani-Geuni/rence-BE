@@ -113,7 +113,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value="delete from roominfo where backofficE_no=?1")
-	public void backoffice_room_deleteAlL(String backoffice_no);
+	public int backoffice_room_deleteALL(String backoffice_no);
 
 	
 	// 업체 정보 수정

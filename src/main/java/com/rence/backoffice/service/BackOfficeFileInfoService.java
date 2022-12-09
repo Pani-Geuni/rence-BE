@@ -27,4 +27,11 @@ public class BackOfficeFileInfoService implements BackOfficeFileService {
 		return vo;
 	}
 
+	@Override
+	public BackOfficeVO backoffice_image_upload(BackOfficeVO bvo, MultipartHttpServletRequest mtfRequest,
+			MultipartFile multipartFile_room) {
+		bvo = fao.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);
+		return bvo;
+	}
+
 }
