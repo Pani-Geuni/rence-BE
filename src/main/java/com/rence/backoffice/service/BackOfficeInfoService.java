@@ -1,13 +1,25 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.service;
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.EmailVO;
 import com.rence.backoffice.repository.BackOfficeDAO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BackOfficeInfoService implements BackOfficeService {
 	@Autowired
 	BackOfficeDAO dao;
@@ -27,6 +39,12 @@ public class BackOfficeInfoService implements BackOfficeService {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public Map<String, String> backoffice_auth(AuthVO avo, BackOfficeVO bvo, EmailVO evo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

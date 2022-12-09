@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.controller;
 
 import java.text.ParseException;
@@ -7,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,9 +22,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.EmailVO;
 import com.rence.backoffice.service.BackOfficeFileService;
 import com.rence.backoffice.service.BackOfficeService;
 
@@ -65,6 +72,20 @@ public class BackOfficeController {
 			map.put("result", "0");
 		}
 		
+		String json = gson.toJson(map);
+
+		return json;
+	}
+	
+	/**
+	 * 이메일 인증번호 요청
+	 */
+	@ApiOperation(value="이메일 인증번호 요청", notes="호스트 신청시, 이메일 인증번호 요청 페이지입니다.")
+	@GetMapping("/auth")
+	public String backoffice_auth(AuthVO avo, BackOfficeVO bvo, EmailVO evo) {
+
+		 Map<String, String> map = service.backoffice_auth(avo,bvo,evo);
+
 		String json = gson.toJson(map);
 
 		return json;
