@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -443,6 +442,12 @@ public class DashBoardController {
 	public String backoffice_reservation_rsu(String backoffice_no, String room_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Integer page) {
 
+		Map<String, Object> map = service.backoffice_reservation(backoffice_no, room_no, not_sdate, not_edate, not_stime, not_etime, off_type, page);
+
+		String json = gson.toJson(map);
+
+		return json;
+		
 	}
 
 	/**
@@ -450,9 +455,14 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation_paging")
-	public String backoffice_reservation_paging_rsu(String backoffice_no, String room_no, String not_sdate,
-			String not_edate, String not_stime, String not_etime, String off_type, Integer page) {
+	public String backoffice_reservation_paging_rsu(String backoffice_no, String room_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type, Integer page) {
+		
+		Map<String, Object> map = service.backoffice_reservation_paging(backoffice_no, room_no, not_sdate, not_edate, not_stime, not_etime, off_type, page);
 
+		String json = gson.toJson(map);
+
+		return json;
+		
 	}
 
 	/**
@@ -462,10 +472,14 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "일정 관리 - 예약 취소", notes = "대쉬보드 - 일정 관리")
 	@PostMapping("/reservation_cancel")
-	public String backoffice_reservation_cancel_rsu(String backoffice_no, String reserve_no, String user_no,
-			String user_email, String reserve_stime, String reserve_etime)
-			throws ParseException, IOException {
+	public String backoffice_reservation_cancel_rsu(String backoffice_no, String reserve_no, String user_no, String user_email, String reserve_stime, String reserve_etime) throws ParseException, IOException {
 
+		Map<String, Object> map = cancelService.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no, user_email, reserve_stime, reserve_etime);
+
+		String json = gson.toJson(map);
+
+		return json;
+		
 	}
 
 	/**
@@ -475,6 +489,12 @@ public class DashBoardController {
 	@GetMapping("/schedule_calendar")
 	public String backoffice_schedule_calendar(String backoffice_no) throws ParseException {
 
+		Map<String, Object> map = service.backoffice_schedule_calendar(backoffice_no);
+
+		String json = gson.toJson(map);
+
+		return json;
+		
 	}
 
 	/**
@@ -482,9 +502,14 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "일정 관리 - 일정 취소", notes = "대쉬보드 - 일정 관리")
 	@PostMapping("/schedule_cancel")
-	public String backoffice_schedule_cancel(String backoffice_no, String schedule_no)
-			throws ParseException {
+	public String backoffice_schedule_cancel(String backoffice_no, String schedule_no) throws ParseException {
 
+		Map<String, Object> map = service.backoffice_schedule_cancel(backoffice_no, schedule_no);
+
+		String json = gson.toJson(map);
+
+		return json;
+		
 	}
 
 }

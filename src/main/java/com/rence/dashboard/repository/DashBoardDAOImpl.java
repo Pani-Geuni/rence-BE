@@ -5,6 +5,7 @@
  */
 package com.rence.dashboard.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -26,6 +27,7 @@ import com.rence.dashboard.model.CommentListAView;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReviewListView;
@@ -42,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
-public class DashBoardInfoDAO implements DashBoardDAO {
+public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	ReserveRepository rv_repository;
@@ -779,7 +781,106 @@ public class DashBoardInfoDAO implements DashBoardDAO {
 	public int backoffice_schedueOK(String backoffice_no, String not_stime, String not_etime, String room_no) {
 		return schedule_repository.backoffice_schedueOK(backoffice_no, not_stime, not_etime, room_no);
 	}
+	
+	/**
+	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트
+	 */
+	@Override
+	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String room_no, String off_type, int min, int max) {
+		String reserve_stime = null;
+		String reserve_etime = null;
+		if (off_type.equals("dayoff")) { // 휴무일 때
+			log.info("휴무");
+			
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+			
+			reserve_stime = (not_sdate + not_stime);
+			log.info("reserve_stime : {} ", reserve_stime);
+			reserve_etime = (not_edate + not_etime);
+			log.info("reserve_etime : {} ", reserve_etime);
+		} else { // 브레이크 타임일 때
+			log.info("브레이크 타임");
+			
+			log.info("not_sdate : {} ", not_sdate);
+			reserve_stime = (not_sdate + not_stime);
+			log.info("reserve_stime : {} ", reserve_stime);
 
+			not_edate = (not_sdate);
+			log.info("not_edate : {} ", not_edate);
+			reserve_etime = (not_edate + not_etime);
+			log.info("reserve_etime : {} ", reserve_etime);
+		}
+
+		List<ReservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no, reserve_stime,
+				reserve_etime, room_no, min, max);
+
+		return rv_vos;
+	}
+	
+	/**
+	 * 일정 관리 - 예약취소
+	 * 
+	 */
+	@Override
+	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no) {
+		int flag = reserveAutoUpdateRepository.update_reserve_state_cancel(reserve_no);
+		BOPaymentVO pvo = new BOPaymentVO();
+		// 결제 취소,
+		if (flag == 1) {
+			// 결제정보 테이블의 상태 'C' 로 변경
+			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 = 환불일시
+			pvo = p_repository.select_paymentinfo(reserve_no); // 결제 정보
+			String payment_no = pvo.getPayment_no();
+
+			BOMileageVO mvo = m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
+			BOMileageVO mvo2 = m_repository.backoffice_select_mileage_f(user_no, payment_no); // 2. 사용자가 사용한 마일리지
+
+			if (mvo2 != null) { // 사용한 마일리지가 있으면
+				int mileage_change = mvo2.getMileage_change(); // 2
+				int mileage_total = mvo.getMileage_total() + mileage_change; // 1 + 2
+
+				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지 재적립
+			}
+
+			s_repository.backoffice_update_cancel_mileage_state_c(reserve_no); // w 상태의 마일리지 -> c 상태로 변경
+		}
+		return pvo;
+	}
+
+	/**
+	 * 일정 관리 - 예약취소 (회사명 가져오기)
+	 * 
+	 */
+	@Override
+	public BackOfficeVO backoffice_select_companyname(String backoffice_no) {
+		return b_repository.select_one_backoffice_info(backoffice_no);
+	}
+	
+	/**
+	 * 일정 관리 - 백오피스 휴무 일정
+	 */
+	@Override
+	public List<ScheduleEntity> backoffice_schedule_calendar(String backoffice_no) {
+		return schedule_repository.backoffice_schedule_calendar(backoffice_no);
+	}
+
+	/**
+	 * 일정 관리 - 백오피스 휴무 일정
+	 */
+	@Override
+	public RoomInsertVO backoffice_schedule_calendar_room_name(String room_no) {
+		return rm_info_repository.backoffice_schedule_calendar_room_name(room_no);
+	}
+
+	/**
+	 * 일정 관리 - 휴무/브레이크타임 취소
+	 */
+	@Override
+	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no) {
+		return schedule_repository.backoffice_schedule_cancel(backoffice_no, schedule_no);
+	}
 	
 
 	// ******** 페이징 ***********
@@ -806,8 +907,34 @@ public class DashBoardInfoDAO implements DashBoardDAO {
 	// 예약자 리스트
 	public int backoffice_reservation_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime,
 			String not_etime, String room_no, String off_type) {
-		return dao.backoffice_reservation_cnt(backoffice_no, not_sdate, not_edate, not_stime, not_etime, room_no,
-				off_type);
+		String reserve_stime = null;
+		String reserve_etime = null;
+		if (off_type.equals("dayoff")) { // 휴무일 때
+			log.info("휴무");
+			
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+			
+			reserve_stime = (not_sdate + not_stime);
+			log.info("reserve_stime : {} ", reserve_stime);
+			reserve_etime = (not_edate + not_etime);
+			log.info("reserve_etime : {} ", reserve_etime);
+		} else { // 브레이크 타임일 때
+			log.info("브레이크 타임");
+			
+			log.info("not_sdate : {} ", not_sdate);
+			reserve_stime = (not_sdate + not_stime);
+			log.info("reserve_stime : {} ", reserve_stime);
+
+			not_edate = (not_sdate);
+			log.info("not_edate : {} ", not_edate);
+			reserve_etime = (not_edate + not_etime);
+			log.info("reserve_etime : {} ", reserve_etime);
+		}
+
+		int total_cnt = reservation_repository.backoffice_reservation_list_cnt(backoffice_no, reserve_stime,
+				reserve_etime, room_no);
+		return total_cnt;
 	}
 
 	// 예약 관리 리스트
@@ -847,8 +974,5 @@ public class DashBoardInfoDAO implements DashBoardDAO {
 		
 		return total_cnt;
 	}
-
-
-
 
 }

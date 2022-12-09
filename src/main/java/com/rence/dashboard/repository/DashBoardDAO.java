@@ -6,14 +6,15 @@
 package com.rence.dashboard.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReviewListView;
@@ -23,6 +24,7 @@ import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
+import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
 
 public interface DashBoardDAO {
@@ -102,6 +104,22 @@ public interface DashBoardDAO {
 			String not_stime, String not_etime, String off_type);
 
 	public int backoffice_schedueOK(String backoffice_no, String not_s, String not_e, String room_no);
+
+	public int backoffice_reservation_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime,
+			String not_etime, String room_no, String off_type);
+
+	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String room_no, String off_type, int min, int max);
+
+	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no);
+
+	public BackOfficeVO backoffice_select_companyname(String backoffice_no);
+
+	public List<ScheduleEntity> backoffice_schedule_calendar(String backoffice_no);
+
+	public RoomInsertVO backoffice_schedule_calendar_room_name(String room_no);
+
+	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no);
 
 
 }

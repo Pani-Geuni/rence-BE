@@ -14,7 +14,7 @@ import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeFAO;
 
 @Service
-public class BackOfficeFileInfoService implements BackOfficeFileService {
+public class BackOfficeFileServiceImpl implements BackOfficeFileService {
 	
 	@Autowired
 	BackOfficeFAO fao;

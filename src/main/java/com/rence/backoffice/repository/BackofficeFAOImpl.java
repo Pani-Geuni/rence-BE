@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-public class BackofficeInfoFAO implements BackOfficeFAO {
+public class BackofficeFAOImpl implements BackOfficeFAO {
 	
 	@Autowired
 	ServletContext context;

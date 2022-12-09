@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-public class BackofficeInfoDAO implements BackOfficeDAO {
+public class BackofficeDAOImpl implements BackOfficeDAO {
 
 	@Autowired
 	OperatingTime operatingTime;

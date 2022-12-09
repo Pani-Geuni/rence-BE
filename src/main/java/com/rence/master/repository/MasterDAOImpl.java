@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
-public class MasterInfoDAO implements MasterDAO{
+public class MasterDAOImpl implements MasterDAO{
 	
 	@Autowired
 	MasterRepository m_repository;

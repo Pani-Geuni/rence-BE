@@ -5,6 +5,8 @@
  */
 package com.rence.dashboard.service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReviewListView;
@@ -31,6 +34,7 @@ import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
+import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
 import com.rence.dashboard.repository.DashBoardDAO;
 
@@ -38,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class DashBoardInfoService implements DashBoardService {
+public class DashBoardServiceImpl implements DashBoardService {
 
 	@Autowired
 	DashBoardDAO dao;
@@ -801,7 +805,7 @@ public class DashBoardInfoService implements DashBoardService {
 	 */
 	@Override
 	public Map<String, String> backoffice_updateOK_host(BackOfficeVO bvo, BackOfficeOperatingTimeVO ovo) {
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 
 		// 백오피스 업체 정보 업데이트
@@ -831,9 +835,9 @@ public class DashBoardInfoService implements DashBoardService {
 
 		List<ScheduleListView> sche = dao.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
 				not_etime, off_type);
-		
+
 		int total_cnt = sche.size();
-		log.info("total_cnt::{}",total_cnt);
+		log.info("total_cnt::{}", total_cnt);
 		if (total_cnt > 0) {
 			map.put("maxCnt", total_cnt);
 		} else {
@@ -842,13 +846,13 @@ public class DashBoardInfoService implements DashBoardService {
 
 		int min = 8 * (page - 1) + 1;
 		int max = 8 * (page);
-		if(total_cnt<max) {
+		if (total_cnt < max) {
 			max = total_cnt;
 		}
-		log.info("min::{}",min);
-		log.info("max::{}",max);
+		log.info("min::{}", min);
+		log.info("max::{}", max);
 
-		List<ScheduleListView> schedule = sche.subList(min-1, max);
+		List<ScheduleListView> schedule = sche.subList(min - 1, max);
 
 		log.info("result: {}.", schedule);
 		log.info("cnt: {}.", schedule.size());
@@ -862,7 +866,7 @@ public class DashBoardInfoService implements DashBoardService {
 
 		map.put("page", "schedule");
 		map.put("nowCnt", 1);
-		
+
 		return map;
 	}
 
@@ -878,7 +882,7 @@ public class DashBoardInfoService implements DashBoardService {
 				not_etime, off_type);
 
 		int total_cnt = sche.size();
-		log.info("total_cnt::{}",total_cnt);
+		log.info("total_cnt::{}", total_cnt);
 		if (total_cnt > 0) {
 			map.put("maxCnt", total_cnt);
 		} else {
@@ -887,14 +891,14 @@ public class DashBoardInfoService implements DashBoardService {
 
 		int min = 8 * (page - 1) + 1;
 		int max = 8 * (page);
-		if(total_cnt<max) {
+		if (total_cnt < max) {
 			max = total_cnt;
 		}
 
-		log.info("min::{}",min);
-		log.info("max::{}",max);
+		log.info("min::{}", min);
+		log.info("max::{}", max);
 
-		List<ScheduleListView> schedule = sche.subList(min-1, max);
+		List<ScheduleListView> schedule = sche.subList(min - 1, max);
 
 		log.info("result: {}.", schedule);
 		log.info("cnt: {}.", schedule.size());
@@ -905,7 +909,7 @@ public class DashBoardInfoService implements DashBoardService {
 		} else {
 			map.put("cnt", schedule.size());
 		}
-		
+
 		return map;
 	}
 
@@ -944,7 +948,192 @@ public class DashBoardInfoService implements DashBoardService {
 			log.info("falied...");
 			map.put("result", "0");
 		}
+
+		return map;
+	}
+
+	/**
+	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트
+	 */
+	@Override
+	public Map<String, Object> backoffice_reservation(String backoffice_no, String room_no, String not_sdate,
+			String not_edate, String not_stime, String not_etime, String off_type, Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		int total_cnt = dao.backoffice_reservation_cnt(backoffice_no, not_sdate, not_edate, not_stime, not_etime,
+				room_no, off_type);
+
+		if (off_type.equals("breaktime")) {
+			log.info("브레이크 타임");
+			not_edate = (not_sdate);
+		} else if (off_type.equals("dayoff")) {
+			log.info("휴무");
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+		}
+
+		String reserve_stime = (not_sdate + " " + not_stime);
+		log.info("reserve_stime : {} ", reserve_stime);
+
+		String reserve_etime = (not_edate + " " + not_etime);
+		log.info("reserve_etime : {} ", reserve_etime);
+
+		List<ReservationView> rv_vos = dao.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime,
+				not_etime, room_no, off_type, 8 * (page - 1) + 1, 8 * (page));
+		log.info("result: {}.", rv_vos);
+		log.info("cnt: {}.", rv_vos.size());
+
+		if (rv_vos == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", rv_vos.size());
+
+		map.put("page", "reservation");
+		map.put("nowCnt", 1);
+
+		if (total_cnt > 0) {
+			map.put("maxCnt", total_cnt);
+		} else {
+			map.put("maxCnt", 0);
+		}
+
+		map.put("res", map);
+		map.put("reserve_stime", reserve_stime);
+		map.put("reserve_etime", reserve_etime);
+		map.put("rv_vos", rv_vos);
+
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> backoffice_reservation_paging(String backoffice_no, String room_no, String not_sdate,
+			String not_edate, String not_stime, String not_etime, String off_type, Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (off_type.equals("breaktime")) {
+			log.info("브레이크 타임");
+			not_edate = (not_sdate);
+		} else if (off_type.equals("dayoff")) {
+			log.info("휴무");
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+		}
+
+		String reserve_stime = (not_sdate + not_stime);
+		log.info("reserve_stime : {} ", reserve_stime);
+
+		String reserve_etime = (not_edate + not_etime);
+		log.info("reserve_etime : {} ", reserve_etime);
+
+		List<ReservationView> rv_vos = dao.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime,
+				not_etime, room_no, off_type, 8 * (page - 1) + 1, 8 * (page));
+		log.info("result: {}.", rv_vos);
+		log.info("cnt: {}.", rv_vos.size());
+
+		if (rv_vos == null) {
+			map.put("cnt", 0);
+		} else {
+			map.put("cnt", rv_vos.size());
+		}
+
+		map.put("nowCnt", 1);
+		map.put("r_vos", rv_vos);
+		map.put("reserve_stime", reserve_stime);
+		map.put("reserve_etime", reserve_etime);
+
+		return map;
+	}
+
+	/**
+	 * 일정 관리 - 백오피스 휴무 일정
+	 */
+	@Override
+	public Map<String, Object> backoffice_schedule_calendar(String backoffice_no) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<ScheduleEntity> vos = dao.backoffice_schedule_calendar(backoffice_no);
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sdate ="";
+		String edate ="";
+		for (ScheduleEntity vo : vos) {
+			sdate = sdf.format(vo.getNot_stime());
+			edate = sdf.format(vo.getNot_etime());
+			String[] st = sdate.split(" ");
+			String[] et = edate.split(" ");
+			if (st[0].equals(et[0])){
+				// 브레이크 타임 
+				vo.setSdate(st[0]);
+				vo.setStime(st[1]);
+				vo.setEtime(et[1]);
+				vo.setSchedule_type("breaktime");
+			}else {
+				// 휴무
+				vo.setSdate(st[0]);
+				vo.setEdate(et[0]);
+				vo.setSchedule_type("dayoff");
+			}
+			RoomInsertVO rvo = dao.backoffice_schedule_calendar_room_name(vo.getRoom_no());
+			vo.setRoom_name(rvo.getRoom_name());
+		}
+		// 현재 달(월)
+		LocalDateTime now = LocalDateTime.now();
+		int month = now.getMonthValue();  
+
+		map.put("vos", vos);
+		map.put("month", month);
+		map.put("cnt", vos.size());
+		
+		return map;
+	}
+
+	/**
+	 * 일정 관리 - 휴무/브레이크타임 취소
+	 */
+	@Override
+	public Map<String, Object> backoffice_schedule_cancel(String backoffice_no, String schedule_no) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		int flag = dao.backoffice_schedule_cancel(backoffice_no, schedule_no);
+		
+		List<ScheduleEntity> vos = dao.backoffice_schedule_calendar(backoffice_no);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sdate ="";
+		String edate ="";
+		for (ScheduleEntity vo : vos) {
+			sdate = sdf.format(vo.getNot_stime());
+			edate = sdf.format(vo.getNot_etime());
+			String[] st = sdate.split(" ");
+			String[] et = edate.split(" ");
+			if (st[0].equals(et[0])){
+				// 브레이크 타임 
+				vo.setSdate(st[0]);
+				vo.setStime(st[1]);
+				vo.setEtime(et[1]);
+				vo.setSchedule_type("breaktime");
+			}else {
+				// 휴무
+				vo.setSdate(st[0]);
+				vo.setEdate(et[0]);
+				vo.setSchedule_type("dayoff");
+			}
+			RoomInsertVO rvo = dao.backoffice_schedule_calendar_room_name(vo.getRoom_no());
+			vo.setRoom_name(rvo.getRoom_name());
+		}
+
+		if (flag == 1) {
+			log.info("successed...");
+			log.info("vos...{}", vos);
+			map.put("result", "1");
+			map.put("vos", vos);
+			map.put("cnt", vos.size());
+		} else {
+			log.info("falied...");
+			map.put("result", "0");
+		}
+
 		return map;
 	}
 

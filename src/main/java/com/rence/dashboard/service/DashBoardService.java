@@ -69,4 +69,14 @@ public interface DashBoardService {
 	public Map<String, String> backoffice_schedule_research_paging(String backoffice_no, String not_sdate,
 			String not_edate, String not_stime, String not_etime, String room_no, String off_type);
 
+	public Map<String, Object> backoffice_reservation(String backoffice_no, String room_no, String not_sdate,
+			String not_edate, String not_stime, String not_etime, String off_type, Integer page);
+
+	public Map<String, Object> backoffice_reservation_paging(String backoffice_no, String room_no, String not_sdate,
+			String not_edate, String not_stime, String not_etime, String off_type, Integer page);
+
+	public Map<String, Object> backoffice_schedule_calendar(String backoffice_no);
+
+	public Map<String, Object> backoffice_schedule_cancel(String backoffice_no, String schedule_no);
+
 }

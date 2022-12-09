@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class BackOfficeInfoService implements BackOfficeService {
+public class BackOfficeServiceImpl implements BackOfficeService {
 	@Autowired
 	BackOfficeDAO dao;
 
