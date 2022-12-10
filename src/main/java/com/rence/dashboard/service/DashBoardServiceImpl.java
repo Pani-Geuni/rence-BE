@@ -27,6 +27,7 @@ import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryView;
@@ -36,16 +37,16 @@ import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
-import com.rence.dashboard.repository.DashBoardDAO;
+import com.rence.dashboard.repository.DashboardDAO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class DashBoardServiceImpl implements DashBoardService {
+public class DashboardServiceImpl implements DashboardService {
 
 	@Autowired
-	DashBoardDAO dao;
+	DashboardDAO dao;
 
 	/**
 	 * 대쉬보드 메인
@@ -1137,4 +1138,37 @@ public class DashBoardServiceImpl implements DashBoardService {
 		return map;
 	}
 
+	
+	/**
+	 * 
+	 * AOP ... 
+	 * 예약 상태 업데이트
+	 * 
+	 */
+	@Override
+	public void reserve_state_auto_update() {
+		dao.reserve_state_auto_update();
+	}
+
+	/**
+	 * 
+	 * AOP ... 
+	 * 예약 상태 false 삭제 - reserve_no
+	 * 
+	 */
+	@Override
+	public ReserveUpdateVO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no) {
+		return dao.select_one_false_reserve(reserve_stime,reserve_etime,room_no);
+	}
+
+	/**
+	 * 
+	 * AOP ... 
+	 * 예약 상태 false 삭제
+	 * 
+	 */
+	@Override
+	public void reserve_auto_delete(String reserve_no) {
+		dao.reserve_auto_delete(reserve_no);
+	}
 }

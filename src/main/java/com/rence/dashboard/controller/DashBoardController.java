@@ -28,7 +28,7 @@ import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.service.BackOfficeFileService;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.RoomInsertVO;
-import com.rence.dashboard.service.DashBoardService;
+import com.rence.dashboard.service.DashboardService;
 import com.rence.dashboard.service.HostPaymentCancelService;
 
 import io.swagger.annotations.Api;
@@ -39,12 +39,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Api(tags = "대쉬보드 컨트롤러")
 @RequestMapping("/backoffice")
-public class DashBoardController {
+public class DashboardController {
 
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Autowired
-	DashBoardService service;
+	DashboardService service;
 
 	@Autowired
 	BackOfficeFileService fileService;

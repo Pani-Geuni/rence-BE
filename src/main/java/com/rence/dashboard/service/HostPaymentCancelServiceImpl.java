@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.dashboard.common.DashboardSendEmail;
 import com.rence.dashboard.model.BOPaymentVO;
-import com.rence.dashboard.repository.DashBoardDAO;
+import com.rence.dashboard.repository.DashboardDAO;
 import com.rence.dashboard.repository.HostPaymentCancelDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class HostPaymentCancelServiceImpl implements HostPaymentCancelService{
 	HostPaymentCancelDAO cancelDao;
 	
 	@Autowired
-	DashBoardDAO dao;
+	DashboardDAO dao;
 	
 	@Autowired
 	DashboardSendEmail dashboardSendEmail;

@@ -33,4 +33,6 @@ public interface BackOfficeDAO {
 
 	public int backoffice_settingOK_pw(BackOfficeVO bvo);
 
+	public void auth_auto_delete(String user_email);
+
 }

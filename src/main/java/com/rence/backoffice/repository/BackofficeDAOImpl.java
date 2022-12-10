@@ -109,7 +109,9 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	}
 
 	/**
-	 * 이메일 인증번호 요청 - 인증 번호 유효 시간 초과 시, 삭제
+	 * 
+	 *  AOP ... 이메일 인증번호 요청 - 인증 번호 유효 시간 초과 시, 삭제
+	 *  
 	 */
 	public void auth_auto_delete(String user_email) {
 		log.info("auth_auto_delete()....");

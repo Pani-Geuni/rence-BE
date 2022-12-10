@@ -10,9 +10,10 @@ import java.util.Map;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.dashboard.model.CommentInsertVO;
+import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.RoomInsertVO;
 
-public interface DashBoardService {
+public interface DashboardService {
 
 	public Map<String, Object> dashboard_main(String backoffice_no);
 
@@ -78,5 +79,11 @@ public interface DashBoardService {
 	public Map<String, Object> backoffice_schedule_calendar(String backoffice_no);
 
 	public Map<String, Object> backoffice_schedule_cancel(String backoffice_no, String schedule_no);
+
+	public void reserve_state_auto_update();
+
+	public ReserveUpdateVO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no);
+
+	public void reserve_auto_delete(String reserve_no);
 
 }

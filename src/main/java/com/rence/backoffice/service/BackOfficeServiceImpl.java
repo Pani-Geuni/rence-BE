@@ -228,4 +228,15 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		return map;
 	}
 
+	
+	/**
+	 * 
+	 * AOP ... 이메일 인증 번호 삭제
+	 * 
+	 */
+	@Override
+	public void auth_auto_delete(String user_email) {
+		dao.auth_auto_delete(user_email);
+	}
+
 }

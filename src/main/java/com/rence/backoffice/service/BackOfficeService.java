@@ -31,4 +31,6 @@ public interface BackOfficeService {
 	public Map<String, String> backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
 			HttpServletResponse response);
 
+	public void auth_auto_delete(String user_email);
+
 }
