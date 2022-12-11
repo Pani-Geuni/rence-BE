@@ -28,7 +28,8 @@ import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListAView;
 import com.rence.dashboard.model.CommentListQView;
-import com.rence.dashboard.model.CommentSummaryView;
+import com.rence.dashboard.model.CommentSummaryViewDTO;
+import com.rence.dashboard.model.CommentSummaryViewEntity;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
@@ -40,7 +41,7 @@ import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
-import com.rence.dashboard.model.SalesSettlementSummaryView;
+import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
@@ -168,16 +169,29 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 대쉬보드 메인 - 문의 요약
 	 */
 	@Override
-	public List<CommentSummaryView> comment_summary_selectAll(String backoffice_no) {
-		return c_summary_repository.comment_summary_selectAll(backoffice_no);
+	public List<CommentSummaryViewDTO> comment_summary_selectAll(String backoffice_no) {
+		
+		List<CommentSummaryViewEntity> cse = c_summary_repository.comment_summary_selectAll(backoffice_no);
+		
+		List<CommentSummaryViewDTO> cses = new ArrayList<CommentSummaryViewDTO>();
+		if (cse!=null) {
+			for (CommentSummaryViewEntity commentSummaryViewEntity : cse) {
+				cses.add(modelMapper.map(commentSummaryViewEntity, CommentSummaryViewDTO.class));
+			}
+		}else {
+			cses = null;
+		}
+				
+		return cses;
 	}
 
 	/**
 	 * 대쉬보드 메인 - 정산 요약
 	 */
 	@Override
-	public SalesSettlementSummaryView payment_summary_selectOne(String backoffice_no) {
-		SalesSettlementSummaryView ss = new SalesSettlementSummaryView();
+	public SalesSettlementSummaryViewDTO payment_summary_selectOne(String backoffice_no) {
+		
+		SalesSettlementSummaryViewDTO ss = new SalesSettlementSummaryViewDTO();
 
 		Integer pay_before_desk_meeting = ss_summary_repository.select_pay_before_desk_meeting_sum(backoffice_no);
 		Integer pay_after_desk_meeting_deposit = ss_summary_repository
