@@ -27,11 +27,11 @@ import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
-import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveSummaryViewDTO;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
-import com.rence.dashboard.model.RoomSummaryView;
+import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
@@ -57,13 +57,13 @@ public class DashboardServiceImpl implements DashboardService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		List<ReserveSummaryView> rvos = dao.reserve_summary_selectAll(backoffice_no);
+		List<ReserveSummaryViewDTO> rvos = dao.reserve_summary_selectAll(backoffice_no);
 		log.info("dashboard main rvos : {}", rvos);
 		List<CommentSummaryView> cvos = dao.comment_summary_selectAll(backoffice_no);
 		log.info("dashboard main cvos : {}", cvos);
 		SalesSettlementSummaryView svo = dao.payment_summary_selectOne(backoffice_no);
 		log.info("dashboard main svo : {}", svo);
-		RoomSummaryView rmvo = dao.room_summary_selectOne(backoffice_no);
+		RoomSummaryViewDTO rmvo = dao.room_summary_selectOne(backoffice_no);
 		log.info("dashboard main rmvo : {}", rmvo);
 
 		map.put("r_vos", rvos);

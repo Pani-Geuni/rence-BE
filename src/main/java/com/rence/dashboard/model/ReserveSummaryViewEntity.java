@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Table(name="RESERVE_SUMMARY_VIEW")
 @Slf4j
-public class ReserveSummaryView implements Serializable{
+public class ReserveSummaryViewEntity implements Serializable{
 	
 	@Id
 	@Column(name="reserve_no")

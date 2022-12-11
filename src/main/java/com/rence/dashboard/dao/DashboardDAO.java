@@ -16,11 +16,11 @@ import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
-import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveSummaryViewDTO;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
-import com.rence.dashboard.model.RoomSummaryView;
+import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
@@ -30,13 +30,13 @@ import com.rence.dashboard.model.ScheduleListView;
 
 public interface DashboardDAO {
 
-	public List<ReserveSummaryView> reserve_summary_selectAll(String backoffice_no);
+	public List<ReserveSummaryViewDTO> reserve_summary_selectAll(String backoffice_no);
 
 	public List<CommentSummaryView> comment_summary_selectAll(String backoffice_no);
 
 	public SalesSettlementSummaryView payment_summary_selectOne(String backoffice_no);
 
-	public RoomSummaryView room_summary_selectOne(String backoffice_no);
+	public RoomSummaryViewDTO room_summary_selectOne(String backoffice_no);
 
 	public long dashboard_room_list_cnt(String backoffice_no);
 
