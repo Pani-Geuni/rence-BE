@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 
 @Component
 public class OperatingTime {
@@ -22,7 +22,7 @@ public class OperatingTime {
 	private static final Logger logger = LoggerFactory.getLogger(OperatingTime.class);
 
 
-	public BackOfficeOperatingTimeEntity operatingTime(BackOfficeOperatingTimeVO ovo) {
+	public BackOfficeOperatingTimeEntity operatingTime(BackOfficeOperatingTimeDTO ovo) {
 		
 		BackOfficeOperatingTimeEntity ovo2 = new BackOfficeOperatingTimeEntity();
 		

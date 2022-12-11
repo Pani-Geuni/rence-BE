@@ -26,9 +26,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rence.backoffice.model.AuthVO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.AuthDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.backoffice.service.BackOfficeFileService;
 import com.rence.backoffice.service.BackOfficeService;
@@ -61,7 +61,7 @@ public class BackOfficeController {
 	 */
 	@ApiOperation(value = "호스트 신청 처리", notes = "호스트 신청 처리입니다.")
 	@PostMapping("/insertOK")
-	public String backoffice_insertOK(BackOfficeVO vo, BackOfficeOperatingTimeVO ovo,
+	public String backoffice_insertOK(BackOfficeDTO vo, BackOfficeOperatingTimeDTO ovo,
 			MultipartHttpServletRequest mtfRequest,
 			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room,
 			@RequestParam(value = "multipartFile_host") MultipartFile multipartFile_host) throws ParseException {
@@ -80,7 +80,7 @@ public class BackOfficeController {
 	 */
 	@ApiOperation(value = "이메일 인증번호 요청", notes = "호스트 신청시, 이메일 인증번호 요청 페이지입니다.")
 	@GetMapping("/auth")
-	public String backoffice_auth(AuthVO avo, BackOfficeVO bvo, EmailVO evo) {
+	public String backoffice_auth(AuthDTO avo, BackOfficeDTO bvo, EmailVO evo) {
 
 		Map<String, String> map = service.backoffice_auth(avo, bvo, evo);
 
@@ -95,9 +95,9 @@ public class BackOfficeController {
 	@ApiOperation(value = "이메일 인증번호 확인", notes = "호스트 신청시, 이메일 인증번호 확인입니다.")
 	@PostMapping("/authOK")
 	@Transactional
-	public String backoffice_authOK(AuthVO avo, String backoffice_email, String auth_code) {
+	public String backoffice_authOK(String backoffice_email, String auth_code) {
 
-		Map<String, String> map = service.backoffice_authOK(avo, backoffice_email, auth_code);
+		Map<String, String> map = service.backoffice_authOK(backoffice_email, auth_code);
 
 		String json = gson.toJson(map);
 
@@ -163,7 +163,7 @@ public class BackOfficeController {
 	 */
 	@ApiOperation(value="비밀번호 찾기", notes="비밀번호 찾기시, 이메일로 임시 비밀번호 전송")
 	@GetMapping("/reset_pw")
-	public String backoffice_reset_pw(BackOfficeVO bvo, EmailVO evo){
+	public String backoffice_reset_pw(BackOfficeDTO bvo, EmailVO evo){
 
 		Map<String, String> map = service.backoffice_reset_pw(bvo,evo);
 		
@@ -177,7 +177,7 @@ public class BackOfficeController {
 	 */
 	@ApiOperation(value="비밀번호 초기화", notes="호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
 	@GetMapping("/setting_pw")
-	public String backoffice_setting_pw(BackOfficeVO bvo) {
+	public String backoffice_setting_pw(BackOfficeDTO bvo) {
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
@@ -193,7 +193,7 @@ public class BackOfficeController {
 	 */
 	@ApiOperation(value="비밀번호 초기화 처리", notes="호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
 	@PostMapping("/settingOK_pw")
-	public String backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
+	public String backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		Map<String , String> map = service.backoffice_settingOK_pw(bvo,request,response);

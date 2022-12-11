@@ -7,8 +7,8 @@ package com.rence.dashboard.service;
 
 import java.util.Map;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.RoomInsertVO;
@@ -49,17 +49,17 @@ public interface DashboardService {
 
 	public Map<String, String> backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no);
 
-	public Map<String, Object> backoffice_settings(BackOfficeVO bvo);
+	public Map<String, Object> backoffice_settings(BackOfficeDTO bvo);
 
-	public Map<String, String> backoffice_update_pw(BackOfficeVO bvo);
+	public Map<String, String> backoffice_update_pw(BackOfficeDTO bvo);
 
-	public Map<String, String> backoffice_setting_delete_rsu(BackOfficeVO bvo);
+	public Map<String, String> backoffice_setting_delete_rsu(BackOfficeDTO bvo);
 
-	public Map<String, Object> backoffice_update_host(BackOfficeVO bvo);
+	public Map<String, Object> backoffice_update_host(BackOfficeDTO bvo);
 
-	public BackOfficeVO backoffice_setting_selectOne(BackOfficeVO bvo);
+	public BackOfficeDTO backoffice_setting_selectOne(BackOfficeDTO bvo);
 
-	public Map<String, String> backoffice_updateOK_host(BackOfficeVO bvo, BackOfficeOperatingTimeVO ovo);
+	public Map<String, String> backoffice_updateOK_host(BackOfficeDTO bvo, BackOfficeOperatingTimeDTO ovo);
 
 	public Map<String, Object> backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Integer page);

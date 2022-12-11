@@ -13,7 +13,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.dashboard.common.DashboardSendEmail;
 import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.dao.HostPaymentCancelDAO;
@@ -55,7 +55,7 @@ public class HostPaymentCancelServiceImpl implements HostPaymentCancelService{
 			int amount = Integer.parseInt(pvo.getActual_payment());
 			cancelDao.payMentCancel(token, pvo.getImp_uid(), amount, "관리자 취소");
 	        
-			BackOfficeVO bvo = dao.backoffice_select_companyname(backoffice_no);
+			BackOfficeDTO bvo = dao.backoffice_select_companyname(backoffice_no);
 			String company_name = bvo.getCompany_name();
 			int flag = dashboardSendEmail.reserve_cancel_mail(user_no, user_email, reserve_stime, reserve_etime,
 					company_name);

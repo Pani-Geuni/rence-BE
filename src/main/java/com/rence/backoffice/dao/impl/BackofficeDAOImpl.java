@@ -16,11 +16,12 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.common.OperatingTime;
 import com.rence.backoffice.dao.BackOfficeDAO;
-import com.rence.backoffice.model.AuthVO;
+import com.rence.backoffice.model.AuthEntity;
+import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.model.BackOfficeEntity;
 import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.repository.AuthRepository;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
@@ -42,12 +43,15 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 
 	@Autowired
 	AuthRepository auth_repository;
-	
+
+	@Autowired
+	ModelMapper modelMapper;
+
 	/**
 	 * 백오피스 신청 - 업체 정보
 	 */
 	@Override
-	public BackOfficeVO backoffice_insertOK(BackOfficeVO vo) {
+	public BackOfficeDTO backoffice_insertOK(BackOfficeDTO vo) {
 //		vo.setBackoffice_state("W");
 //		vo.setApply_date(new Date());
 //
@@ -59,21 +63,21 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 //			bvo2 = repository.select_backoffice_no(vo.getBackoffice_email());
 //		}
 //		return bvo2;
-		
+
 		vo.setBackoffice_state("W");
 		vo.setApply_date(new Date());
 
-		ModelMapper modelMapper = new ModelMapper();
+//		ModelMapper modelMapper = new ModelMapper();
 		BackOfficeEntity bvo = new BackOfficeEntity();
-		BackOfficeVO bvo2 = new BackOfficeVO();
-		
+		BackOfficeDTO bvo2 = new BackOfficeDTO();
+
 		bvo = modelMapper.map(vo, BackOfficeEntity.class);
 
 		int flag = repository.insert_backoffice(bvo, bvo.getApply_date());
 
 		if (flag == 1) {
 			bvo = repository.select_backoffice_no(bvo.getBackoffice_email());
-			bvo2 = modelMapper.map(bvo,BackOfficeVO.class);
+			bvo2 = modelMapper.map(bvo, BackOfficeDTO.class);
 		}
 		return bvo2;
 
@@ -83,7 +87,7 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	 * 백오피스 신청 - 운영 시간
 	 */
 	@Override
-	public int backoffice_operating_insertOK(BackOfficeOperatingTimeVO ovo) {
+	public int backoffice_operating_insertOK(BackOfficeOperatingTimeDTO ovo) {
 		BackOfficeOperatingTimeEntity ovo2 = operatingTime.operatingTime(ovo);
 		return oper_repository.insert_operating_time(ovo2);
 	}
@@ -92,29 +96,52 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	 * 이메일 인증번호 요청 - 이메일 중복 체크
 	 */
 	@Override
-	public BackOfficeVO backoffice_email_check(BackOfficeVO bvo) {
-		return repository.backoffice_email_check(bvo.getBackoffice_email());
+	public BackOfficeDTO backoffice_email_check(BackOfficeDTO bvo) {
+
+		BackOfficeEntity be = repository.backoffice_email_check(bvo.getBackoffice_email());
+		if (be != null) {
+			bvo = modelMapper.map(be, BackOfficeDTO.class);
+		} else {
+			bvo = null;
+		}
+
+		return bvo;
 	}
 
 	/**
 	 * 이메일 인증번호 요청 - 인증 번호 재전송 가능 여부
 	 */
 	@Override
-	public AuthVO backoffice_auth_overlap(BackOfficeVO bvo) {
-		return auth_repository.backoffice_auth_overlap(bvo.getBackoffice_email());
+	public AuthDTO backoffice_auth_overlap(BackOfficeDTO bvo) {
+
+		AuthDTO avo = new AuthDTO();
+
+		AuthEntity ae = auth_repository.backoffice_auth_overlap(bvo.getBackoffice_email());
+		if (ae != null) {
+			avo = modelMapper.map(ae, AuthDTO.class);
+		} else {
+			avo = null;
+		}
+
+		return avo;
 	}
 
 	/**
 	 * 이메일 인증번호 요청
 	 */
 	@Override
-	public AuthVO backoffice_auth_insert(AuthVO avo) {
-		avo.setAuth_stime(new Date());
-		int result = auth_repository.insert_auth_info(avo, avo.getAuth_stime());
+	public AuthDTO backoffice_auth_insert(AuthDTO avo) {
 
-		AuthVO avo2 = new AuthVO();
+		avo.setAuth_stime(new Date());
+
+		AuthEntity ae = modelMapper.map(avo, AuthEntity.class);
+
+		int result = auth_repository.insert_auth_info(ae, ae.getAuth_stime());
+
+		AuthDTO avo2 = new AuthDTO();
 		if (result != 0) {
-			avo2 = auth_repository.findbyAuth(avo.getUser_email());
+			ae = auth_repository.findbyAuth(avo.getUser_email());
+			avo2 = modelMapper.map(ae, AuthDTO.class);
 		}
 
 		return avo2;
@@ -122,8 +149,8 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 
 	/**
 	 * 
-	 *  AOP ... 이메일 인증번호 요청 - 인증 번호 유효 시간 초과 시, 삭제
-	 *  
+	 * AOP ... 이메일 인증번호 요청 - 인증 번호 유효 시간 초과 시, 삭제
+	 * 
 	 */
 	public void auth_auto_delete(String user_email) {
 		log.info("auth_auto_delete()....");
@@ -135,8 +162,19 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	 * 
 	 */
 	@Override
-	public AuthVO backoffice_authOK_select(String backoffice_email, String auth_code) {
-		return auth_repository.findbyAuthOK(backoffice_email, auth_code);
+	public AuthDTO backoffice_authOK_select(String backoffice_email, String auth_code) {
+
+		AuthDTO avo = new AuthDTO();
+
+		AuthEntity ae = auth_repository.findbyAuthOK(backoffice_email, auth_code);
+
+		if (ae != null) {
+			avo = modelMapper.map(ae, AuthDTO.class);
+		} else {
+			avo = null;
+		}
+
+		return avo;
 	}
 
 	/**
@@ -144,7 +182,7 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	 * 
 	 */
 	@Override
-	public void backoffice_auth_delete(AuthVO avo2) {
+	public void backoffice_auth_delete(AuthDTO avo2) {
 		auth_repository.deleteByAuth_no(avo2.getAuth_no());
 	}
 
@@ -153,32 +191,52 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	 * 
 	 */
 	@Override
-	public BackOfficeVO backoffice_login_info(String username) {
-		return repository.backoffice_login_info(username);
+	public BackOfficeDTO backoffice_login_info(String username) {
+
+		BackOfficeDTO bvo = new BackOfficeDTO();
+
+		BackOfficeEntity be = repository.backoffice_login_info(username);
+
+		if (be != null) {
+			bvo = modelMapper.map(be, BackOfficeDTO.class);
+		} else {
+			bvo = null;
+		}
+
+		return bvo;
 	}
 
 	/**
 	 * 비밀번호 초기화(찾기) - 기존 정보 유무
 	 */
 	@Override
-	public BackOfficeVO backoffice_id_email_select(BackOfficeVO bvo) {
-		return repository.select_backoffice_by_id_email(bvo.getBackoffice_id(), bvo.getBackoffice_email());
+	public BackOfficeDTO backoffice_id_email_select(BackOfficeDTO bvo) {
+
+		BackOfficeEntity be = repository.select_backoffice_by_id_email(bvo.getBackoffice_id(), bvo.getBackoffice_email());
+
+		if (be != null) {
+			bvo = modelMapper.map(be, BackOfficeDTO.class);
+		} else {
+			bvo = null;
+		}
+
+		return bvo;
 	}
 
 	/**
 	 * 비밀번호 초기화(찾기) - 임시 비밀번호 저장
 	 */
 	@Override
-	public int backoffice_resetOK_pw(BackOfficeVO bvo2) {
+	public int backoffice_resetOK_pw(BackOfficeDTO bvo2) {
 		return repository.update_backoffice_temp_pw(bvo2.getBackoffice_pw(), bvo2.getBackoffice_no());
-		
+
 	}
 
 	/**
 	 * 비밀번호 초기화 완료
 	 */
 	@Override
-	public int backoffice_settingOK_pw(BackOfficeVO bvo) {
+	public int backoffice_settingOK_pw(BackOfficeDTO bvo) {
 		Decoder decoder = Base64.getDecoder();
 		byte[] decodedBytes2 = decoder.decode(bvo.getBackoffice_no());
 		bvo.setBackoffice_no(new String(decodedBytes2));

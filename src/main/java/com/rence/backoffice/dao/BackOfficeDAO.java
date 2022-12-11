@@ -5,33 +5,33 @@
  */
 package com.rence.backoffice.dao;
 
-import com.rence.backoffice.model.AuthVO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.AuthDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 
 public interface BackOfficeDAO {
 
-	public BackOfficeVO backoffice_insertOK(BackOfficeVO vo);
+	public BackOfficeDTO backoffice_insertOK(BackOfficeDTO vo);
 
-	public int backoffice_operating_insertOK(BackOfficeOperatingTimeVO ovo);
+	public int backoffice_operating_insertOK(BackOfficeOperatingTimeDTO ovo);
 
-	public BackOfficeVO backoffice_email_check(BackOfficeVO bvo);
+	public BackOfficeDTO backoffice_email_check(BackOfficeDTO bvo);
 
-	public AuthVO backoffice_auth_overlap(BackOfficeVO bvo);
+	public AuthDTO backoffice_auth_overlap(BackOfficeDTO bvo);
 
-	public AuthVO backoffice_auth_insert(AuthVO avo);
+	public AuthDTO backoffice_auth_insert(AuthDTO avo);
 
-	public AuthVO backoffice_authOK_select(String backoffice_email, String auth_code);
+	public AuthDTO backoffice_authOK_select(String backoffice_email, String auth_code);
 
-	public void backoffice_auth_delete(AuthVO avo2);
+	public void backoffice_auth_delete(AuthDTO avo2);
 
-	public BackOfficeVO backoffice_login_info(String username);
+	public BackOfficeDTO backoffice_login_info(String username);
 
-	public BackOfficeVO backoffice_id_email_select(BackOfficeVO bvo);
+	public BackOfficeDTO backoffice_id_email_select(BackOfficeDTO bvo);
 
-	public int backoffice_resetOK_pw(BackOfficeVO bvo2);
+	public int backoffice_resetOK_pw(BackOfficeDTO bvo2);
 
-	public int backoffice_settingOK_pw(BackOfficeVO bvo);
+	public int backoffice_settingOK_pw(BackOfficeDTO bvo);
 
 	public void auth_auto_delete(String user_email);
 

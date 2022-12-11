@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.model.CommentInsertVO;
@@ -145,7 +145,7 @@ public class DashboardServiceImpl implements DashboardService {
 	public Map<String, Object> backoffice_insert_room(String backoffice_no) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		BackOfficeVO bvo = dao.select_one_backoffice_info(backoffice_no);
+		BackOfficeDTO bvo = dao.select_one_backoffice_info(backoffice_no);
 		log.info("bvo : {}", bvo);
 
 		RoomVO rmvo = new RoomVO();
@@ -201,7 +201,7 @@ public class DashboardServiceImpl implements DashboardService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		BackOfficeVO bvo = dao.select_one_backoffice_info(backoffice_no);
+		BackOfficeDTO bvo = dao.select_one_backoffice_info(backoffice_no);
 		RoomVO rmvo = new RoomVO();
 
 		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
@@ -683,11 +683,11 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 환경설정 - 페이지 출력
 	 */
 	@Override
-	public Map<String, Object> backoffice_settings(BackOfficeVO bvo) {
+	public Map<String, Object> backoffice_settings(BackOfficeDTO bvo) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		BackOfficeVO bvo2 = dao.backoffice_setting_selectOne(bvo);
+		BackOfficeDTO bvo2 = dao.backoffice_setting_selectOne(bvo);
 
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
 
@@ -724,13 +724,13 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 환경설정 - 비밀번호 수정
 	 */
 	@Override
-	public Map<String, String> backoffice_update_pw(BackOfficeVO bvo) {
+	public Map<String, String> backoffice_update_pw(BackOfficeDTO bvo) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 		Map<String, String> map = new HashMap<String, String>();
 
 		// 비밀번호 일치 여부 확인
-		BackOfficeVO bvo2 = dao.backoffice_select_pw(bvo);
+		BackOfficeDTO bvo2 = dao.backoffice_select_pw(bvo);
 
 		boolean result = encoder.matches(bvo.getBackoffice_pw(), bvo2.getBackoffice_pw());
 		log.info("(비밀번호 확인부분)res: {}", result);
@@ -750,7 +750,7 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 환경설정 - 업체 탈퇴 요청
 	 */
 	@Override
-	public Map<String, String> backoffice_setting_delete_rsu(BackOfficeVO bvo) {
+	public Map<String, String> backoffice_setting_delete_rsu(BackOfficeDTO bvo) {
 
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -777,13 +777,13 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 환경설정 - 정보 변경 (백오피스 정보 가져오기)
 	 */
 	@Override
-	public Map<String, Object> backoffice_update_host(BackOfficeVO bvo) {
+	public Map<String, Object> backoffice_update_host(BackOfficeDTO bvo) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		BackOfficeVO bvo2 = dao.backoffice_setting_selectOne(bvo);
+		BackOfficeDTO bvo2 = dao.backoffice_setting_selectOne(bvo);
 		log.info("result: {}.", bvo2);
-		BackOfficeOperatingTimeVO ovo = dao.backoffice_setting_selectOne_operatingtime(bvo2.getBackoffice_no());
+		BackOfficeOperatingTimeDTO ovo = dao.backoffice_setting_selectOne_operatingtime(bvo2.getBackoffice_no());
 		log.info("result: {}.", ovo);
 
 		map.put("backoffice_tag", bvo2.getBackoffice_tag());
@@ -797,8 +797,8 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 환경설정 - 정보 변경 (백오피스 기존 정보 가져오기-이미지 정보 비교 위함.)
 	 */
 	@Override
-	public BackOfficeVO backoffice_setting_selectOne(BackOfficeVO bvo) {
-		BackOfficeVO bvo2 = dao.backoffice_setting_selectOne(bvo);
+	public BackOfficeDTO backoffice_setting_selectOne(BackOfficeDTO bvo) {
+		BackOfficeDTO bvo2 = dao.backoffice_setting_selectOne(bvo);
 		return bvo2;
 	}
 
@@ -806,7 +806,7 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 환경설정 - 정보 변경 처리
 	 */
 	@Override
-	public Map<String, String> backoffice_updateOK_host(BackOfficeVO bvo, BackOfficeOperatingTimeVO ovo) {
+	public Map<String, String> backoffice_updateOK_host(BackOfficeDTO bvo, BackOfficeOperatingTimeDTO ovo) {
 
 		Map<String, String> map = new HashMap<String, String>();
 

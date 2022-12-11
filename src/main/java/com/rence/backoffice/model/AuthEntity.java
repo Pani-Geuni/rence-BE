@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="AUTH")
-public class AuthVO {
+public class AuthEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_auth")

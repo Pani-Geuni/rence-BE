@@ -11,13 +11,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.common.OperatingTime;
+import com.rence.backoffice.model.BackOfficeEntity;
 import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeSelectRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
@@ -140,6 +142,9 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 	@Autowired
 	OperatingTime operatingTime;
+	
+	@Autowired
+	ModelMapper modelMapper;
 
 	/**
 	 * 대쉬보드 메인 - 예약 요약
@@ -243,7 +248,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 공간관리 - 공간 추가, 수정 팝업(백오피스 정보(타입) 가져오기)
 	 */
 	@Override
-	public BackOfficeVO select_one_backoffice_info(String backoffice_no) {
+	public BackOfficeDTO select_one_backoffice_info(String backoffice_no) {
 		return b_repository.select_one_backoffice_info(backoffice_no);
 	}
 
@@ -644,7 +649,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 환경설정 - 환경 설정 페이지, 정보 수정 페이지
 	 */
 	@Override
-	public BackOfficeVO backoffice_setting_selectOne(BackOfficeVO bvo) {
+	public BackOfficeDTO backoffice_setting_selectOne(BackOfficeDTO bvo) {
 		return b_repository.backoffice_setting_selectOne(bvo.getBackoffice_no());
 	}
 
@@ -652,7 +657,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 환경설정 - 비밀번호 수정
 	 */
 	@Override
-	public BackOfficeVO backoffice_select_pw(BackOfficeVO bvo) {
+	public BackOfficeDTO backoffice_select_pw(BackOfficeDTO bvo) {
 		return b_repository.backoffice_select_pw(bvo.getBackoffice_no());
 	}
 
@@ -660,7 +665,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 환경설정 - 업체 탈퇴 요청 (백오피스 삭제)
 	 */
 	@Override
-	public int backoffice_setting_delete(BackOfficeVO bvo) {
+	public int backoffice_setting_delete(BackOfficeDTO bvo) {
 		return b_repository.update_backoffice_state_o(bvo.getBackoffice_no());
 	}
 
@@ -668,7 +673,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 환경설정 - 업체 탈퇴 요청 (공간 삭제)
 	 */
 	@Override
-	public int backoffice_room_deleteALL(BackOfficeVO bvo) {
+	public int backoffice_room_deleteALL(BackOfficeDTO bvo) {
 		return b_repository.backoffice_room_deleteALL(bvo.getBackoffice_no());
 	}
 
@@ -676,15 +681,20 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 환경설정 - 정보 변경 (운영시간 정보 가져오기)
 	 */
 	@Override
-	public BackOfficeOperatingTimeVO backoffice_setting_selectOne_operatingtime(String backoffice_no) {
-		return bos_repository.backoffice_setting_selectOne_operatingtime(backoffice_no);
+	public BackOfficeOperatingTimeDTO backoffice_setting_selectOne_operatingtime(String backoffice_no) {
+		
+//		ModelMapper modelMapper = new ModelMapper();
+		BackOfficeOperatingTimeEntity ovo = bos_repository.backoffice_setting_selectOne_operatingtime(backoffice_no);
+		BackOfficeOperatingTimeDTO ovo2 = modelMapper.map(ovo,BackOfficeOperatingTimeDTO.class);
+		
+		return ovo2;
 	}
 
 	/**
 	 * 환경설정 - 정보 변경 처리 (업체 정보 업데이트)
 	 */
 	@Override
-	public int backoffice_updateOK_host(BackOfficeVO bvo) {
+	public int backoffice_updateOK_host(BackOfficeDTO bvo) {
 		return b_repository.backoffice_updateOK_host(bvo);
 	}
 
@@ -692,7 +702,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 환경설정 - 정보 변경 처리 (운영시간 업데이트)
 	 */
 	@Override
-	public int backoffice_updateOK_opt(BackOfficeOperatingTimeVO ovo) {
+	public int backoffice_updateOK_opt(BackOfficeOperatingTimeDTO ovo) {
 		BackOfficeOperatingTimeEntity ovo2 = operatingTime.operatingTime(ovo);
 		return o_repository.backoffice_updateOK_opt(ovo2);
 	}
@@ -880,7 +890,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 
 	 */
 	@Override
-	public BackOfficeVO backoffice_select_companyname(String backoffice_no) {
+	public BackOfficeDTO backoffice_select_companyname(String backoffice_no) {
 		return b_repository.select_one_backoffice_info(backoffice_no);
 	}
 

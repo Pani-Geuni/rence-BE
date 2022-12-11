@@ -18,8 +18,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.rence.backoffice.model.AuthVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.AuthDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.EmailVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class BackOfficeSendEmail {
 	///////////////////////////////
 	// ******* 인증 코드 전송 *******//
 	//////////////////////////////
-	public AuthVO sendEmail(AuthVO vo, EmailVO evo) {
+	public AuthDTO sendEmail(AuthDTO vo, EmailVO evo) {
 
 		log.info("avo email : {} :",vo);
 		
@@ -65,7 +65,7 @@ public class BackOfficeSendEmail {
 	///////////////////////////////
 	// ******* 비밀번호 찾기 *******//
 	//////////////////////////////
-	public BackOfficeVO findPw(BackOfficeVO vo, EmailVO evo) {
+	public BackOfficeDTO findPw(BackOfficeDTO vo, EmailVO evo) {
 
 		// 이메일 제목, 내용 설정
 		evo.setSubject("[rence] 임시 비밀번호 발급");

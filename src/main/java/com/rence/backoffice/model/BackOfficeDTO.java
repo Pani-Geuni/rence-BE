@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BackOfficeVO implements Serializable, UserDetails{  
+public class BackOfficeDTO implements Serializable, UserDetails{  
    
    private String backoffice_no;
    
