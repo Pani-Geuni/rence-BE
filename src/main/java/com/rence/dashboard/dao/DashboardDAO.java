@@ -7,8 +7,8 @@ package com.rence.dashboard.dao;
 
 import java.util.List;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
@@ -42,7 +42,7 @@ public interface DashboardDAO {
 
 	public List<RoomVO> dashboard_room_list(String backoffice_no, Integer page);
 
-	public BackOfficeVO select_one_backoffice_info(String backoffice_no);
+	public BackOfficeDTO select_one_backoffice_info(String backoffice_no);
 
 	public int backoffice_insertOK_room(String backoffice_no, RoomInsertVO rvo);
 
@@ -87,19 +87,19 @@ public interface DashboardDAO {
 
 	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no);
 
-	public BackOfficeVO backoffice_setting_selectOne(BackOfficeVO bvo);
+	public BackOfficeDTO backoffice_setting_selectOne(BackOfficeDTO bvo);
 
-	public BackOfficeVO backoffice_select_pw(BackOfficeVO bvo);
+	public BackOfficeDTO backoffice_select_pw(BackOfficeDTO bvo);
 
-	public int backoffice_setting_delete(BackOfficeVO bvo);
+	public int backoffice_setting_delete(BackOfficeDTO bvo);
 
-	public int backoffice_room_deleteALL(BackOfficeVO bvo);
+	public int backoffice_room_deleteALL(BackOfficeDTO bvo);
 
-	public BackOfficeOperatingTimeVO backoffice_setting_selectOne_operatingtime(String backoffice_no);
+	public BackOfficeOperatingTimeDTO backoffice_setting_selectOne_operatingtime(String backoffice_no);
 
-	public int backoffice_updateOK_host(BackOfficeVO bvo);
+	public int backoffice_updateOK_host(BackOfficeDTO bvo);
 
-	public int backoffice_updateOK_opt(BackOfficeOperatingTimeVO ovo);
+	public int backoffice_updateOK_opt(BackOfficeOperatingTimeDTO ovo);
 
 	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type);
@@ -114,7 +114,7 @@ public interface DashboardDAO {
 
 	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no);
 
-	public BackOfficeVO backoffice_select_companyname(String backoffice_no);
+	public BackOfficeDTO backoffice_select_companyname(String backoffice_no);
 
 	public List<ScheduleEntity> backoffice_schedule_calendar(String backoffice_no);
 

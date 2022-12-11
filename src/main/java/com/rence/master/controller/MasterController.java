@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.master.common.MasterSendEmail;
 import com.rence.master.model.MasterEntity;
@@ -99,7 +99,7 @@ public class MasterController {
 	 */
 	@ApiOperation(value = "마스터 메인/호스트 가입 신청 승인 처리", notes = "호스트 가입 신청 승인 처리")
 	@PostMapping("/grant")
-	public String master_grant(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
+	public String master_grant(BackOfficeDTO bvo, EmailVO evo) throws UnsupportedEncodingException {
 
 		Map<String, String> map = service.master_grant(bvo,evo);
 
@@ -113,7 +113,7 @@ public class MasterController {
 	 */
 	@ApiOperation(value = "마스터 메인/호스트 가입 신청 거절 처리", notes = "호스트 가입 신청 거절 처리")
 	@PostMapping("/refuse")
-	public String master_refuse(BackOfficeVO bvo, EmailVO evo) {
+	public String master_refuse(BackOfficeDTO bvo, EmailVO evo) {
 		
 		Map<String, String> map = service.master_refuse(bvo,evo);
 
@@ -142,7 +142,7 @@ public class MasterController {
 	 */
 	@ApiOperation(value = "마스터 - 호스트 탈퇴 승인", notes = "호스트 탈퇴 승인")
 	@PostMapping("/revoke")
-	public String master_revoke(BackOfficeVO bvo, EmailVO evo) {
+	public String master_revoke(BackOfficeDTO bvo, EmailVO evo) {
 		
 		Map<String, String> map = service.master_revoke(bvo,evo);
 
@@ -156,7 +156,7 @@ public class MasterController {
 	 */
 	@ApiOperation(value = "백오피스 가입 상세 페이지", notes = "백오피스 가입 상세 페이지")
 	@GetMapping("/backoffice_apply_detail")
-	public String master_backoffice_apply_detail(BackOfficeVO bvo, String page) {
+	public String master_backoffice_apply_detail(BackOfficeDTO bvo, String page) {
 		
 		Map<String, Object> map = service.master_backoffice_detail_selectOne(bvo, page);
 
@@ -170,7 +170,7 @@ public class MasterController {
 	 */
 	@ApiOperation(value = "백오피스 탈퇴 상세 페이지", notes = "백오피스 탈퇴 상세 페이지")
 	@GetMapping("/backoffice_end_detail")
-	public String master_backoffice_end_detail(BackOfficeVO bvo, String page) {
+	public String master_backoffice_end_detail(BackOfficeDTO bvo, String page) {
 		
 		Map<String, Object> map = service.master_backoffice_detail_selectOne(bvo, page);
 

@@ -8,7 +8,7 @@ package com.rence.master.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.EmailVO;
 
 import javax.mail.MessagingException;
@@ -34,7 +34,7 @@ public class MasterSendEmail {
 	//////////////////////////////////////////////////
 	// ******* (가입 승인) 비밀번호 초기화 링크 전송 *******//
 	/////////////////////////////////////////////////
-	public BackOfficeVO settingPw(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
+	public BackOfficeDTO settingPw(BackOfficeDTO bvo, EmailVO evo) throws UnsupportedEncodingException {
 
 //		String originText = bvo.getBackoffice_no();
 //
@@ -76,7 +76,7 @@ public class MasterSendEmail {
 	///////////////////////////////
 	// ******* (가입 거절) *******//
 	//////////////////////////////
-	public BackOfficeVO result_refuse(BackOfficeVO bvo, EmailVO evo) {
+	public BackOfficeDTO result_refuse(BackOfficeDTO bvo, EmailVO evo) {
 		evo.setSubject("[rence] 호스트 가입 신청 결과");
 		
 		try {
@@ -98,7 +98,7 @@ public class MasterSendEmail {
 	///////////////////////////////
 	// ******* (탈퇴 완료) *******//
 	//////////////////////////////
-	public BackOfficeVO backoffice_revoke(BackOfficeVO bvo, EmailVO evo) {
+	public BackOfficeDTO backoffice_revoke(BackOfficeDTO bvo, EmailVO evo) {
 		evo.setSubject("[rence] 호스트 탈퇴 신청 결과");
 		evo.setContent("호스트 탈퇴가 완료되었습니다.");
 		

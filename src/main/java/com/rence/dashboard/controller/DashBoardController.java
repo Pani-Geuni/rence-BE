@@ -23,8 +23,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.service.BackOfficeFileService;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.RoomInsertVO;
@@ -294,7 +294,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "환경설정", notes = "대쉬보드 환경설정 페이지")
 	@GetMapping("/settings")
-	public String backoffice_settings(BackOfficeVO bvo) {
+	public String backoffice_settings(BackOfficeDTO bvo) {
 
 		Map<String, Object> map = service.backoffice_settings(bvo);
 
@@ -309,7 +309,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "비밀번호 변경", notes = "대쉬보드 환경설정 페이지 - 비밀번호 변경")
 	@GetMapping("/update_pw")
-	public String backoffice_update_pw(BackOfficeVO bvo) {
+	public String backoffice_update_pw(BackOfficeDTO bvo) {
 
 		Map<String, String> map = service.backoffice_update_pw(bvo);
 
@@ -324,7 +324,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "업체 탈퇴 요청", notes = "대쉬보드 환경설정 페이지 - 업체 탈퇴 요청")
 	@PostMapping("/setting_delete")
-	public String backoffice_setting_delete_rsu(BackOfficeVO bvo) {
+	public String backoffice_setting_delete_rsu(BackOfficeDTO bvo) {
 
 		Map<String, String> map = service.backoffice_setting_delete_rsu(bvo);
 
@@ -339,7 +339,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "업체 정보 변경 폼", notes = "대쉬보드 환경설정 페이지 - 업체 정보 변경")
 	@GetMapping("/update_host")
-	public String backoffice_update_host(BackOfficeVO bvo) {
+	public String backoffice_update_host(BackOfficeDTO bvo) {
 
 		Map<String, Object> map = service.backoffice_update_host(bvo);
 
@@ -354,9 +354,9 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "업체 정보 변경 처리", notes = "대쉬보드 환경설정 페이지 - 업체 정보 변경")
 	@PostMapping("/updateOK_host")
-	public String backoffice_updateOK_host(BackOfficeVO bvo, BackOfficeOperatingTimeVO ovo, MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room) {
+	public String backoffice_updateOK_host(BackOfficeDTO bvo, BackOfficeOperatingTimeDTO ovo, MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room) {
 
-		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
+		BackOfficeDTO bvo2 = service.backoffice_setting_selectOne(bvo);
 		if(!bvo.getBackoffice_image().equals(bvo2.getBackoffice_image())) {
 			// 이미지 파일
 //			bvo = fileService.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);

@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.common.BackOfficeSendEmail;
 import com.rence.backoffice.dao.BackOfficeDAO;
-import com.rence.backoffice.model.AuthVO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.AuthDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.backoffice.service.BackOfficeService;
 
@@ -43,12 +43,12 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 백오피스 신청 처리
 	 */
 	@Override
-	public Map<String, String> insertOK(BackOfficeVO vo, BackOfficeOperatingTimeVO ovo) {
+	public Map<String, String> insertOK(BackOfficeDTO vo, BackOfficeOperatingTimeDTO ovo) {
 
 		Map<String, String> map = new HashMap<String, String>();
 
 		// 백오피스 insert
-		BackOfficeVO bvo2 = dao.backoffice_insertOK(vo);
+		BackOfficeDTO bvo2 = dao.backoffice_insertOK(vo);
 
 		// 운영시간 insert
 		ovo.setBackoffice_no(bvo2.getBackoffice_no());
@@ -68,12 +68,12 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 이메일 인증번호 요청
 	 */
 	@Override
-	public Map<String, String> backoffice_auth(AuthVO avo, BackOfficeVO bvo, EmailVO evo) {
+	public Map<String, String> backoffice_auth(AuthDTO avo, BackOfficeDTO bvo, EmailVO evo) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		// 이메일 중복 체크
-		BackOfficeVO emailCheck = dao.backoffice_email_check(bvo);
-		AuthVO avo_check = dao.backoffice_auth_overlap(bvo);
+		BackOfficeDTO emailCheck = dao.backoffice_email_check(bvo);
+		AuthDTO avo_check = dao.backoffice_auth_overlap(bvo);
 
 		if (emailCheck == null || emailCheck.getBackoffice_state().equals("X")
 				|| emailCheck.getBackoffice_state().equals("N")) {
@@ -86,7 +86,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 				if (avo != null) {
 
 					// avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
-					AuthVO avo2 = dao.backoffice_auth_insert(avo);
+					AuthDTO avo2 = dao.backoffice_auth_insert(avo);
 					log.info("successed...");
 
 					map.put("result", "1");
@@ -114,16 +114,16 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 이메일 인증번호 확인
 	 */
 	@Override
-	public Map<String, String> backoffice_authOK(AuthVO avo, String backoffice_email, String auth_code) {
+	public Map<String, String> backoffice_authOK(String backoffice_email, String auth_code) {
 
-		AuthVO avo2 = dao.backoffice_authOK_select(backoffice_email, auth_code);
+		AuthDTO avo = dao.backoffice_authOK_select(backoffice_email, auth_code);
 
 		Map<String, String> map = new HashMap<String, String>();
 
-		if (avo2 != null) {
+		if (avo != null) {
 			log.info("successed...");
 			map.put("result", "1");
-			dao.backoffice_auth_delete(avo2);
+			dao.backoffice_auth_delete(avo);
 
 		} else {
 			log.info("failed...");
@@ -139,7 +139,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	@Override
 	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response, HttpSession session) {
 
-		BackOfficeVO bvo = dao.backoffice_login_info(username);
+		BackOfficeDTO bvo = dao.backoffice_login_info(username);
 
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -157,10 +157,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 비밀번호 초기화(찾기), 이메일로 임시 비밀번호 전송
 	 */
 	@Override
-	public Map<String, String> backoffice_reset_pw(BackOfficeVO bvo, EmailVO evo) {
+	public Map<String, String> backoffice_reset_pw(BackOfficeDTO bvo, EmailVO evo) {
 		Map<String, String> map = new HashMap<String, String>();
 
-		BackOfficeVO bvo2 = dao.backoffice_id_email_select(bvo);
+		BackOfficeDTO bvo2 = dao.backoffice_id_email_select(bvo);
 
 		if (bvo2 != null) {
 			bvo2 = authSendEmail.findPw(bvo2, evo);
@@ -188,7 +188,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 비밀번호 초기화 완료
 	 */
 	@Override
-	public Map<String, String> backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
+	public Map<String, String> backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		Cookie[] cookies = request.getCookies();

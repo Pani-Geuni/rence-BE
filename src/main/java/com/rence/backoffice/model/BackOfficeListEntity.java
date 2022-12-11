@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name="BACKOFFICEINFO")
 @Slf4j
-public class BackOfficeListVO implements Serializable{ 
+public class BackOfficeListEntity implements Serializable{ 
 
 	@Transient
 	@Column(name="rnum")

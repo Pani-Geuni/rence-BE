@@ -11,8 +11,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rence.backoffice.model.BackOfficeListVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeListDTO;
+import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.master.common.MasterSendEmail;
@@ -39,7 +39,7 @@ public class MasterServiceImpl implements MasterService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("page:{}", page);
 
-		List<BackOfficeListVO> bvos = dao.backoffice_applyList_selectAll(page);
+		List<BackOfficeListDTO> bvos = dao.backoffice_applyList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 		log.info("bvos : {}", bvos);
 		
@@ -56,12 +56,12 @@ public class MasterServiceImpl implements MasterService {
 	 * 
 	 */
 	@Override
-	public Map<String, String> master_grant(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
+	public Map<String, String> master_grant(BackOfficeDTO bvo, EmailVO evo) throws UnsupportedEncodingException {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = dao.backoffice_grant(bvo);
 		if (flag == 1) {
-			BackOfficeVO bvo2 = sendEmail.settingPw(bvo, evo);
+			BackOfficeDTO bvo2 = sendEmail.settingPw(bvo, evo);
 			if (bvo2 != null) {
 				log.info("successed...");
 				map.put("result", "1");
@@ -81,12 +81,12 @@ public class MasterServiceImpl implements MasterService {
 	 * 마스터 메인 페이지 (호스트 가입 신청 리스트 - 거절)
 	 */
 	@Override
-	public Map<String, String> master_refuse(BackOfficeVO bvo, EmailVO evo) {
+	public Map<String, String> master_refuse(BackOfficeDTO bvo, EmailVO evo) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = dao.backoffice_refuse(bvo);
 		if (flag == 1) {
-			BackOfficeVO bvo2 = sendEmail.result_refuse(bvo, evo);
+			BackOfficeDTO bvo2 = sendEmail.result_refuse(bvo, evo);
 			if (bvo2 != null) {
 				log.info("successed...");
 				map.put("result", "1");
@@ -109,7 +109,7 @@ public class MasterServiceImpl implements MasterService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("page:{}", page);
 
-		List<BackOfficeListVO> bvos = dao.backoffice_endList_selectAll(page);
+		List<BackOfficeListDTO> bvos = dao.backoffice_endList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 		log.info("bvos : {}", bvos);
 		
@@ -123,12 +123,12 @@ public class MasterServiceImpl implements MasterService {
 	 * 마스터 - 호스트 탈퇴 승인
 	 */
 	@Override
-	public Map<String, String> master_revoke(BackOfficeVO bvo, EmailVO evo) {
+	public Map<String, String> master_revoke(BackOfficeDTO bvo, EmailVO evo) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = dao.backoffice_revoke(bvo);
 		if (flag == 1) {
-			BackOfficeVO bvo2 = sendEmail.backoffice_revoke(bvo, evo);
+			BackOfficeDTO bvo2 = sendEmail.backoffice_revoke(bvo, evo);
 			if (bvo2 != null) {
 				log.info("successed...");
 				map.put("result", "1");
@@ -148,11 +148,11 @@ public class MasterServiceImpl implements MasterService {
 	 * 백오피스 가입 상세, 탈퇴 페이지
 	 */
 	@Override
-	public Map<String, Object> master_backoffice_detail_selectOne(BackOfficeVO bvo, String page) {
+	public Map<String, Object> master_backoffice_detail_selectOne(BackOfficeDTO bvo, String page) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		BackOfficeVO bvo2 = dao.master_backoffice_detail_selectOne(bvo);
+		BackOfficeDTO bvo2 = dao.master_backoffice_detail_selectOne(bvo);
 
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
 

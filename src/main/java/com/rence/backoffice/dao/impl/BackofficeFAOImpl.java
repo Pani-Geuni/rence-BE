@@ -24,7 +24,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.rence.backoffice.dao.BackOfficeFAO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +41,7 @@ public class BackofficeFAOImpl implements BackOfficeFAO {
 	AmazonS3Client amazonS3Client;
 	
 	@Override
-	public BackOfficeVO backoffice_image_upload(BackOfficeVO vo, MultipartHttpServletRequest mtfRequest,
+	public BackOfficeDTO backoffice_image_upload(BackOfficeDTO vo, MultipartHttpServletRequest mtfRequest,
 			MultipartFile multipartFile_room) {
 		log.info("{} byte", multipartFile_room.getSize());
 
@@ -90,7 +90,7 @@ public class BackofficeFAOImpl implements BackOfficeFAO {
 	}
 
 	@Override
-	public BackOfficeVO host_image_upload(BackOfficeVO vo, MultipartFile multipartFile_host) {
+	public BackOfficeDTO host_image_upload(BackOfficeDTO vo, MultipartFile multipartFile_host) {
 		vo.setHost_image("img_host_001.jpg");
 		return vo;
 	}
