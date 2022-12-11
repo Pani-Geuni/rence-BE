@@ -15,4 +15,7 @@ public interface BackOfficeFileService {
 	public BackOfficeVO backoffice_image_upload(BackOfficeVO vo, MultipartHttpServletRequest mtfRequest,
 			MultipartFile multipartFile_room, MultipartFile multipartFile_host);
 
+	public BackOfficeVO backoffice_image_upload(BackOfficeVO bvo, MultipartHttpServletRequest mtfRequest,
+			MultipartFile multipartFile_room);
+
 }
