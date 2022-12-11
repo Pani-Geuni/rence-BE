@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.repository;
+package com.rence.backoffice.dao.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.rence.backoffice.dao.BackOfficeFAO;
 import com.rence.backoffice.model.BackOfficeVO;
 
 import lombok.extern.slf4j.Slf4j;

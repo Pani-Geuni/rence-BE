@@ -3,15 +3,16 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.service;
+package com.rence.backoffice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.rence.backoffice.dao.BackOfficeFAO;
 import com.rence.backoffice.model.BackOfficeVO;
-import com.rence.backoffice.repository.BackOfficeFAO;
+import com.rence.backoffice.service.BackOfficeFileService;
 
 @Service
 public class BackOfficeFileServiceImpl implements BackOfficeFileService {

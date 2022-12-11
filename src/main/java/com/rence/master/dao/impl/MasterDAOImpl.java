@@ -1,7 +1,7 @@
 /**
  * @author 최진실
  */
-package com.rence.master.repository;
+package com.rence.master.dao.impl;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import com.rence.backoffice.model.BackOfficeListVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeListRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.master.dao.MasterDAO;
+import com.rence.master.repository.MasterRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

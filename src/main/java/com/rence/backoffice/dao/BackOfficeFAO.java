@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.repository;
+package com.rence.backoffice.dao;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;

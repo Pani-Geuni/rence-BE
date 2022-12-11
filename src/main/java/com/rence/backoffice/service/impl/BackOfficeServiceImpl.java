@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.service;
+package com.rence.backoffice.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +18,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.common.BackOfficeSendEmail;
+import com.rence.backoffice.dao.BackOfficeDAO;
 import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
-import com.rence.backoffice.repository.BackOfficeDAO;
+import com.rence.backoffice.service.BackOfficeService;
 
 import lombok.extern.slf4j.Slf4j;
 

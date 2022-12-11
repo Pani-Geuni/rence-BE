@@ -6,7 +6,6 @@
 package com.rence.backoffice.repository;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,12 +13,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rence.backoffice.model.BackOfficeVO;
-import com.rence.backoffice.model.BackOfficeListVO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
+import com.rence.backoffice.model.BackOfficeEntity;
 import com.rence.backoffice.model.BackOfficeVO;
 
-public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object> {
+public interface BackOfficeRepository extends JpaRepository<BackOfficeEntity, Object> {
 
 	/*******************************
 	 ************* 백오피스 ***********
@@ -27,14 +24,14 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	 */
 	// 호스트 신청하고 backoffice_no 추출해서 운영시간에 넘겨주기 위함.
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_email=?1 and backoffice_state !='X'")
-	public BackOfficeVO select_backoffice_no(String backoffice_email);
+	public BackOfficeEntity select_backoffice_no(String backoffice_email);
 	
 	// 호스트 신청
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value="INSERT INTO backofficeinfo(backoffice_no, owner_name, backoffice_id, backoffice_name, company_name, backoffice_tel, backoffice_email,zipcode, roadname_address, number_address, detail_address, backoffice_tag, backoffice_info, backoffice_option, backoffice_around, backoffice_image, host_image, backoffice_state, apply_date, backoffice_type) "
 			+ "values('B'||seq_backoffice.nextval, :#{#vo?.owner_name}, :#{#vo?.backoffice_id}, :#{#vo?.backoffice_name}, :#{#vo?.company_name}, :#{#vo?.backoffice_tel}, :#{#vo?.backoffice_email}, :#{#vo?.zipcode},:#{#vo?.roadname_address}, :#{#vo?.number_address}, :#{#vo?.detail_address}, :#{#vo?.backoffice_tag}, :#{#vo?.backoffice_info}, :#{#vo?.backoffice_option}, :#{#vo?.backoffice_around}, :#{#vo?.backoffice_image}, :#{#vo?.host_image}, :#{#vo?.backoffice_state}, :apply_date ,:#{#vo?.backoffice_type})")
-	public int insert_backoffice(@Param("vo") BackOfficeVO vo, @Param("apply_date") Date apply_date);
+	public int insert_backoffice(@Param("vo") BackOfficeEntity vo, @Param("apply_date") Date apply_date);
 
 	// 이메일 중복 체크
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_email=?1 and backoffice_state !='X'")

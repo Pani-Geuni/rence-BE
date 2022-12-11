@@ -1,7 +1,7 @@
 /**
  * @author 최진실
  */
-package com.rence.master.repository;
+package com.rence.master.dao;
 
 import java.util.List;
 

@@ -3,11 +3,11 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.repository;
+package com.rence.backoffice.dao.impl;
 
-import java.util.Date;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.Date;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.common.OperatingTime;
+import com.rence.backoffice.dao.BackOfficeDAO;
 import com.rence.backoffice.model.AuthVO;
-import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.BackOfficeEntity;
 import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.repository.AuthRepository;
+import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
+import com.rence.backoffice.repository.BackOfficeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,32 +43,40 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 	@Autowired
 	AuthRepository auth_repository;
 	
-//	@Bean
-//	public ModelMapper modelMapper() {
-//		return new ModelMapper();
-//	}
-//
-//	@Autowired
-//	ModelMapper modelMapper;
 	/**
 	 * 백오피스 신청 - 업체 정보
 	 */
 	@Override
 	public BackOfficeVO backoffice_insertOK(BackOfficeVO vo) {
+//		vo.setBackoffice_state("W");
+//		vo.setApply_date(new Date());
+//
+//		BackOfficeVO bvo2 = new BackOfficeVO();
+//
+//		int flag = repository.insert_backoffice(vo, vo.getApply_date());
+//
+//		if (flag == 1) {
+//			bvo2 = repository.select_backoffice_no(vo.getBackoffice_email());
+//		}
+//		return bvo2;
+		
 		vo.setBackoffice_state("W");
 		vo.setApply_date(new Date());
 
+		ModelMapper modelMapper = new ModelMapper();
+		BackOfficeEntity bvo = new BackOfficeEntity();
 		BackOfficeVO bvo2 = new BackOfficeVO();
+		
+		bvo = modelMapper.map(vo, BackOfficeEntity.class);
 
-		int flag = repository.insert_backoffice(vo, vo.getApply_date());
+		int flag = repository.insert_backoffice(bvo, bvo.getApply_date());
 
 		if (flag == 1) {
-			bvo2 = repository.select_backoffice_no(vo.getBackoffice_email());
-//			BackOfficeEntity bvo = repository.select_backoffice_no(vo.getBackoffice_email());
-//			ModelMapper modelMapper = new ModelMapper();
-//			bvo2 = modelMapper.map(bvo, BackOfficeVO.class);
+			bvo = repository.select_backoffice_no(bvo.getBackoffice_email());
+			bvo2 = modelMapper.map(bvo,BackOfficeVO.class);
 		}
 		return bvo2;
+
 	}
 
 	/**

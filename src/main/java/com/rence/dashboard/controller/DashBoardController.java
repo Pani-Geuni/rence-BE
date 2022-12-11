@@ -359,7 +359,7 @@ public class DashboardController {
 		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
 		if(!bvo.getBackoffice_image().equals(bvo2.getBackoffice_image())) {
 			// 이미지 파일
-			bvo = fileService.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);
+//			bvo = fileService.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);
 			log.info("filupload room:{}", bvo);
 		} 
 		

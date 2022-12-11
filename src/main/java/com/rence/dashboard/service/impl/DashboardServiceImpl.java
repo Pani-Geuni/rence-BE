@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.dashboard.service;
+package com.rence.dashboard.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.common.OptionEngToKorMap;
+import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
@@ -37,7 +38,7 @@ import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
-import com.rence.dashboard.repository.DashboardDAO;
+import com.rence.dashboard.service.DashboardService;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
 /**
  * @author 최진실
  */
-package com.rence.master.service;
+package com.rence.master.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -16,7 +16,8 @@ import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.master.common.MasterSendEmail;
-import com.rence.master.repository.MasterDAO;
+import com.rence.master.dao.MasterDAO;
+import com.rence.master.service.MasterService;
 
 import lombok.extern.slf4j.Slf4j;
 

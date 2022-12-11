@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.dashboard.repository;
+package com.rence.dashboard.dao.impl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.rence.dashboard.dao.HostPaymentCancelDAO;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

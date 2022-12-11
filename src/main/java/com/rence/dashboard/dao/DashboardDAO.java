@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.dashboard.repository;
+package com.rence.dashboard.dao;
 
 import java.util.List;
 

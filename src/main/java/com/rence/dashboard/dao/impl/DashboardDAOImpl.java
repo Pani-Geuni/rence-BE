@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.dashboard.repository;
+package com.rence.dashboard.dao.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeSelectRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.model.BOMileageVO;
 import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
@@ -41,6 +42,26 @@ import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.repository.CommentAListRepository;
+import com.rence.dashboard.repository.CommentInsertRepository;
+import com.rence.dashboard.repository.CommentQListRepository;
+import com.rence.dashboard.repository.CommentRepository;
+import com.rence.dashboard.repository.CommentSummaryRepository;
+import com.rence.dashboard.repository.PaymentCancelRepository;
+import com.rence.dashboard.repository.ReservationRepository;
+import com.rence.dashboard.repository.ReserveAutoUpdateRepository;
+import com.rence.dashboard.repository.ReserveRepository;
+import com.rence.dashboard.repository.ReserveSummaryRepository;
+import com.rence.dashboard.repository.ReviewRepository;
+import com.rence.dashboard.repository.RoomInsertRepository;
+import com.rence.dashboard.repository.RoomRepository;
+import com.rence.dashboard.repository.RoomSummaryRepository;
+import com.rence.dashboard.repository.SalesMileageRepository;
+import com.rence.dashboard.repository.SalesSettlementDetailRepository;
+import com.rence.dashboard.repository.SalesSettlementRepository;
+import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
+import com.rence.dashboard.repository.ScheduleListRepository;
+import com.rence.dashboard.repository.ScheduleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -1021,19 +1042,17 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 	/**
 	 * 
-	 * AOP ... 
-	 * 예약 상태 false 삭제 - reserve_no
+	 * AOP ... 예약 상태 false 삭제 - reserve_no
 	 * 
 	 */
 	@Override
 	public ReserveUpdateVO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no) {
-		return reserveAutoUpdateRepository.select_one_false_reserve(reserve_stime,reserve_etime,room_no);
+		return reserveAutoUpdateRepository.select_one_false_reserve(reserve_stime, reserve_etime, room_no);
 	}
 
 	/**
 	 * 
-	 * AOP ... 
-	 * 예약 상태 false 삭제
+	 * AOP ... 예약 상태 false 삭제
 	 * 
 	 */
 	@Override

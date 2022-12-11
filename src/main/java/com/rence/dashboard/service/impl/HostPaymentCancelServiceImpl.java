@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.dashboard.service;
+package com.rence.dashboard.service.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.dashboard.common.DashboardSendEmail;
+import com.rence.dashboard.dao.DashboardDAO;
+import com.rence.dashboard.dao.HostPaymentCancelDAO;
 import com.rence.dashboard.model.BOPaymentVO;
-import com.rence.dashboard.repository.DashboardDAO;
-import com.rence.dashboard.repository.HostPaymentCancelDAO;
+import com.rence.dashboard.service.HostPaymentCancelService;
 
 import lombok.extern.slf4j.Slf4j;
 

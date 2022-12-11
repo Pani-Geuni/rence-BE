@@ -16,23 +16,23 @@ import com.rence.dashboard.model.ReserveUpdateVO;
 
 public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdateVO, Object>{ // 예약 상태 업데이트
 
-	@Query(nativeQuery = true, value = "select * from reserveinfo where reserve_state != 'false' and reserve_state != 'cancel'")
+	@Query(nativeQuery = true, value = "select * from reserveinfo where reserve_state not in ('false','cancel')")
 	public List<ReserveUpdateVO> selectAll_reserve();
 
 			
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'begin' where reserve_no=?1 and reserve_state != 'false' and reserve_state != 'cancel'")
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'begin' where reserve_no=?1 and reserve_state not in ('false','cancel')")
 	public void update_reserve_state_begin(String reserve_no);
 	
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'in_use' where reserve_no=?1 and reserve_state != 'false' and reserve_state != 'cancel'")
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'in_use' where reserve_no=?1 and reserve_state not in ('false','cancel')")
 	public void update_reserve_state_inuse(String reserve_no);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'end' where reserve_no=?1 and reserve_state != 'false' and reserve_state != 'cancel'")
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'end' where reserve_no=?1 and reserve_state not in ('false','cancel')")
 	public void update_reserve_state_end(String reserve_no);
 
 	@Modifying
