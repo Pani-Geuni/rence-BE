@@ -20,23 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Immutable
-@Table(name="COMMENTS_SUMMARY_VIEW")
-@Slf4j
-public class CommentSummaryView {
+public class CommentSummaryViewDTO {
 
-	@Id
-	@Column(name="comment_no")
 	private String comment_no;
 	
-	@Column(name="room_name")
 	private String room_name;
 	
-	@Column(name="comment_date")
 	private String comment_date;
 	
-	@Column(name="comment_content")
 	private String comment_content;
 	
 }

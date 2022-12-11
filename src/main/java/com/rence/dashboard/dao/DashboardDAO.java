@@ -12,7 +12,7 @@ import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
-import com.rence.dashboard.model.CommentSummaryView;
+import com.rence.dashboard.model.CommentSummaryViewDTO;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
@@ -23,7 +23,7 @@ import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
-import com.rence.dashboard.model.SalesSettlementSummaryView;
+import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
@@ -32,9 +32,9 @@ public interface DashboardDAO {
 
 	public List<ReserveSummaryViewDTO> reserve_summary_selectAll(String backoffice_no);
 
-	public List<CommentSummaryView> comment_summary_selectAll(String backoffice_no);
+	public List<CommentSummaryViewDTO> comment_summary_selectAll(String backoffice_no);
 
-	public SalesSettlementSummaryView payment_summary_selectOne(String backoffice_no);
+	public SalesSettlementSummaryViewDTO payment_summary_selectOne(String backoffice_no);
 
 	public RoomSummaryViewDTO room_summary_selectOne(String backoffice_no);
 
