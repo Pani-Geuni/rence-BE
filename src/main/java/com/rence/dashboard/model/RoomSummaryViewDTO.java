@@ -20,25 +20,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Entity
-@Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="ROOM_SUMMARY_VIEW")
-@Slf4j
-public class RoomSummaryView {
+public class RoomSummaryViewDTO {
 
-	@Id
-	@Column(name="review_point")
 	private Float review_point;
 	
-	@Column(name="comment_no")
 	private Integer comment_no;
 	
-	@Column(name="review_no")
 	private Integer review_no;
 	
-	@Column(name="reserve_no")
 	private Integer reserve_no;
 }

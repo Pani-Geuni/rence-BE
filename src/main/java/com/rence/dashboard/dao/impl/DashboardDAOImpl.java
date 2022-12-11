@@ -16,10 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.common.OperatingTime;
-import com.rence.backoffice.model.BackOfficeEntity;
-import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
-import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeSelectRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
@@ -33,11 +32,12 @@ import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
-import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveSummaryViewDTO;
+import com.rence.dashboard.model.ReserveSummaryViewEntity;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
-import com.rence.dashboard.model.RoomSummaryView;
+import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
@@ -150,8 +150,18 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 대쉬보드 메인 - 예약 요약
 	 */
 	@Override
-	public List<ReserveSummaryView> reserve_summary_selectAll(String backoffice_no) {
-		return r_summary_repository.reserve_summary_selectAll(backoffice_no);
+	public List<ReserveSummaryViewDTO> reserve_summary_selectAll(String backoffice_no) {
+		List<ReserveSummaryViewEntity> rse = r_summary_repository.reserve_summary_selectAll(backoffice_no);
+		List<ReserveSummaryViewDTO> rses = new ArrayList<ReserveSummaryViewDTO>();
+		if (rse!=null) {
+			for (ReserveSummaryViewEntity roomSummaryViewEntity : rse) {
+				rses.add(modelMapper.map(roomSummaryViewEntity, ReserveSummaryViewDTO.class));
+			}
+		}else {
+			rses = null;
+		}
+				
+		return rses;
 	}
 
 	/**
@@ -196,8 +206,8 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 대쉬보드 메인 - 공간 요약
 	 */
 	@Override
-	public RoomSummaryView room_summary_selectOne(String backoffice_no) {
-		RoomSummaryView rs = new RoomSummaryView();
+	public RoomSummaryViewDTO room_summary_selectOne(String backoffice_no) {
+		RoomSummaryViewDTO rs = new RoomSummaryViewDTO();
 
 		Float review_point = rm_summary_repository.select_avg_review_point(backoffice_no);
 		if (review_point == null) {

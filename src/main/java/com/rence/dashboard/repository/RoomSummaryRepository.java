@@ -8,9 +8,9 @@ package com.rence.dashboard.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.rence.dashboard.model.RoomSummaryView;
+import com.rence.dashboard.model.RoomSummaryViewEntity;
 
-public interface RoomSummaryRepository extends JpaRepository<RoomSummaryView, Object>{ // 공간 요약
+public interface RoomSummaryRepository extends JpaRepository<RoomSummaryViewEntity, Object>{ // 공간 요약
 
 	@Query(nativeQuery = true, value = "select round(avg(review_point),1),backoffice_no from review group by backoffice_no having backoffice_no=?1")
 	public Float select_avg_review_point(String backoffice_no);
