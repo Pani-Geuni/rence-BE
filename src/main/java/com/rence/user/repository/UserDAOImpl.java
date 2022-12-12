@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.rence.backoffice.model.AuthVO;
+import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
 
@@ -52,35 +52,35 @@ public class UserDAOImpl implements UserDAO {
 	
 	// 이메일 중복체크 중복시도 체크
 	@Override
-	public int user_auth_selectCnt(AuthVO avo) {
+	public int user_auth_selectCnt(AuthDTO adto) {
 		log.info("user_auth_selectCnt()....");
-		log.info("avo: {}", avo);
+		log.info("adto: {}", adto);
 
-		return authRepository.user_auth_selectCnt(avo.getUser_email());
+		return authRepository.user_auth_selectCnt(adto.getUser_email());
 	}
 	
 	// 이메일 인증번호 auth테이블에 저장
 	@Override
-	public AuthVO user_auth_insert(AuthVO avo) {
+	public AuthDTO user_auth_insert(AuthDTO adto) {
 		log.info("user_auth_insert()....");
-		log.info("avo: {}", avo);
-		int result = authRepository.user_auth_insert(avo.getUser_email(), avo.getAuth_code());
+		log.info("adto: {}", adto);
+		int result = authRepository.user_auth_insert(adto.getUser_email(), adto.getAuth_code());
 		log.info("result: {}", result);
-		log.info("avo(이후): {}", avo);
-		AuthVO avo2 = new AuthVO();
+		log.info("adto(이후): {}", adto);
+		AuthDTO adto2 = new AuthDTO();
 
 		if (result == 1) {
-			log.info("===avo===: {}", avo);
-			avo2 = authRepository.auth_select(avo.getUser_email());
-			log.info("avo2: {}", avo2);
+			log.info("===adto===: {}", adto);
+			adto2 = authRepository.auth_select(adto.getUser_email());
+			log.info("adto2: {}", adto2);
 		}
 
-		return avo2;
+		return adto2;
 	}
 	
 	// 이메일 인증번호 확인
 	@Override
-	public AuthVO user_authOK_select(String user_email, String email_code) {
+	public AuthDTO user_authOK_select(String user_email, String email_code) {
 		log.info("user_authOK_select()....");
 		log.info("user_email: {}", user_email);
 		log.info("email_code(인증코드): {}", email_code);

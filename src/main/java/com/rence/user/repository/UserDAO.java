@@ -1,6 +1,6 @@
 package com.rence.user.repository;
 
-import com.rence.backoffice.model.AuthVO;
+import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.UserDto;
 
 public interface UserDAO {
@@ -9,13 +9,13 @@ public interface UserDAO {
 	UserDto emailCheckOK(UserDto udto);
 
 	//회원가입 - 이메일 중복체크 중복시도 체크
-	int user_auth_selectCnt(AuthVO avo);
+	int user_auth_selectCnt(AuthDTO avo);
 
 	//회원가입 - 이메일 인증번호 auth테이블에 저장
-	AuthVO user_auth_insert(AuthVO avo);
+	AuthDTO user_auth_insert(AuthDTO avo);
 	
 	//회원가입 - 이메일 인증번호 확인
-	AuthVO user_authOK_select(String user_email, String email_code);
+	AuthDTO user_authOK_select(String user_email, String email_code);
 	
 	//회원가입 - 인증을 완료후 auth테이블에서 인증정보 컬럼삭제
 	int user_auth_delete(String user_email, String email_code);
