@@ -17,7 +17,7 @@ import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.dashboard.common.DashboardSendEmail;
 import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.dao.HostPaymentCancelDAO;
-import com.rence.dashboard.model.BOPaymentVO;
+import com.rence.dashboard.model.BOPaymentDTO;
 import com.rence.dashboard.service.HostPaymentCancelService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class HostPaymentCancelServiceImpl implements HostPaymentCancelService{
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 환불 상태 C , payment_date=current_date, 결제 테이블에서 사용한 마일리지와 돈 환불.
-		BOPaymentVO pvo = dao.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no);
+		BOPaymentDTO pvo = dao.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no);
 
 		if (pvo != null) {
 			

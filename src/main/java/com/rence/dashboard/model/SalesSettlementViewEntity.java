@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Immutable
 @Table(name="SALESSETTLEMENT_LIST_VIEW")
 @Slf4j
-public class SalesSettlementViewVO {
+public class SalesSettlementViewEntity {
 
 	@Column(name="reserve_sdate")
 	private String reserve_sdate;

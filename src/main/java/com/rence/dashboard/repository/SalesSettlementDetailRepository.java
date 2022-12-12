@@ -8,9 +8,10 @@ package com.rence.dashboard.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.rence.dashboard.model.SalesSettlementDetailView;
+import com.rence.dashboard.model.SalesSettlementDetailViewDTO;
+import com.rence.dashboard.model.SalesSettlementDetailViewEntity;
 
-public interface SalesSettlementDetailRepository extends JpaRepository<SalesSettlementDetailView, Object> {
+public interface SalesSettlementDetailRepository extends JpaRepository<SalesSettlementDetailViewEntity, Object> {
 
 	// 금일
 	@Query(nativeQuery = true, value = "select NVL(sum(p.payment_total),0) as sales_total from paymentinfo p left outer join roominfo rm on p.room_no=rm.room_no where p.payment_state='T' and (((rm.room_type='desk') or (rm.room_type like 'meeting%')) and p.backoffice_no=?1  and trunc(payment_date)=trunc(current_date))")

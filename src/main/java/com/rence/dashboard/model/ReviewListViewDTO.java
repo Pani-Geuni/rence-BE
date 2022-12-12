@@ -22,31 +22,19 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Immutable
-@Table(name="REVIEW_LIST_B_VIEW")
-@Slf4j
-public class ReviewListView implements Serializable{
+public class ReviewListViewDTO implements Serializable{
 
-	@Id
-	@Column(name="review_no")
 	private String review_no;
 	
-	@Column(name="review_content")
 	private String review_content;
 	
-	@Column(name="review_point")
 	private float review_point;
 	
-	@Column(name="review_date")
 	private String review_date;
 	
-	@Column(name="user_no")
 	private String user_no;
 	
-	@Column(name="user_image")
 	private String user_image;
 	
-	@Column(name="user_name")
 	private String user_name;
 }

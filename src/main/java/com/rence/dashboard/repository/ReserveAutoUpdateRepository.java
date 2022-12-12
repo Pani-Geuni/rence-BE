@@ -12,12 +12,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rence.dashboard.model.ReserveUpdateVO;
+import com.rence.dashboard.model.ReserveUpdateDTO;
+import com.rence.dashboard.model.ReserveUpdateEntity;
 
-public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdateVO, Object>{ // 예약 상태 업데이트
+public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdateEntity, Object>{ // 예약 상태 업데이트
 
 	@Query(nativeQuery = true, value = "select * from reserveinfo where reserve_state not in ('false','cancel')")
-	public List<ReserveUpdateVO> selectAll_reserve();
+	public List<ReserveUpdateEntity> selectAll_reserve();
 
 			
 	@Modifying
@@ -43,7 +44,7 @@ public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdate
 	
 	// 예약 상태 30분 지난 reserve_no 가져오기
 	@Query(nativeQuery = true, value = "select * from reserveinfo where reserve_stime=To_date(?1,'YYYY/MM/DD HH24:MI:SS') and reserve_etime=To_date(?2,'YYYY/MM/DD HH24:MI:SS') and room_no=?3")
-	public ReserveUpdateVO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no);
+	public ReserveUpdateEntity select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no);
 	
 	// 예약 false 상태 30분 뒤 삭제
 	@Modifying

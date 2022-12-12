@@ -24,34 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Immutable
-@Table(name="SALESSETTLEMENT_VIEW")
-@Slf4j
-public class SalesSettlementDetailView implements Serializable{
+public class SalesSettlementDetailViewDTO implements Serializable{
 
-	@Transient
-	@Column(name="sales_income")
 	private String sales_income;
 	
-	@Id
-	@Column(name="sales_total")
 	private String sales_total;
 	
-	@Column(name="sales_cancel")
 	private String sales_cancel;
 	
-	@Transient
-	@Column(name="pre_sales_income")
 	private String pre_sales_income;
 	
-	@Column(name="pre_sales_total")
 	private String pre_sales_total;
 	
-	@Column(name="pre_sales_cancel")
 	private String pre_sales_cancel;
 	
-	@Transient
-	@Column(name="sales_gap")
 	private String sales_gap;
 }

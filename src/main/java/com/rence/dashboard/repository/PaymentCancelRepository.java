@@ -10,9 +10,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rence.dashboard.model.BOPaymentVO;
+import com.rence.dashboard.model.BOPaymentDTO;
+import com.rence.dashboard.model.BOPaymentEntity;
 
-public interface PaymentCancelRepository  extends JpaRepository<BOPaymentVO, Object>{
+public interface PaymentCancelRepository  extends JpaRepository<BOPaymentEntity, Object>{
 	
 	// 결제 정보 상태 변경
 	@Modifying
@@ -22,11 +23,11 @@ public interface PaymentCancelRepository  extends JpaRepository<BOPaymentVO, Obj
 
 	// 결제 정보 
 	@Query(nativeQuery = true, value = "select * from paymentinfo where reserve_no=?1")
-	public BOPaymentVO select_paymentinfo(String reserve_no);
+	public BOPaymentEntity select_paymentinfo(String reserve_no);
 	
 	// 결제 정보
 	@Query(nativeQuery = true, value = "select * from paymentinfo where payment_no=?1")
-	public BOPaymentVO select_paymentinfo_user_no(String payment_no);
+	public BOPaymentEntity select_paymentinfo_user_no(String payment_no);
 
 
 }

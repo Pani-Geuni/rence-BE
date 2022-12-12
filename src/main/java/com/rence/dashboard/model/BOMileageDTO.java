@@ -20,35 +20,21 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
-@Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
-@Table(name="mileage")
-public class BOMileageVO {
+public class BOMileageDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_mileage")
-	@SequenceGenerator(sequenceName = "seq_mileage", allocationSize = 1, name="seq_mileage")
-	@Column(name="mileage_no")
 	private String mileage_no;
 	
-	@Column(name="mileage_total")
 	private int mileage_total;
 	
-	@Column(name="mileage_state")
 	private String mileage_state;
 	
-	@Column(name="user_no")
 	private String user_no;
 	
-	@Column(name="mileage_change")
 	private int mileage_change;
 	
-	@Column(name="payment_no")
 	private String payment_no;
 	
 	
