@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
-import com.rence.dashboard.model.CommentInsertVO;
+import com.rence.dashboard.model.CommentDTO;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.RoomDTO;
 
@@ -33,7 +33,7 @@ public interface DashboardService {
 
 	public Map<String, Object> backoffice_insert_comment(String backoffice_no, String room_no, String comment_no);
 
-	public Map<String, String> backoffice_insertOK_comment(String backoffice_no, CommentInsertVO cvo,
+	public Map<String, String> backoffice_insertOK_comment(String backoffice_no, CommentDTO cvo,
 			String comment_no);
 
 	public Map<String, String> backoffice_deleteOK_comment(String backoffice_no, String comment_no, String mother_no);
