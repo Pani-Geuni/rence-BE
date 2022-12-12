@@ -18,7 +18,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.rence.backoffice.model.AuthVO;
+import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserDto;
 
@@ -34,7 +34,7 @@ public class UserSendEmail {
 	// **********************
 	// 회원가입 이메일 인증
 	// **********************
-	public AuthVO sendEmail(AuthVO vo, EmailVO evo) {
+	public AuthDTO sendEmail(AuthDTO vo, EmailVO evo) {
 		log.info("User sendEmail");
 		log.info("vo: {}", vo);
 

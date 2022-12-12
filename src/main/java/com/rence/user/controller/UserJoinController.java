@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rence.backoffice.model.AuthVO;
+import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserDto;
 import com.rence.user.service.UserService;
@@ -66,13 +66,13 @@ public class UserJoinController {
 	@ApiOperation(value = "이메일 인증번호요청", notes = "이메일 인증번호요청 입니다.")
 	@PostMapping("/user_auth")
 //	@Transactional
-	public String user_auth(AuthVO avo, UserDto udto, EmailVO evo) {
+	public String user_auth(AuthDTO adto, UserDto udto, EmailVO evo) {
 		log.info("Welcome user_auth");
 		log.info("{}", udto);
 
 		Map<String, String> map = new HashMap<String, String>();
 		
-		String emailCheck_result = service.user_EmailCheckOK(udto, avo, evo);
+		String emailCheck_result = service.user_EmailCheckOK(udto, adto, evo);
 		
 		map.put("authNum", emailCheck_result);
 

@@ -3,7 +3,7 @@
  */
 package com.rence.user.service;
 
-import com.rence.backoffice.model.AuthVO;
+import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserDto;
 
@@ -12,7 +12,7 @@ public interface UserService {
 
 	int user_insertOK(UserDto udto);
 
-	String user_EmailCheckOK(UserDto udto, AuthVO avo, EmailVO evo);
+	String user_EmailCheckOK(UserDto udto, AuthDTO avo, EmailVO evo);
 	
 	//이메일 인증 로직
 	String user_AuthOK(String user_email, String email_code);
