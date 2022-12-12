@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Immutable
 @Table(name="COMMENTLIST_A_VIEW")
-public class CommentListAView {
+public class CommentListAViewEntity {
 
 	@Column(name="comment_date")
 	private String comment_date;

@@ -10,10 +10,10 @@ import java.util.List;
 import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.dashboard.model.BOPaymentVO;
-import com.rence.dashboard.model.CommentInsertVO;
-import com.rence.dashboard.model.CommentListQView;
+import com.rence.dashboard.model.CommentEntity;
+import com.rence.dashboard.model.CommentListQViewDTO;
 import com.rence.dashboard.model.CommentSummaryViewDTO;
-import com.rence.dashboard.model.CommentVO;
+import com.rence.dashboard.model.CommentDTO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryViewDTO;
@@ -53,11 +53,11 @@ public interface DashboardDAO {
 
 	public long backoffice_qna_selectAll_cnt(String backoffice_no);
 
-	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no, Integer page);
+	public List<CommentListQViewDTO> backoffice_qna_selectAll(String backoffice_no, Integer page);
 
-	public CommentVO backoffice_insert_comment(String backoffice_no, String room_no, String comment_no);
+	public CommentDTO backoffice_insert_comment(String backoffice_no, String room_no, String comment_no);
 
-	public int backoffice_insertOK_comment(CommentInsertVO cvo);
+	public int backoffice_insertOK_comment(CommentDTO cvo, String backoffice_no, String comment_no);
 
 	public int update_comment_state_T(String backoffice_no, String comment_no);
 

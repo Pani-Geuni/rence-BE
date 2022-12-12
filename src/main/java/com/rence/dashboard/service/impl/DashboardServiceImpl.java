@@ -21,10 +21,10 @@ import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.dashboard.dao.DashboardDAO;
-import com.rence.dashboard.model.CommentInsertVO;
-import com.rence.dashboard.model.CommentListQView;
+import com.rence.dashboard.model.CommentEntity;
+import com.rence.dashboard.model.CommentListQViewDTO;
 import com.rence.dashboard.model.CommentSummaryViewDTO;
-import com.rence.dashboard.model.CommentVO;
+import com.rence.dashboard.model.CommentDTO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryViewDTO;
@@ -322,7 +322,7 @@ public class DashboardServiceImpl implements DashboardService {
 		map.put("maxPage", maxPage);
 		////////////////////////////////////////////////////////////////////
 
-		List<CommentListQView> qvos = dao.backoffice_qna_selectAll(backoffice_no, page);
+		List<CommentListQViewDTO> qvos = dao.backoffice_qna_selectAll(backoffice_no, page);
 		log.info("qvos : {}", qvos);
 		map.put("q_vos", qvos);
 		map.put("cnt", qvos.size());
@@ -340,7 +340,7 @@ public class DashboardServiceImpl implements DashboardService {
 	public Map<String, Object> backoffice_insert_comment(String backoffice_no, String room_no, String comment_no) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		CommentVO cvo2 = dao.backoffice_insert_comment(backoffice_no, room_no, comment_no);
+		CommentDTO cvo2 = dao.backoffice_insert_comment(backoffice_no, room_no, comment_no);
 
 		map.put("cvo", cvo2);
 
@@ -351,19 +351,11 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 공간관리 - 답변 작성
 	 */
 	@Override
-	public Map<String, String> backoffice_insertOK_comment(String backoffice_no, CommentInsertVO cvo,
+	public Map<String, String> backoffice_insertOK_comment(String backoffice_no, CommentDTO cvo,
 			String comment_no) {
 		Map<String, String> map = new HashMap<String, String>();
 
-		cvo.setMother_no(comment_no);
-		cvo.setBackoffice_no(backoffice_no);
-		cvo.setHost_no(backoffice_no);
-		cvo.setWriter("관리자");
-		cvo.setComment_state("T");
-		cvo.setComment_date(new Date());
-		log.info("cvo : {}", cvo);
-
-		int result = dao.backoffice_insertOK_comment(cvo);
+		int result = dao.backoffice_insertOK_comment(cvo,backoffice_no,comment_no);
 
 		if (result == 1) {
 			// 부모 no state T 변경

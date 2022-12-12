@@ -78,6 +78,22 @@ public class MasterController {
 
 		return json;
 	}
+	
+	/**
+	 * 로그아웃 성공 처리
+	 */
+	@ApiOperation(value = "로그아웃 성공", notes = "로그아웃 성공")
+	@PostMapping("/logoutOK")
+	public String master_logoutOK() {
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("result", "1");
+
+		String json = gson.toJson(map);
+
+		return json;
+	}
 
 	/**
 	 * 마스터 메인 페이지 (호스트 가입 신청 리스트)
