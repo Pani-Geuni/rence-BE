@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.model.CommentInsertVO;
@@ -30,9 +30,8 @@ import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryViewDTO;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
-import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomDTO;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
-import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewVO;
@@ -119,9 +118,9 @@ public class DashboardServiceImpl implements DashboardService {
 		map.put("maxPage", maxPage);
 		////////////////////////////////////////////////////////////////////
 
-		List<RoomVO> rmvos = dao.dashboard_room_list(backoffice_no, page);
+		List<RoomDTO> rmvos = dao.dashboard_room_list(backoffice_no, page);
 		String unit = "원/시간";
-		for (RoomVO vo : rmvos) {
+		for (RoomDTO vo : rmvos) {
 			if (vo.getRoom_type().equals("office")) {
 				unit = "원/개월";
 			}
@@ -133,7 +132,7 @@ public class DashboardServiceImpl implements DashboardService {
 		map.put("unit", unit);
 
 		map.put("page", "room");
-		map.put("res", map);
+//		map.put("res", map);
 
 		return map;
 	}
@@ -148,7 +147,7 @@ public class DashboardServiceImpl implements DashboardService {
 		BackOfficeDTO bvo = dao.select_one_backoffice_info(backoffice_no);
 		log.info("bvo : {}", bvo);
 
-		RoomVO rmvo = new RoomVO();
+		RoomDTO rmvo = new RoomDTO();
 
 		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
 		rmvo.setRoom_type(type);
@@ -175,7 +174,7 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 공간관리 - 공간 추가 처리
 	 */
 	@Override
-	public Map<String, String> backoffice_insertOK_room(RoomInsertVO rvo, String backoffice_no) {
+	public Map<String, String> backoffice_insertOK_room(RoomDTO rvo, String backoffice_no) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int result = dao.backoffice_insertOK_room(backoffice_no, rvo);
@@ -202,7 +201,7 @@ public class DashboardServiceImpl implements DashboardService {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		BackOfficeDTO bvo = dao.select_one_backoffice_info(backoffice_no);
-		RoomVO rmvo = new RoomVO();
+		RoomDTO rmvo = new RoomDTO();
 
 		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
 		rmvo.setRoom_type(type);
@@ -236,7 +235,7 @@ public class DashboardServiceImpl implements DashboardService {
 	 * 공간관리 - 공간 수정
 	 */
 	@Override
-	public Map<String, String> backoffice_updateOK_room(String backoffice_no, RoomInsertVO rvo) {
+	public Map<String, String> backoffice_updateOK_room(String backoffice_no, RoomDTO rvo) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int result = dao.backoffice_updateOK_room(backoffice_no, rvo);
@@ -329,7 +328,7 @@ public class DashboardServiceImpl implements DashboardService {
 		map.put("cnt", qvos.size());
 
 		map.put("page", "qna");
-		map.put("res", map);
+//		map.put("res", map);
 
 		return map;
 	}
@@ -457,7 +456,7 @@ public class DashboardServiceImpl implements DashboardService {
 		map.put("cnt", rvvos.size());
 
 		map.put("page", "review");
-		map.put("res", map);
+//		map.put("res", map);
 		return map;
 	}
 
@@ -585,7 +584,7 @@ public class DashboardServiceImpl implements DashboardService {
 		map.put("nowPage", nowPage);
 		map.put("maxPage", maxPage);
 
-		map.put("res", map);
+//		map.put("res", map);
 		//////////////////////////////////////////////////////////////////////
 
 		map.put("r_vos", rvos);
@@ -646,7 +645,7 @@ public class DashboardServiceImpl implements DashboardService {
 		} else if (sales_date.equals("month")) {
 			map.put("page", "sales_month");
 		}
-		map.put("res", map);
+//		map.put("res", map);
 
 		List<SalesSettlementViewVO> svos = dao.backoffice_sales_selectAll(backoffice_no, page);
 		map.put("s_vos", svos);
@@ -999,7 +998,7 @@ public class DashboardServiceImpl implements DashboardService {
 			map.put("maxCnt", 0);
 		}
 
-		map.put("res", map);
+//		map.put("res", map);
 		map.put("reserve_stime", reserve_stime);
 		map.put("reserve_etime", reserve_etime);
 		map.put("rv_vos", rv_vos);
@@ -1075,7 +1074,7 @@ public class DashboardServiceImpl implements DashboardService {
 				vo.setEdate(et[0]);
 				vo.setSchedule_type("dayoff");
 			}
-			RoomInsertVO rvo = dao.backoffice_schedule_calendar_room_name(vo.getRoom_no());
+			RoomDTO rvo = dao.backoffice_schedule_calendar_room_name(vo.getRoom_no());
 			vo.setRoom_name(rvo.getRoom_name());
 		}
 		// 현재 달(월)
@@ -1121,7 +1120,7 @@ public class DashboardServiceImpl implements DashboardService {
 				vo.setEdate(et[0]);
 				vo.setSchedule_type("dayoff");
 			}
-			RoomInsertVO rvo = dao.backoffice_schedule_calendar_room_name(vo.getRoom_no());
+			RoomDTO rvo = dao.backoffice_schedule_calendar_room_name(vo.getRoom_no());
 			vo.setRoom_name(rvo.getRoom_name());
 		}
 

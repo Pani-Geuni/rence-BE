@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.common.OperatingTime;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeEntity;
 import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
@@ -37,9 +39,9 @@ import com.rence.dashboard.model.ReserveSummaryViewDTO;
 import com.rence.dashboard.model.ReserveSummaryViewEntity;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
-import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomDTO;
+import com.rence.dashboard.model.RoomEntity;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
-import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewVO;
@@ -56,7 +58,6 @@ import com.rence.dashboard.repository.ReserveAutoUpdateRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReserveSummaryRepository;
 import com.rence.dashboard.repository.ReviewRepository;
-import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomRepository;
 import com.rence.dashboard.repository.RoomSummaryRepository;
 import com.rence.dashboard.repository.SalesMileageRepository;
@@ -80,9 +81,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 	@Autowired
 	RoomRepository rm_repository;
-
-	@Autowired
-	RoomInsertRepository rm_info_repository;
 
 	@Autowired
 	BackOfficeRepository b_repository;
@@ -143,7 +141,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 	@Autowired
 	OperatingTime operatingTime;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -152,16 +150,11 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public List<ReserveSummaryViewDTO> reserve_summary_selectAll(String backoffice_no) {
+		
 		List<ReserveSummaryViewEntity> rse = r_summary_repository.reserve_summary_selectAll(backoffice_no);
-		List<ReserveSummaryViewDTO> rses = new ArrayList<ReserveSummaryViewDTO>();
-		if (rse!=null) {
-			for (ReserveSummaryViewEntity roomSummaryViewEntity : rse) {
-				rses.add(modelMapper.map(roomSummaryViewEntity, ReserveSummaryViewDTO.class));
-			}
-		}else {
-			rses = null;
-		}
-				
+
+		List<ReserveSummaryViewDTO> rses = rse.stream().map(rvo -> modelMapper.map(rvo, ReserveSummaryViewDTO.class)).collect(Collectors.toList());
+
 		return rses;
 	}
 
@@ -170,18 +163,11 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public List<CommentSummaryViewDTO> comment_summary_selectAll(String backoffice_no) {
-		
+
 		List<CommentSummaryViewEntity> cse = c_summary_repository.comment_summary_selectAll(backoffice_no);
 		
-		List<CommentSummaryViewDTO> cses = new ArrayList<CommentSummaryViewDTO>();
-		if (cse!=null) {
-			for (CommentSummaryViewEntity commentSummaryViewEntity : cse) {
-				cses.add(modelMapper.map(commentSummaryViewEntity, CommentSummaryViewDTO.class));
-			}
-		}else {
-			cses = null;
-		}
-				
+		List<CommentSummaryViewDTO> cses = cse.stream().map(cvo -> modelMapper.map(cvo, CommentSummaryViewDTO.class)).collect(Collectors.toList());
+
 		return cses;
 	}
 
@@ -190,7 +176,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public SalesSettlementSummaryViewDTO payment_summary_selectOne(String backoffice_no) {
-		
+
 		SalesSettlementSummaryViewDTO ss = new SalesSettlementSummaryViewDTO();
 
 		Integer pay_before_desk_meeting = ss_summary_repository.select_pay_before_desk_meeting_sum(backoffice_no);
@@ -255,7 +241,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 공간관리 - 공간 리스트
 	 */
 	@Override
-	public List<RoomVO> dashboard_room_list(String backoffice_no, Integer page) {
+	public List<RoomDTO> dashboard_room_list(String backoffice_no, Integer page) {
 		log.info("reserve_summary_selectAll().....");
 		log.info("current page: {}", page);
 
@@ -265,7 +251,12 @@ public class DashboardDAOImpl implements DashboardDAO {
 		log.info("start_row: " + start_row);
 		log.info("end_row: " + end_row);
 
-		return rm_repository.selectAll_room_list(backoffice_no, start_row, end_row);
+		List<RoomEntity> re = rm_repository.selectAll_room_list(backoffice_no, start_row, end_row);
+		
+		List<RoomDTO> rs = re.stream().map(rvo -> modelMapper.map(rvo, RoomDTO.class)).collect(Collectors.toList());
+
+		return rs;
+
 	}
 
 	/**
@@ -273,52 +264,69 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public BackOfficeDTO select_one_backoffice_info(String backoffice_no) {
-		return b_repository.select_one_backoffice_info(backoffice_no);
+
+		BackOfficeEntity be = b_repository.select_one_backoffice_info(backoffice_no);
+		BackOfficeDTO bvo = modelMapper.map(be, BackOfficeDTO.class);
+
+		return bvo;
 	}
 
 	/**
 	 * 공간관리 - 공간 추가 처리
 	 */
 	@Override
-	public int backoffice_insertOK_room(String backoffice_no, RoomInsertVO rvo) {
-		if (rvo.getRoom_type().equals("desk")) {
-			rvo.setRoom_price(10000);
-		} else if (rvo.getRoom_type().equals("meeting_04")) {
-			rvo.setRoom_price(20000);
-		} else if (rvo.getRoom_type().equals("meeting_06")) {
-			rvo.setRoom_price(30000);
-		} else if (rvo.getRoom_type().equals("meeting_10")) {
-			rvo.setRoom_price(50000);
-		}
-		rvo.setBackoffice_no(backoffice_no);
+	public int backoffice_insertOK_room(String backoffice_no, RoomDTO rvo) {
+		
+		RoomEntity re = modelMapper.map(rvo, RoomEntity.class);
 
-		return rm_info_repository.backoffice_insertOK_room(rvo, rvo.getRoom_price());
+		if (rvo.getRoom_type().equals("desk")) {
+			re.setRoom_price(10000);
+		} else if (rvo.getRoom_type().equals("meeting_04")) {
+			re.setRoom_price(20000);
+		} else if (rvo.getRoom_type().equals("meeting_06")) {
+			re.setRoom_price(30000);
+		} else if (rvo.getRoom_type().equals("meeting_10")) {
+			re.setRoom_price(50000);
+		}
+		re.setBackoffice_no(backoffice_no);
+
+		return rm_repository.backoffice_insertOK_room(re);
 	}
 
 	/**
 	 * 공간관리 - 공간 수정 팝업(공간 정보 가져오기)
 	 */
 	@Override
-	public RoomVO select_one_room_info(String backoffice_no, String room_no) {
-		return rm_repository.select_one_room_info(backoffice_no, room_no);
+	public RoomDTO select_one_room_info(String backoffice_no, String room_no) {
+
+		RoomEntity re = rm_repository.select_one_room_info(backoffice_no, room_no);
+		RoomDTO rvo = modelMapper.map(re, RoomDTO.class);
+
+		return rvo;
 	}
 
 	/**
 	 * 공간관리 - 공간 수정 처리
 	 */
 	@Override
-	public int backoffice_updateOK_room(String backoffice_no, RoomInsertVO rvo) {
-		rvo.setBackoffice_no(backoffice_no);
+	public int backoffice_updateOK_room(String backoffice_no, RoomDTO rvo) {
+		
+		RoomEntity re = modelMapper.map(rvo, RoomEntity.class);
+
 		if (rvo.getRoom_type().equals("desk")) {
-			rvo.setRoom_price(10000);
+			re.setRoom_price(10000);
 		} else if (rvo.getRoom_type().equals("meeting_04")) {
-			rvo.setRoom_price(20000);
+			re.setRoom_price(20000);
 		} else if (rvo.getRoom_type().equals("meeting_06")) {
-			rvo.setRoom_price(30000);
+			re.setRoom_price(30000);
 		} else if (rvo.getRoom_type().equals("meeting_10")) {
-			rvo.setRoom_price(50000);
+			re.setRoom_price(50000);
 		}
-		return rm_info_repository.backoffice_updateOK_room(rvo, rvo.getRoom_price());
+		re.setBackoffice_no(backoffice_no);
+		
+		log.info("re :: {}", re);
+
+		return rm_repository.backoffice_updateOK_room(re);
 	}
 
 	/**
@@ -706,11 +714,11 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public BackOfficeOperatingTimeDTO backoffice_setting_selectOne_operatingtime(String backoffice_no) {
-		
+
 //		ModelMapper modelMapper = new ModelMapper();
 		BackOfficeOperatingTimeEntity ovo = bos_repository.backoffice_setting_selectOne_operatingtime(backoffice_no);
-		BackOfficeOperatingTimeDTO ovo2 = modelMapper.map(ovo,BackOfficeOperatingTimeDTO.class);
-		
+		BackOfficeOperatingTimeDTO ovo2 = modelMapper.map(ovo, BackOfficeOperatingTimeDTO.class);
+
 		return ovo2;
 	}
 
@@ -915,7 +923,12 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public BackOfficeDTO backoffice_select_companyname(String backoffice_no) {
-		return b_repository.select_one_backoffice_info(backoffice_no);
+
+		BackOfficeEntity be = b_repository.select_one_backoffice_info(backoffice_no);
+		BackOfficeDTO bvo = modelMapper.map(be, BackOfficeDTO.class);
+
+		return bvo;
+
 	}
 
 	/**
@@ -930,8 +943,12 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 일정 관리 - 백오피스 휴무 일정
 	 */
 	@Override
-	public RoomInsertVO backoffice_schedule_calendar_room_name(String room_no) {
-		return rm_info_repository.backoffice_schedule_calendar_room_name(room_no);
+	public RoomDTO backoffice_schedule_calendar_room_name(String room_no) { // room_price 변환 되는 지 호가인 필요
+		
+		RoomEntity re = rm_repository.backoffice_schedule_calendar_room_name(room_no);
+		RoomDTO rvo = modelMapper.map(re, RoomDTO.class);
+		
+		return rvo;
 	}
 
 	/**

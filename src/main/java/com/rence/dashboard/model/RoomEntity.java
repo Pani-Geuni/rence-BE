@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="ROOMINFO")
-public class RoomInsertVO implements Serializable{
+public class RoomEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_ROOM")
@@ -40,9 +40,11 @@ public class RoomInsertVO implements Serializable{
 	@Column(name="room_name")
 	private String room_name;
 	
+//	@Column(name="room_price")
+//	private Integer room_price_s;
+	
 	@Column(name="room_price")
 	private Integer room_price;
-
 	
 	@Column(name="backoffice_no")
 	private String backoffice_no;
