@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.model.AuthDTO;
+import com.rence.backoffice.model.AuthEntity;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
 
@@ -68,10 +69,11 @@ public class UserDAOImpl implements UserDAO {
 		log.info("result: {}", result);
 		log.info("adto(이후): {}", adto);
 		AuthDTO adto2 = new AuthDTO();
-
+		
 		if (result == 1) {
 			log.info("===adto===: {}", adto);
-			adto2 = authRepository.auth_select(adto.getUser_email());
+			AuthEntity authEntity = authRepository.auth_select(adto.getUser_email());
+			adto2 = modelMapper.map(authEntity,AuthDTO.class);
 			log.info("adto2: {}", adto2);
 		}
 
@@ -84,8 +86,12 @@ public class UserDAOImpl implements UserDAO {
 		log.info("user_authOK_select()....");
 		log.info("user_email: {}", user_email);
 		log.info("email_code(인증코드): {}", email_code);
-
-		return authRepository.user_authOK_select(user_email, email_code);
+		
+		AuthEntity authEntity = authRepository.user_authOK_select(user_email, email_code);
+		
+		AuthDTO adto = modelMapper.map(authEntity,AuthDTO.class);
+		
+		return adto;
 	}
 	
 	// 인증을 완료후 auth테이블에서 인증정보 컬럼삭제
