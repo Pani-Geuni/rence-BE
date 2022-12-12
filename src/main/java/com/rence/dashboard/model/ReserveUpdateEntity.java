@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="RESERVEINFO")
-public class ReserveUpdateVO implements Serializable {
+public class ReserveUpdateEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_RESERVE")

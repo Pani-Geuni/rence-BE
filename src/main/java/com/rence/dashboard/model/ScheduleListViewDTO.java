@@ -7,6 +7,7 @@ package com.rence.dashboard.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Immutable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,25 +27,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name="ROOMINFO")
-public class RoomEntity implements Serializable{
+public class ScheduleListViewDTO implements Serializable{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_ROOM")
-	@SequenceGenerator(sequenceName = "SEQ_ROOM",allocationSize = 1,name = "SEQ_ROOM")
-	@Column(name="room_no")
 	private String room_no;
 	
-	@Column(name="room_type")
+	private String backoffice_no;
+	
 	private String room_type;
 	
-	@Column(name="room_name")
 	private String room_name;
 	
-	@Column(name="room_price")
-	private Integer room_price;
+	private Integer reserve_cnt;
 	
-	@Column(name="backoffice_no")
-	private String backoffice_no;
+	private Date reserve_stime;
+	
+	private Date reserve_etime;
+	
+	private String reserve_is;
+	
 }

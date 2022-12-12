@@ -93,11 +93,11 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeEntity, Ob
 
 	// 환경 설정
 	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")
-	public BackOfficeDTO backoffice_setting_selectOne(String backoffice_no);
+	public BackOfficeEntity backoffice_setting_selectOne(String backoffice_no);
 
 	// 환경설정 - 비밀번호 변경을 위한 기존 비밀번호 확인
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_no=?1")
-	public BackOfficeDTO backoffice_select_pw(String backoffice_no);
+	public BackOfficeEntity backoffice_select_pw(String backoffice_no);
 
 	// 업체 탈퇴 요청
 	@Modifying
@@ -117,7 +117,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeEntity, Ob
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_tag=:#{#vo?.backoffice_tag}, backoffice_info=:#{#vo?.backoffice_info}, backoffice_option=:#{#vo?.backoffice_option}, backoffice_around=:#{#vo?.backoffice_around}, backoffice_image=:#{#vo?.backoffice_image} where backoffice_no=:#{#vo?.backoffice_no}")
-	public int backoffice_updateOK_host(@Param("vo") BackOfficeDTO bvo);
+	public int backoffice_updateOK_host(@Param("vo") BackOfficeEntity bvo);
 	
 
 	

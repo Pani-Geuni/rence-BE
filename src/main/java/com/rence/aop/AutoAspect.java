@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.service.BackOfficeService;
-import com.rence.dashboard.model.ReserveUpdateVO;
+import com.rence.dashboard.model.ReserveUpdateDTO;
 import com.rence.dashboard.service.DashboardService;
 import com.rence.office.model.OfficeReserveVO;
 

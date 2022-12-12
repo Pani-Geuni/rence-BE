@@ -3,20 +3,20 @@ package com.rence.dashboard.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rence.dashboard.model.BOMileageVO;
+import com.rence.dashboard.model.BOMileageDTO;
+import com.rence.dashboard.model.BOMileageEntity;
 
-public interface SalesMileageRepository extends JpaRepository<BOMileageVO, Object> {
+public interface SalesMileageRepository extends JpaRepository<BOMileageEntity, Object> {
 
 	// 사용자가 가진 현재 마일리지 
 	@Query(nativeQuery = true, value = "select * from(select * from mileage where user_no=?1 order by rownum desc) where rownum = 1")
-	BOMileageVO backoffice_select_mileage_total(String user_no);
+	public BOMileageEntity backoffice_select_mileage_total(String user_no);
 
 	// 사용자가 사용한 마일리지
 	@Query(nativeQuery = true, value = "select * from mileage where user_no=?1 and payment_no=?2 and mileage_state = 'F'")
-	BOMileageVO backoffice_select_mileage_f(String user_no, String payment_no);
+	public BOMileageEntity backoffice_select_mileage_f(String user_no, String payment_no);
 
 	// 마일리지 적립 (정산 완료, 예약 취소)
 	@Modifying
@@ -26,7 +26,7 @@ public interface SalesMileageRepository extends JpaRepository<BOMileageVO, Objec
 	
 	// 적립 예정 마일리지
 	@Query(nativeQuery = true, value = "select * from mileage where user_no=?1 and payment_no=?2 and mileage_state = 'W'")
-	BOMileageVO backoffice_select_mileage_w(String user_no, String payment_no);
+	public BOMileageEntity backoffice_select_mileage_w(String user_no, String payment_no);
 
 	
 }

@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Immutable
 @Table(name="SCHEDULE_LIST_VIEW")
-public class ScheduleListView implements Serializable{
+public class ScheduleListViewEntity implements Serializable{
 
 	@Id
 	@Column(name="room_no")

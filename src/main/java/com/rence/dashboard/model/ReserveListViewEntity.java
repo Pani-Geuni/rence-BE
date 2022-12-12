@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Table(name="RESERVE_LIST_B_VIEW")
 @Slf4j
-public class ReserveListView {
+public class ReserveListViewEntity {
 	
 	@Id
 	@Column(name="reserve_no")
