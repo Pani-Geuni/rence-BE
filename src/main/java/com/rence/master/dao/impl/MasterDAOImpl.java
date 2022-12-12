@@ -5,6 +5,7 @@ package com.rence.master.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.rence.backoffice.model.BackOfficeListDTO;
 import com.rence.backoffice.model.BackOfficeListEntity;
 import com.rence.backoffice.repository.BackOfficeListRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.dashboard.model.RoomDTO;
 import com.rence.master.dao.MasterDAO;
 import com.rence.master.repository.MasterRepository;
 
@@ -51,9 +53,10 @@ public class MasterDAOImpl implements MasterDAO{
 		
 		List<BackOfficeListEntity> be =  b_list_repository.selectAll_backoffice_apply(start_row, end_row);
 		List<BackOfficeListDTO> bvos = new ArrayList<BackOfficeListDTO>();
-		for (BackOfficeListEntity backOfficeListEntity : be) {
-			BackOfficeListDTO bvo = modelMapper.map(backOfficeListEntity, BackOfficeListDTO.class);
-			bvos.add(bvo);
+		if (be!=null) {
+			bvos = be.stream().map(bvo -> modelMapper.map(bvo, BackOfficeListDTO.class)).collect(Collectors.toList());
+		}else {
+			bvos=null;
 		}
 
 		return bvos;
@@ -90,10 +93,12 @@ public class MasterDAOImpl implements MasterDAO{
 		Integer end_row = page * row_count;
 
 		List<BackOfficeListEntity> be =  b_list_repository.selectAll_backoffice_end(start_row, end_row);
+		
 		List<BackOfficeListDTO> bvos = new ArrayList<BackOfficeListDTO>();
-		for (BackOfficeListEntity backOfficeListEntity : be) {
-			BackOfficeListDTO bvo = modelMapper.map(backOfficeListEntity, BackOfficeListDTO.class);
-			bvos.add(bvo);
+		if (be!=null) {
+			bvos = be.stream().map(bvo -> modelMapper.map(bvo, BackOfficeListDTO.class)).collect(Collectors.toList());
+		}else {
+			bvos=null;
 		}
 
 		return bvos;
