@@ -59,4 +59,14 @@ public interface UserRepository extends JpaRepository<UserEntity, Object> {
 	@Query(nativeQuery = true, value = "update userinfo set user_pw=?1 where user_id=?2")
 	int user_pw_init(String user_pw, String user_id);
 
+	// 마이페이지 - 비밀번호 변경
+	@Transactional
+	@Modifying
+	@Query(nativeQuery = true, value = "update userinfo set user_pw= ?1 where user_no = ?2")
+	public int user_pw_updateOK(String user_pw, String user_no);
+
+	// 현재 비밀번호 확인
+	@Query(nativeQuery = true, value = "SELECT * from userinfo where user_no=?1")
+	UserEntity check_now_pw_selectOne(String user_no);
+
 }// end class

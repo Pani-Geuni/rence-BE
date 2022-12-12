@@ -1,4 +1,4 @@
-package com.rence.user.repository;
+package com.rence.user.dao;
 
 import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.UserDto;

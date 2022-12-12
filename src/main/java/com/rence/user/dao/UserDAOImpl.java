@@ -1,4 +1,4 @@
-package com.rence.user.repository;
+package com.rence.user.dao;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,8 @@ import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.model.AuthEntity;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
+import com.rence.user.repository.UserAuthRepository;
+import com.rence.user.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
