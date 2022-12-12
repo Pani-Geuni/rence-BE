@@ -8,7 +8,7 @@ import com.rence.user.model.UserDto;
 
 public interface UserFileuploadService {
 	
-	public UserDto FileuploadOK(UserDto vo, MultipartHttpServletRequest mtfRequest, MultipartFile multipartFile_user);
+	public UserDto FileuploadOK(UserDto udto, MultipartHttpServletRequest mtfRequest, MultipartFile multipartFile_user);
 
 	
 } //end class

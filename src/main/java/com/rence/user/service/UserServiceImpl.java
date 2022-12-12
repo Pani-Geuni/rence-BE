@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.AuthDTO;
+import com.rence.user.dao.UserDAO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserDto;
-import com.rence.user.repository.UserDAO;
 
 import lombok.extern.slf4j.Slf4j;
 
