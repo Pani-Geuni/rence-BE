@@ -9,15 +9,15 @@ import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.rence.backoffice.model.AuthDTO;
+import com.rence.backoffice.model.AuthEntity;
 
 
 
-public interface UserAuthRepository extends JpaRepository<AuthDTO, Object> {
+public interface UserAuthRepository extends JpaRepository<AuthEntity, Object> {
 
 	// auth테이블 정보 가져오기
 	@Query(nativeQuery = true, value = "select * from(select * from auth where user_email=?1 order by auth_no desc) where rownum <= 1")
-	public AuthDTO auth_select(String user_email);
+	public AuthEntity auth_select(String user_email);
 
 	// 인증번호 재전송 관련 테이블 컬럼 중복확인
 	@Query(nativeQuery = true, value = "select count(*) from auth where user_email=?1 order by auth_no desc")
@@ -35,7 +35,7 @@ public interface UserAuthRepository extends JpaRepository<AuthDTO, Object> {
 
 	// 인증번호 확인
 	@Query(nativeQuery = true, value = "select * from ( select * from (select * from auth where user_email=?1 order by auth_stime desc) where rownum between 1 and 1)where auth_code=?2")
-	public AuthDTO user_authOK_select(String user_email, String email_code);
+	public AuthEntity user_authOK_select(String user_email, String email_code);
 
 	// 인증완료후 인증정보 테이블에서 삭제
 	@Transactional
