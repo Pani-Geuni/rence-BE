@@ -55,8 +55,5 @@ public class UserEntity{
 	
 	@Column(name="user_state")	
 	private String user_state; //회원상태
-	
-	
 
-	
 }//end class
