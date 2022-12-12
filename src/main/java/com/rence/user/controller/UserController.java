@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Api(tags = "유저 컨트롤러")
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/rence")
 public class UserController {
 
@@ -43,7 +43,6 @@ public class UserController {
 	@Autowired
 	HttpSession session;
 
-	
 	@Autowired
 	UserSendEmail authSendEmail;
 
