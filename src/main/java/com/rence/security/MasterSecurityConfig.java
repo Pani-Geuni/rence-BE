@@ -47,22 +47,24 @@ public class MasterSecurityConfig {
 		http.authenticationProvider(authenticationProvider());
 
 		http
-		.authorizeRequests()
-				.antMatchers("/master/**").permitAll()
+//		.authorizeRequests()
+				.antMatcher("/master/**").authorizeRequests()
 //		.antMatchers("/master/login").permitAll()
 				.anyRequest().authenticated() // 요청 URL에 따라 접근 권한을 설정
 
 //		 .anyRequest()
 //		 .authenticated()
-				
+
 				.and().formLogin() // 로그인 폼은
 				.loginPage("/master/login") // 해당 주소로 로그인 페이지를 호출한다.
 				.loginProcessingUrl("/master/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
 				.successForwardUrl("/master/loginSuccess") // 성공시 요청을 처리할 핸들러
 				.failureForwardUrl("/master/loginFail") // 실패시 요청을 처리할 핸들러
 				.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/master/logout")) // 로그아웃
-																												// URL
-//				.logoutSuccessUrl("/master/login") // 성공시 리턴 URL
+
+				// URL
+				//.logoutSuccessUrl("/master/login") // 성공시 리턴 URL
+
 				.logoutSuccessUrl("/master/logoutOK") // 성공시 리턴 URL
 				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
 				.deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
