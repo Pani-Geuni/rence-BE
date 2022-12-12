@@ -1,6 +1,6 @@
 /**
  * @author 강경석
- * 이메일전송
+ * 
  */
 
 package com.rence.user.model;

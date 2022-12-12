@@ -1,3 +1,8 @@
+/**
+ * @author 강경석
+ * 
+ */
+
 package com.rence.user.model;
 
 import java.io.Serializable;
@@ -74,6 +79,4 @@ public class UserDto implements Serializable,UserDetails  {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
 }//end class
