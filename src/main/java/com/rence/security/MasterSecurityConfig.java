@@ -47,13 +47,14 @@ public class MasterSecurityConfig {
 		http.authenticationProvider(authenticationProvider());
 
 		http
-//		.authorizeRequests()
-				.antMatcher("/master/**").authorizeRequests()
+		.authorizeRequests()
+				.antMatchers("/master/**").permitAll()
 //		.antMatchers("/master/login").permitAll()
 				.anyRequest().authenticated() // 요청 URL에 따라 접근 권한을 설정
 
 //		 .anyRequest()
 //		 .authenticated()
+				
 				.and().formLogin() // 로그인 폼은
 				.loginPage("/master/login") // 해당 주소로 로그인 페이지를 호출한다.
 				.loginProcessingUrl("/master/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
