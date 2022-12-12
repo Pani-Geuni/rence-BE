@@ -23,11 +23,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.service.BackOfficeFileService;
 import com.rence.dashboard.model.CommentInsertVO;
-import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomDTO;
 import com.rence.dashboard.service.DashboardService;
 import com.rence.dashboard.service.HostPaymentCancelService;
 
@@ -101,7 +101,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "공간 추가 처리", notes = "대쉬보드 공간 관리 페이지")
 	@PostMapping("/insertOK_room")
-	public String backoffice_insertOK_room(RoomInsertVO rvo, String backoffice_no) {
+	public String backoffice_insertOK_room(RoomDTO rvo, String backoffice_no) {
 		
 		Map<String, String> map = service.backoffice_insertOK_room(rvo, backoffice_no);
 
@@ -131,7 +131,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "공간 수정 처리", notes = "대쉬보드 공간 관리 페이지")
 	@PostMapping("/updateOK_room")
-	public String backoffice_updateOK_room(RoomInsertVO rvo, String backoffice_no) {
+	public String backoffice_updateOK_room(RoomDTO rvo, String backoffice_no) {
 
 		Map<String, String> map = service.backoffice_updateOK_room(backoffice_no, rvo);
 

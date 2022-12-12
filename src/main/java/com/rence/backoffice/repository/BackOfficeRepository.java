@@ -89,7 +89,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeEntity, Ob
 	 */
 	// 공간 관리(추가) - 백오피스 타입
 	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")
-	public BackOfficeDTO select_one_backoffice_info(String backoffice_no);
+	public BackOfficeEntity select_one_backoffice_info(String backoffice_no);
 
 	// 환경 설정
 	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")

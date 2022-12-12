@@ -7,11 +7,11 @@ package com.rence.dashboard.service;
 
 import java.util.Map;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.ReserveUpdateVO;
-import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomDTO;
 
 public interface DashboardService {
 
@@ -21,11 +21,11 @@ public interface DashboardService {
 
 	public Map<String, Object> backoffice_insert_room(String backoffice_no);
 
-	public Map<String, String> backoffice_insertOK_room(RoomInsertVO rvo, String backoffice_no);
+	public Map<String, String> backoffice_insertOK_room(RoomDTO rvo, String backoffice_no);
 
 	public Map<String, Object> backoffice_update_room(String backoffice_no, String room_no);
 
-	public Map<String, String> backoffice_updateOK_room(String backoffice_no, RoomInsertVO rvo);
+	public Map<String, String> backoffice_updateOK_room(String backoffice_no, RoomDTO rvo);
 
 	public Map<String, String> backoffice_deleteOK_room(String backoffice_no, String room_no);
 

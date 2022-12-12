@@ -7,8 +7,8 @@ package com.rence.dashboard.dao;
 
 import java.util.List;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
@@ -19,9 +19,8 @@ import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryViewDTO;
 import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
-import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomDTO;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
-import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewVO;
@@ -40,15 +39,15 @@ public interface DashboardDAO {
 
 	public long dashboard_room_list_cnt(String backoffice_no);
 
-	public List<RoomVO> dashboard_room_list(String backoffice_no, Integer page);
+	public List<RoomDTO> dashboard_room_list(String backoffice_no, Integer page);
 
 	public BackOfficeDTO select_one_backoffice_info(String backoffice_no);
 
-	public int backoffice_insertOK_room(String backoffice_no, RoomInsertVO rvo);
+	public int backoffice_insertOK_room(String backoffice_no, RoomDTO rvo);
 
-	public RoomVO select_one_room_info(String backoffice_no, String room_no);
+	public RoomDTO select_one_room_info(String backoffice_no, String room_no);
 
-	public int backoffice_updateOK_room(String backoffice_no, RoomInsertVO rvo);
+	public int backoffice_updateOK_room(String backoffice_no, RoomDTO rvo);
 
 	public void backoffice_deleteOK_room(String backoffice_no, String room_no);
 
@@ -118,7 +117,7 @@ public interface DashboardDAO {
 
 	public List<ScheduleEntity> backoffice_schedule_calendar(String backoffice_no);
 
-	public RoomInsertVO backoffice_schedule_calendar_room_name(String room_no);
+	public RoomDTO backoffice_schedule_calendar_room_name(String room_no);
 
 	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no);
 
