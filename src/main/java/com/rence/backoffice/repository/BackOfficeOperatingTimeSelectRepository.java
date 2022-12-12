@@ -8,9 +8,11 @@ package com.rence.backoffice.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
+import com.rence.backoffice.model.BackOfficeEntity;
+import com.rence.backoffice.model.BackOfficeOperatingTimeEntity;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 
-public interface BackOfficeOperatingTimeSelectRepository extends JpaRepository<BackOfficeOperatingTimeVO, Object> {
+public interface BackOfficeOperatingTimeSelectRepository extends JpaRepository<BackOfficeOperatingTimeEntity, Object> {
 
 	@Query(nativeQuery = true, value = "select opetime_no,"
 			+ "TO_CHAR(mon_stime,'HH24:MI') mon_stime,TO_CHAR(mon_etime,'HH24:MI') mon_etime,TO_CHAR(tue_stime,'HH24:MI') tue_stime,TO_CHAR(tue_etime,'HH24:MI') tue_etime,"
@@ -19,7 +21,7 @@ public interface BackOfficeOperatingTimeSelectRepository extends JpaRepository<B
 			+ "TO_CHAR(sat_stime,'HH24:MI') sat_stime,TO_CHAR(sat_etime,'HH24:MI') sat_etime,TO_CHAR(sun_stime,'HH24:MI') sun_stime,TO_CHAR(sun_etime,'HH24:MI') sun_etime,"
 			+ "backoffice_no, mon_dayoff, tue_dayoff, wed_dayoff, thu_dayoff, fri_dayoff, sat_dayoff, sun_dayoff"
 			+ " from backofficeoperatingtime where backoffice_no=?1")
-	public BackOfficeOperatingTimeVO backoffice_setting_selectOne_operatingtime(String backoffice_no);
+	public BackOfficeOperatingTimeEntity backoffice_setting_selectOne_operatingtime(String backoffice_no);
 
 	
 }
