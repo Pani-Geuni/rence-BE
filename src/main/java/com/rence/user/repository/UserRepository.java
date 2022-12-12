@@ -11,7 +11,7 @@ import com.rence.user.model.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Object> {
 
 	// spring security - 회원정보
-	@Query(nativeQuery = true, value = "select * from userinfo where user_id=?1 and user_state !='N'")
+	@Query(nativeQuery = true, value = "select * from userinfo where user_id=?1 and user_state =='Y'")
 	UserEntity findByUser_email(String user_id);
 
 	// 로그인

@@ -1,14 +1,14 @@
 package com.rence.user.service;
-//package com.rence.user.controller;
-//
-//import org.springframework.web.multipart.MultipartFile;
-//import org.springframework.web.multipart.MultipartHttpServletRequest;
-//
-//import com.rence.user.model.UserVO;
-//
-//public interface UserFileuploadService {
-//	
-//	public UserVO FileuploadOK(UserVO vo, MultipartHttpServletRequest mtfRequest, MultipartFile multipartFile_user);
-//
-//	
-//} //end class
+
+
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.rence.user.model.UserDto;
+
+public interface UserFileuploadService {
+	
+	public UserDto FileuploadOK(UserDto vo, MultipartHttpServletRequest mtfRequest, MultipartFile multipartFile_user);
+
+	
+} //end class
