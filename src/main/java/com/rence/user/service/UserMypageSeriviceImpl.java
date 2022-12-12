@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.rence.user.controller.OfficeInfoMap;
-import com.rence.user.dao.UserDAO;
 import com.rence.user.model.MyPageReserveListDto;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserMypageDto;
@@ -204,24 +202,24 @@ public class UserMypageSeriviceImpl implements UserMypageSerivice {
 		// 페이징처리를 위한 페이지 계산 로직끝
 
 		if (time_point.equals("now")) {
-			list = dao.select_all_now_reserve_list_paging(user_no, page);
+//			list = dao.select_all_now_reserve_list_paging(user_no, page);
 			map.put("type", "now");
 
 		} else if (time_point.equals("before")) {
-			list = dao.select_all_before_reserve_list_paging(user_no, page);
+//			list = dao.select_all_before_reserve_list_paging(user_no, page);
 			map.put("type", "before");
 		}
 		if (list == null) {
 			map.put("cnt", 0);
 		} else {
 			map.put("cnt", list.size());
-			OfficeInfoMap info_map = new OfficeInfoMap();
+//			OfficeInfoMap info_map = new OfficeInfoMap();
 
 			// 대표 이미지 1장 처리
 			for (MyPageReserveListDto vo : list) {
-				List<String> splitImage = info_map.splitImage(vo.getBackoffice_image());
-				String room_first_image = splitImage.get(0);
-				vo.setBackoffice_image(room_first_image);
+//				List<String> splitImage = info_map.splitImage(vo.getBackoffice_image());
+//				String room_first_image = splitImage.get(0);
+//				vo.setBackoffice_image(room_first_image);
 			}
 		}
 
@@ -237,9 +235,10 @@ public class UserMypageSeriviceImpl implements UserMypageSerivice {
 			
 
 		log.info("reserve_list : {}", map);
+		return map;
 
-		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve_list");
-		model.addAttribute("title", "현재예약리스트");
+//		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve_list");
+//		model.addAttribute("title", "현재예약리스트");
 	}
 	
 	
