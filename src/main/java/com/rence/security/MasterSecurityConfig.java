@@ -60,9 +60,10 @@ public class MasterSecurityConfig {
 				.loginProcessingUrl("/master/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
 				.successForwardUrl("/master/loginSuccess") // 성공시 요청을 처리할 핸들러
 				.failureForwardUrl("/master/loginFail") // 실패시 요청을 처리할 핸들러
-				.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/master/logoutOK")) // 로그아웃
+				.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/master/logout")) // 로그아웃
 																												// URL
-				.logoutSuccessUrl("/master/login") // 성공시 리턴 URL
+//				.logoutSuccessUrl("/master/login") // 성공시 리턴 URL
+				.logoutSuccessUrl("/master/logoutOK") // 성공시 리턴 URL
 				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
 				.deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
 				.permitAll();
