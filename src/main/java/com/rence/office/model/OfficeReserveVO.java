@@ -56,4 +56,5 @@ public class OfficeReserveVO {
 	private String room_type;
 	
 	
+	
 }
