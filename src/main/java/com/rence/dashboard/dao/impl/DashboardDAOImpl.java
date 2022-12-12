@@ -27,12 +27,13 @@ import com.rence.backoffice.repository.BackOfficeRepository;
 import com.rence.dashboard.dao.DashboardDAO;
 import com.rence.dashboard.model.BOMileageVO;
 import com.rence.dashboard.model.BOPaymentVO;
-import com.rence.dashboard.model.CommentInsertVO;
-import com.rence.dashboard.model.CommentListAView;
-import com.rence.dashboard.model.CommentListQView;
+import com.rence.dashboard.model.CommentEntity;
+import com.rence.dashboard.model.CommentListAViewEntity;
+import com.rence.dashboard.model.CommentListQViewDTO;
+import com.rence.dashboard.model.CommentListQViewEntity;
 import com.rence.dashboard.model.CommentSummaryViewDTO;
 import com.rence.dashboard.model.CommentSummaryViewEntity;
-import com.rence.dashboard.model.CommentVO;
+import com.rence.dashboard.model.CommentDTO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryViewDTO;
@@ -48,7 +49,6 @@ import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
 import com.rence.dashboard.repository.CommentAListRepository;
-import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.CommentSummaryRepository;
@@ -90,9 +90,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 	@Autowired
 	CommentSummaryRepository c_summary_repository;
-
-	@Autowired
-	CommentInsertRepository c_insert_repository;
 
 	@Autowired
 	ReviewRepository r_repository;
@@ -341,7 +338,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 공간관리 -문의(리스트)
 	 */
 	@Override
-	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no, Integer page) {
+	public List<CommentListQViewDTO> backoffice_qna_selectAll(String backoffice_no, Integer page) {
 		log.info("backoffice_qna_selectAll().....");
 		log.info("currentpage:{}", page);
 
@@ -349,16 +346,18 @@ public class DashboardDAOImpl implements DashboardDAO {
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
 
-		List<CommentListQView> qvos = cq_repository.select_all_q(backoffice_no, start_row, end_row);
+		List<CommentListQViewEntity> qes = cq_repository.select_all_q(backoffice_no, start_row, end_row);
+		List<CommentListQViewDTO> qvos = qes.stream().map(qvo -> modelMapper.map(qvo, CommentListQViewDTO.class)).collect(Collectors.toList());
+		
 		log.info("Question:{}", qvos);
 		log.info("Question::::{}", qvos.size());
 		if (qvos != null) {
 			for (int i = 0; i < qvos.size(); i++) {
-				CommentListAView ca_vo = new CommentListAView();
-				ca_vo.setMother_no(qvos.get(i).getComment_no());
-				String mother_no = ca_vo.getMother_no();
-				log.info("mother_no::::{}", mother_no);
-				List<CommentListAView> avos = ca_repository.select_all_a(backoffice_no, mother_no);
+//				CommentListAView ca_vo = new CommentListAView();
+//				ca_vo.setMother_no(qvos.get(i).getComment_no());
+//				String mother_no = ca_vo.getMother_no();
+//				log.info("mother_no::::{}", mother_no);
+				List<CommentListAViewEntity> avos = ca_repository.select_all_a(backoffice_no, qvos.get(i).getComment_no());
 				log.info("Answer:{}", avos);
 
 				if (avos != null) {
@@ -381,16 +380,33 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 공간관리 - 답변 작성 팝업
 	 */
 	@Override
-	public CommentVO backoffice_insert_comment(String backoffice_no, String room_no, String comment_no) {
-		return c_repository.backoffice_insert_comment(backoffice_no, room_no, comment_no);
+	public CommentDTO backoffice_insert_comment(String backoffice_no, String room_no, String comment_no) {
+		
+		CommentEntity ce = c_repository.backoffice_insert_comment(backoffice_no, room_no, comment_no);
+		CommentDTO cvo = modelMapper.map(ce, CommentDTO.class);
+		
+		return cvo;
 	}
 
 	/**
 	 * 공간관리 - 답변 작성
 	 */
 	@Override
-	public int backoffice_insertOK_comment(CommentInsertVO cvo) {
-		return c_insert_repository.backoffice_insertOK_comment(cvo, cvo.getComment_date());
+	public int backoffice_insertOK_comment(CommentDTO cvo, String backoffice_no, String comment_no) {
+		
+		log.info("comment_content::{}",comment_no);
+		
+		CommentEntity ce = modelMapper.map(cvo, CommentEntity.class);
+		
+		ce.setMother_no(comment_no);
+		ce.setBackoffice_no(backoffice_no);
+		ce.setHost_no(backoffice_no);
+		ce.setWriter("관리자");
+		ce.setComment_state("T");
+		ce.setComment_date(new Date());
+		log.info("comment::{}",ce);
+		
+		return c_repository.backoffice_insertOK_comment(ce);
 	}
 
 	/**
@@ -398,7 +414,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public int update_comment_state_T(String backoffice_no, String comment_no) {
-		return c_insert_repository.update_comment_state_T(backoffice_no, comment_no);
+		return c_repository.update_comment_state_T(backoffice_no, comment_no);
 	}
 
 	/**
@@ -406,7 +422,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public int backoffice_deleteOK_comment(String backoffice_no, String comment_no) {
-		return c_insert_repository.backoffice_deleteOK_comment(backoffice_no, comment_no);
+		return c_repository.backoffice_deleteOK_comment(backoffice_no, comment_no);
 	}
 
 	/**
@@ -414,7 +430,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public int update_comment_state_F(String backoffice_no, String mother_no) {
-		return c_insert_repository.update_comment_state_F(backoffice_no, mother_no);
+		return c_repository.update_comment_state_F(backoffice_no, mother_no);
 	}
 
 	/**

@@ -26,7 +26,7 @@ import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.service.BackOfficeFileService;
-import com.rence.dashboard.model.CommentInsertVO;
+import com.rence.dashboard.model.CommentDTO;
 import com.rence.dashboard.model.RoomDTO;
 import com.rence.dashboard.service.DashboardService;
 import com.rence.dashboard.service.HostPaymentCancelService;
@@ -191,7 +191,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "답변 작성 처리", notes = "대쉬보드 공간 관리 페이지 - 문의(답변)")
 	@PostMapping("/insertOK_comment")
-	public String backoffice_insertOK_comment(String backoffice_no, CommentInsertVO cvo, String comment_no) {
+	public String backoffice_insertOK_comment(String backoffice_no, CommentDTO cvo, String comment_no) {
 
 		Map<String, String> map = service.backoffice_insertOK_comment(backoffice_no, cvo, comment_no);
 

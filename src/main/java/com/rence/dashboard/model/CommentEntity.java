@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name="COMMENTS")
 @Slf4j
-public class CommentInsertVO implements Serializable{
+public class CommentEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_COMMENTS")

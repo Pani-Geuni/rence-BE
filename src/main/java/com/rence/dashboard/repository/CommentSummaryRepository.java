@@ -20,7 +20,7 @@ public interface CommentSummaryRepository extends JpaRepository<CommentSummaryVi
 
 }
 
-//****CommentSummaryViewEntity view 코드****
+//****[CommentSummaryViewEntity] view code****
 //select c.comment_no, rm.room_name,TO_CHAR(c.comment_date, 'YYYY-MM-DD HH24:MI:SS') as comment_date, c.comment_content, c.backoffice_no
 //from comments c, roominfo rm 
 //where c.room_no=rm.room_no and c.host_no is null and comment_no not in (select mother_no from comments where mother_no is not null) 
