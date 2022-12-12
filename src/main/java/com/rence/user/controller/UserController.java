@@ -45,6 +45,7 @@ public class UserController {
 	@Autowired
 	HttpSession session;
 
+	
 	@Autowired
 	UserSendEmail authSendEmail;
 
