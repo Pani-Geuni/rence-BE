@@ -70,7 +70,7 @@ public class UserController {
 		map.put("result", "1"); // 로그인 성공
 
 		map.put("user_id", user_id);
-		map.put("user_no", username);
+		map.put("user_no", user_no);
 		map.put("user_image", user_image);
 
 		String jsonObject = gson.toJson(map);
