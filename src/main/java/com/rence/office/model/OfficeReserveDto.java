@@ -15,14 +15,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Table(name="RESERVEINFO")
-public class OfficeReserveVO {
+public class OfficeReserveDto {
 	
 	@Id
 	@Column(name="reserve_no")
