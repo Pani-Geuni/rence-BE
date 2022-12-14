@@ -137,9 +137,11 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 로그인 성공 처리
 	 */
 	@Override
-	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response, HttpSession session) {
+	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response) {
 
+		log.info(username);
 		BackOfficeDTO bvo = dao.backoffice_login_info(username);
+		log.info("bvo::{}",bvo);
 
 		Map<String, String> map = new HashMap<String, String>();
 

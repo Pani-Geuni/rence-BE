@@ -24,7 +24,7 @@ public interface BackOfficeService {
 
 	public Map<String, String> backoffice_authOK(String backoffice_email, String auth_code);
 
-	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response, HttpSession session);
+	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response);
 
 	public Map<String, String> backoffice_reset_pw(BackOfficeDTO bvo, EmailVO evo);
 

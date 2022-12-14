@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @Api(tags = "대쉬보드 컨트롤러")
-@RequestMapping("/backoffice")
+@RequestMapping("/backoffice/dash")
 public class DashboardController {
 
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
