@@ -60,15 +60,16 @@ public class UserController {
 		
 		Map<String, String> map = new HashMap<String, String>();
 
-		UserDto udto = service.user_login_info(username);
-
-		session.setAttribute("user_id", udto.getUser_id());
+		UserDto udto = service.user_login_info(username);	
 		
+		String user_id = udto.getUser_id();
 		String user_no = udto.getUser_no();
 		String user_image = udto.getUser_image();
 		
 		log.info("User Login success.....");
 		map.put("result", "1"); // 로그인 성공
+
+		map.put("user_id", user_id);
 		map.put("user_no", username);
 		map.put("user_image", user_image);
 
