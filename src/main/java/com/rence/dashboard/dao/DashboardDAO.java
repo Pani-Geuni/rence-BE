@@ -100,7 +100,7 @@ public interface DashboardDAO {
 	public int backoffice_updateOK_opt(BackOfficeOperatingTimeDTO ovo);
 
 	public List<ScheduleListViewDTO> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String off_type);
+			String not_stime, String not_etime, String off_type, int min, int max);
 
 	public int backoffice_schedueOK(String backoffice_no, String not_s, String not_e, String room_no);
 
@@ -125,6 +125,8 @@ public interface DashboardDAO {
 	public ReserveUpdateDTO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no);
 
 	public void reserve_auto_delete(String reserve_no);
+
+	public int backoffice_room_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type);
 
 
 }

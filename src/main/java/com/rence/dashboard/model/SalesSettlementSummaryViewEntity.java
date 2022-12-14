@@ -29,14 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SalesSettlementSummaryViewEntity implements Serializable{
 	
-//	@Transient
-//	@Column(name="sales_income")
-//	private String sales_income;
-	
 	@Id
 	@Column(name="sales_total")
-	private String sales_total;
+	private Integer sales_total;
 	
 	@Column(name="sales_cancel")
-	private String sales_cancel;
+	private Integer sales_cancel;
 }

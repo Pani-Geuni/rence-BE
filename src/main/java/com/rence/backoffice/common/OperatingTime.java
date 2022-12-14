@@ -19,9 +19,6 @@ import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 @Component
 public class OperatingTime {
 	
-	private static final Logger logger = LoggerFactory.getLogger(OperatingTime.class);
-
-
 	public BackOfficeOperatingTimeEntity operatingTime(BackOfficeOperatingTimeDTO ovo) {
 		
 		BackOfficeOperatingTimeEntity ovo2 = new BackOfficeOperatingTimeEntity();
@@ -110,13 +107,11 @@ public class OperatingTime {
 		ovo2.setSat_dayoff(ovo.getSat_dayoff());
 		if (ovo2.getSat_dayoff()==null) {
 			ovo2.setSat_dayoff("F");
-			
 		}
 		ovo2.setSun_dayoff(ovo.getSun_dayoff());
 		if (ovo2.getSun_dayoff()==null) {
 			ovo2.setSun_dayoff("F");
 		}
-		
 		 
 		return ovo2;
 		
