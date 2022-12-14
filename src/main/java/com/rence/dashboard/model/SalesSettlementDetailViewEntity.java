@@ -30,9 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SalesSettlementDetailViewEntity implements Serializable{
 
-	@Transient
-	@Column(name="sales_income")
-	private String sales_income;
+//	@Transient
+//	@Column(name="sales_income")
+//	private String sales_income;
 	
 	@Id
 	@Column(name="sales_total")
@@ -41,9 +41,9 @@ public class SalesSettlementDetailViewEntity implements Serializable{
 	@Column(name="sales_cancel")
 	private Integer sales_cancel;
 	
-	@Transient
-	@Column(name="pre_sales_income")
-	private String pre_sales_income;
+//	@Transient
+//	@Column(name="pre_sales_income")
+//	private String pre_sales_income;
 	
 	@Column(name="pre_sales_total")
 	private Integer pre_sales_total;
@@ -51,7 +51,7 @@ public class SalesSettlementDetailViewEntity implements Serializable{
 	@Column(name="pre_sales_cancel")
 	private Integer pre_sales_cancel;
 	
-	@Transient
-	@Column(name="sales_gap")
-	private String sales_gap;
+//	@Transient
+//	@Column(name="sales_gap")
+//	private String sales_gap;
 }

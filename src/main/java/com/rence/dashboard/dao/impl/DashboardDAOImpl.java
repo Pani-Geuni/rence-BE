@@ -51,6 +51,7 @@ import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementDetailViewDTO;
 import com.rence.dashboard.model.SalesSettlementDetailViewEntity;
 import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
+import com.rence.dashboard.model.SalesSettlementSummaryViewEntity;
 import com.rence.dashboard.model.SalesSettlementViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewEntity;
 import com.rence.dashboard.model.ScheduleDTO;
@@ -184,27 +185,14 @@ public class DashboardDAOImpl implements DashboardDAO {
 	public SalesSettlementSummaryViewDTO payment_summary_selectOne(String backoffice_no) {
 
 		SalesSettlementSummaryViewDTO ss = new SalesSettlementSummaryViewDTO();
+		SalesSettlementSummaryViewEntity ss_entity = new SalesSettlementSummaryViewEntity();
+		
+		ss_entity = ss_summary_repository.select_pay_day_sum(backoffice_no);
 
-		Integer pay_before_desk_meeting = ss_summary_repository.select_pay_before_desk_meeting_sum(backoffice_no);
-		Integer pay_after_desk_meeting_deposit = ss_summary_repository
-				.select_pay_after_desk_meeting_deposit_sum(backoffice_no);
-		Integer pay_after_desk_meeting_balance = ss_summary_repository
-				.select_pay_after_desk_meeting_balance_sum(backoffice_no);
-		Integer pay_office = ss_summary_repository.select_pay_office_sum(backoffice_no);
-
-		int sales_total = pay_before_desk_meeting + pay_after_desk_meeting_deposit + pay_after_desk_meeting_balance
-				+ pay_office;
-
-		ss.setSales_total(String.valueOf(sales_total));
-
-		Integer pay_cancel = ss_summary_repository.select_pay_cancel(backoffice_no);
-
-		int sales_cancel = pay_cancel;
-
-		ss.setSales_cancel(String.valueOf(sales_cancel));
-
-		ss.setSales_income(String.valueOf(sales_total - sales_cancel));
-
+		ss = modelMapper.map(ss_entity, SalesSettlementSummaryViewDTO.class);
+		
+		ss.setSales_income(String.valueOf(ss_entity.getSales_total() - ss_entity.getSales_cancel()));
+		
 		return ss;
 	}
 
@@ -248,14 +236,10 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public List<RoomDTO> dashboard_room_list(String backoffice_no, Integer page) {
-		log.info("reserve_summary_selectAll().....");
-		log.info("current page: {}", page);
 
 		Integer row_count = 12;
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		log.info("start_row: " + start_row);
-		log.info("end_row: " + end_row);
 
 		List<RoomEntity> re = rm_repository.selectAll_room_list(backoffice_no, start_row, end_row);
 		
@@ -348,8 +332,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public List<CommentListQViewDTO> backoffice_qna_selectAll(String backoffice_no, Integer page) {
-		log.info("backoffice_qna_selectAll().....");
-		log.info("currentpage:{}", page);
 
 		Integer row_count = 10;
 		Integer start_row = (page - 1) * row_count + 1;
@@ -399,8 +381,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 	@Override
 	public int backoffice_insertOK_comment(CommentDTO cvo, String backoffice_no, String comment_no) {
 		
-		log.info("comment_content::{}",comment_no);
-		
 		CommentEntity ce = modelMapper.map(cvo, CommentEntity.class);
 		
 		ce.setMother_no(comment_no);
@@ -409,7 +389,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 		ce.setWriter("관리자");
 		ce.setComment_state("T");
 		ce.setComment_date(new Date());
-		log.info("comment::{}",ce);
 		
 		return c_repository.backoffice_insertOK_comment(ce);
 	}
@@ -443,8 +422,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public List<ReviewListViewDTO> backoffice_review_selectAll(String backoffice_no, Integer page) {
-		log.info("backoffice_review_selectAll().....");
-		log.info("currentpage:{}", page);
 
 		Integer row_count = 6;
 		Integer start_row = (page - 1) * row_count + 1;
@@ -462,10 +439,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 	@Override
 	public List<ReserveListViewDTO> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, int start_row,
 			int end_row) {
-		log.info("backoffice_reserve_selectAll().....");
-		log.info("reserve_state: {}.....", reserve_state);
-		log.info("start_row: {}.....", start_row);
-		log.info("end_row: {}.....", end_row);
 
 		List<ReserveListViewEntity> reserve = new ArrayList<ReserveListViewEntity>();
 		if (reserve_state.equals("all")) {
@@ -489,10 +462,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 	@Override
 	public List<ReserveListViewDTO> backoffice_search_reserve(String backoffice_no, String searchword,
 			String reserve_state, int start_row, int end_row) {
-		log.info("reserve_state: {}.....", reserve_state);
-		log.info("start_row: {}.....", start_row);
-		log.info("end_row: {}.....", end_row);
-		log.info("searchword: {}.....", searchword);
 
 		List<ReserveListViewEntity> reserve = new ArrayList<ReserveListViewEntity>();
 		
@@ -526,7 +495,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 		SalesSettlementDetailViewEntity ss_entity = new SalesSettlementDetailViewEntity();
 		
-		
 		if (sales_date.equals("day")) {
 			ss_entity = s_detail_repository.select_pay_day_sum(backoffice_no);
 		} else if (sales_date.equals("week")) {
@@ -546,8 +514,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 		// 순수익 차액
 		ss.setSales_gap(String.valueOf((ss_entity.getSales_total() - ss_entity.getSales_cancel()) - (ss_entity.getPre_sales_total() - ss_entity.getPre_sales_cancel())));
 		
-		log.info("ss::{}",ss);
-		
 		return ss;
 	}
 
@@ -556,14 +522,10 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public List<SalesSettlementViewDTO> backoffice_sales_selectAll(String backoffice_no, Integer page) {
-		log.info("backoffice_sales_selectAll().....");
-		log.info("current page: {}", page);
 
 		Integer row_count = 8;
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		log.info("start_row: " + start_row);
-		log.info("end_row: " + end_row);
 		
 		List<SalesSettlementViewEntity> se = s_repository.backoffice_sales_selectAll(backoffice_no,start_row, end_row);
 		
@@ -669,7 +631,9 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public int backoffice_updateOK_opt(BackOfficeOperatingTimeDTO ovo) {
+		
 		BackOfficeOperatingTimeEntity ovo2 = operatingTime.operatingTime(ovo);
+		
 		return o_repository.backoffice_updateOK_opt(ovo2);
 	}
 
@@ -677,8 +641,8 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 일정 관리 - 날짜, 시간 선택 후
 	 */
 	@Override
-	public List<ScheduleListViewDTO> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String off_type) {
+	public List<ScheduleListViewDTO> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type) {
+		
 		ScheduleListViewDTO sc = new ScheduleListViewDTO();
 
 		// 1, 2 날짜 형태 변환
@@ -788,10 +752,11 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트
 	 */
 	@Override
-	public List<ReservationViewDTO> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String room_no, String off_type, int min, int max) {
+	public List<ReservationViewDTO> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String room_no, String off_type, int min, int max) {
+		
 		String reserve_stime = null;
 		String reserve_etime = null;
+		
 		if (off_type.equals("dayoff")) { // 휴무일 때
 			log.info("휴무");
 
@@ -827,9 +792,11 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public BOPaymentDTO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no) {
+		
 		int flag = reserveAutoUpdateRepository.update_reserve_state_cancel(reserve_no);
 		BOPaymentDTO pvo = new BOPaymentDTO();
-		// 결제 취소,
+		
+		// 결제 취소,=
 		if (flag == 1) {
 			// 결제정보 테이블의 상태 'C' 로 변경
 			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 = 환불일시
@@ -845,9 +812,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 				int mileage_total = mvo.getMileage_total() + mileage_change; // 1 + 2
 
 				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지
-																													// 재적립
 			}
-
 			s_repository.backoffice_update_cancel_mileage_state_c(reserve_no); // w 상태의 마일리지 -> c 상태로 변경
 		}
 		return pvo;
@@ -861,6 +826,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	public BackOfficeDTO backoffice_select_companyname(String backoffice_no) {
 
 		BackOfficeEntity be = b_repository.select_one_backoffice_info(backoffice_no);
+		
 		BackOfficeDTO bvo = modelMapper.map(be, BackOfficeDTO.class);
 
 		return bvo;
@@ -949,15 +915,13 @@ public class DashboardDAOImpl implements DashboardDAO {
 			log.info("reserve_etime : {} ", reserve_etime);
 		}
 
-		int total_cnt = reservation_repository.backoffice_reservation_list_cnt(backoffice_no, reserve_stime,
-				reserve_etime, room_no);
+		int total_cnt = reservation_repository.backoffice_reservation_list_cnt(backoffice_no, reserve_stime, reserve_etime, room_no);
+		
 		return total_cnt;
 	}
 
 	// 예약 관리 리스트
 	public int backoffice_reserve_selectAll_cnt(String backoffice_no, String reserve_state) {
-		log.info("backoffice_reserve_selectAll_cnt().....");
-		log.info("reserve_state: {}.....", reserve_state);
 
 		int total_cnt = 0;
 
@@ -987,7 +951,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 		} else if (reserve_state.equals("cancel")) {
 			total_cnt = rv_repository.backoffice_reserve_selectAll_cancel_search(backoffice_no, "%" + searchword + "%");
 		}
-		log.info("total_cnt:::::{}", total_cnt);
 
 		return total_cnt;
 	}
@@ -1014,11 +977,11 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 		for (ReserveUpdateDTO rvo : rvs) {
 
-//					log.info("현재 날짜 및 시간 : {}", ss);
+//			log.info("현재 날짜 및 시간 : {}", ss);
 			Date stime = rvo.getReserve_stime();
-//					log.info("에약 시작 날짜 및 시간 : {}", stime);
+//			log.info("에약 시작 날짜 및 시간 : {}", stime);
 			Date etime = rvo.getReserve_etime();
-//					log.info("예약 종료 날짜 및 시간 : {}", etime);
+//			log.info("예약 종료 날짜 및 시간 : {}", etime);
 
 			int start = stime.compareTo(sysdate);
 			int end = etime.compareTo(sysdate);
@@ -1040,7 +1003,9 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public ReserveUpdateDTO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no) {
+		
 		ReserveUpdateEntity rv = reserveAutoUpdateRepository.select_one_false_reserve(reserve_stime, reserve_etime, room_no);
+		
 		ReserveUpdateDTO rvo = modelMapper.map(rv, ReserveUpdateDTO.class);
 		
 		return rvo;
@@ -1053,7 +1018,9 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public void reserve_auto_delete(String reserve_no) {
+		
 		reserveAutoUpdateRepository.reserve_auto_delete(reserve_no);
+		
 	}
 
 }
