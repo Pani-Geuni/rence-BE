@@ -49,6 +49,7 @@ import com.rence.dashboard.model.RoomDTO;
 import com.rence.dashboard.model.RoomEntity;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementDetailViewDTO;
+import com.rence.dashboard.model.SalesSettlementDetailViewEntity;
 import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewDTO;
 import com.rence.dashboard.model.SalesSettlementViewEntity;
@@ -520,146 +521,33 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public SalesSettlementDetailViewDTO backoffice_sales_selectOne(String backoffice_no, String sales_date) {
+		
 		SalesSettlementDetailViewDTO ss = new SalesSettlementDetailViewDTO();
 
+		SalesSettlementDetailViewEntity ss_entity = new SalesSettlementDetailViewEntity();
+		
+		
 		if (sales_date.equals("day")) {
-			// 금일
-			Integer pay_before_desk_meeting = s_detail_repository.select_pay_before_desk_meeting_sum(backoffice_no);
-			Integer pay_after_desk_meeting_deposit = s_detail_repository
-					.select_pay_after_desk_meeting_deposit_sum(backoffice_no);
-			Integer pay_after_desk_meeting_balance = s_detail_repository
-					.select_pay_after_desk_meeting_balance_sum(backoffice_no);
-			Integer pay_office = s_detail_repository.select_pay_office_sum(backoffice_no);
-
-			int sales_total = pay_before_desk_meeting + pay_after_desk_meeting_deposit + pay_after_desk_meeting_balance
-					+ pay_office;
-
-			ss.setSales_total(String.valueOf(sales_total));
-
-			Integer pay_cancel = s_detail_repository.select_pay_cancel(backoffice_no);
-
-			int sales_cancel = pay_cancel;
-
-			ss.setSales_cancel(String.valueOf(sales_cancel));
-
-			ss.setSales_income(String.valueOf(sales_total - sales_cancel));
-
-			// 전일
-			Integer pay_before_desk_meeting_pre = s_detail_repository
-					.select_pay_before_desk_meeting_sum_pre(backoffice_no);
-			Integer pay_after_desk_meeting_deposit_pre = s_detail_repository
-					.select_pay_after_desk_meeting_deposit_sum_pre(backoffice_no);
-			Integer pay_after_desk_meeting_balance_pre = s_detail_repository
-					.select_pay_after_desk_meeting_balance_sum_pre(backoffice_no);
-			Integer pay_office_pre = s_detail_repository.select_pay_office_sum_pre(backoffice_no);
-
-			int pre_sales_total = pay_before_desk_meeting_pre + pay_after_desk_meeting_deposit_pre
-					+ pay_after_desk_meeting_balance_pre + pay_office_pre;
-
-			ss.setPre_sales_total(String.valueOf(pre_sales_total));
-
-			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre(backoffice_no);
-
-			int pre_sales_cancel = pre_pay_cancel;
-
-			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
-
-			ss.setPre_sales_income(String.valueOf(pre_sales_total - pre_sales_cancel));
-
-			ss.setSales_gap(String.valueOf((sales_total - sales_cancel) - (pre_sales_total - pre_sales_cancel)));
+			ss_entity = s_detail_repository.select_pay_day_sum(backoffice_no);
 		} else if (sales_date.equals("week")) {
-			// 금주
-			Integer pay_before_desk_meeting = s_detail_repository
-					.select_pay_before_desk_meeting_sum_week(backoffice_no);
-			Integer pay_after_desk_meeting_deposit = s_detail_repository
-					.select_pay_after_desk_meeting_deposit_sum_week(backoffice_no);
-			Integer pay_after_desk_meeting_balance = s_detail_repository
-					.select_pay_after_desk_meeting_balance_sum_week(backoffice_no);
-			Integer pay_office = s_detail_repository.select_pay_office_sum_week(backoffice_no);
-
-			int sales_total = pay_before_desk_meeting + pay_after_desk_meeting_deposit + pay_after_desk_meeting_balance
-					+ pay_office;
-
-			ss.setSales_total(String.valueOf(sales_total));
-
-			Integer pay_cancel = s_detail_repository.select_pay_cancel_week(backoffice_no);
-
-			int sales_cancel = pay_cancel;
-
-			ss.setSales_cancel(String.valueOf(sales_cancel));
-
-			ss.setSales_income(String.valueOf(sales_total - sales_cancel));
-
-			// 전주
-			Integer pay_before_desk_meeting_pre = s_detail_repository
-					.select_pay_before_desk_meeting_sum_pre_week(backoffice_no);
-			Integer pay_after_desk_meeting_deposit_pre = s_detail_repository
-					.select_pay_after_desk_meeting_deposit_sum_pre_week(backoffice_no);
-			Integer pay_after_desk_meeting_balance_pre = s_detail_repository
-					.select_pay_after_desk_meeting_balance_sum_pre_week(backoffice_no);
-			Integer pay_office_pre = s_detail_repository.select_pay_office_sum_pre_week(backoffice_no);
-
-			int pre_sales_total = pay_before_desk_meeting_pre + pay_after_desk_meeting_deposit_pre
-					+ pay_after_desk_meeting_balance_pre + pay_office_pre;
-
-			ss.setPre_sales_total(String.valueOf(pre_sales_total));
-
-			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre_week(backoffice_no);
-
-			int pre_sales_cancel = pre_pay_cancel;
-
-			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
-
-			ss.setPre_sales_income(String.valueOf(pre_sales_total - pre_sales_cancel));
-
-			ss.setSales_gap(String.valueOf((sales_total - sales_cancel) - (pre_sales_total - pre_sales_cancel)));
+			ss_entity = s_detail_repository.select_pay_week_sum(backoffice_no);
 		} else if (sales_date.equals("month")) {
-			// 당월
-			Integer pay_before_desk_meeting = s_detail_repository
-					.select_pay_before_desk_meeting_sum_month(backoffice_no);
-			Integer pay_after_desk_meeting_deposit = s_detail_repository
-					.select_pay_after_desk_meeting_deposit_sum_month(backoffice_no);
-			Integer pay_after_desk_meeting_balance = s_detail_repository
-					.select_pay_after_desk_meeting_balance_sum_month(backoffice_no);
-			Integer pay_office = s_detail_repository.select_pay_office_sum_month(backoffice_no);
-
-			int sales_total = pay_before_desk_meeting + pay_after_desk_meeting_deposit + pay_after_desk_meeting_balance
-					+ pay_office;
-
-			ss.setSales_total(String.valueOf(sales_total));
-
-			Integer pay_cancel = s_detail_repository.select_pay_cancel_month(backoffice_no);
-
-			int sales_cancel = pay_cancel;
-
-			ss.setSales_cancel(String.valueOf(sales_cancel));
-
-			ss.setSales_income(String.valueOf(sales_total - sales_cancel));
-
-			// 전월
-			Integer pay_before_desk_meeting_pre = s_detail_repository
-					.select_pay_before_desk_meeting_sum_pre_month(backoffice_no);
-			Integer pay_after_desk_meeting_deposit_pre = s_detail_repository
-					.select_pay_after_desk_meeting_deposit_sum_pre_month(backoffice_no);
-			Integer pay_after_desk_meeting_balance_pre = s_detail_repository
-					.select_pay_after_desk_meeting_balance_sum_pre_month(backoffice_no);
-			Integer pay_office_pre = s_detail_repository.select_pay_office_sum_pre_month(backoffice_no);
-
-			int pre_sales_total = pay_before_desk_meeting_pre + pay_after_desk_meeting_deposit_pre
-					+ pay_after_desk_meeting_balance_pre + pay_office_pre;
-
-			ss.setPre_sales_total(String.valueOf(pre_sales_total));
-
-			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre_month(backoffice_no);
-
-			int pre_sales_cancel = pre_pay_cancel;
-
-			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
-
-			ss.setPre_sales_income(String.valueOf(pre_sales_total - pre_sales_cancel));
-
-			ss.setSales_gap(String.valueOf((sales_total - sales_cancel) - (pre_sales_total - pre_sales_cancel)));
+			ss_entity = s_detail_repository.select_pay_month_sum(backoffice_no);
 		}
+		
+		ss = modelMapper.map(ss_entity, SalesSettlementDetailViewDTO.class);
+		
+		// 현재(금일, 금주, 당월) 순수익
+		ss.setSales_income(String.valueOf(ss_entity.getSales_total() - ss_entity.getSales_cancel()));
+		
+		// 이전(전일, 전주, 전월) 순수익
+		ss.setPre_sales_income(String.valueOf(ss_entity.getPre_sales_total() - ss_entity.getPre_sales_cancel()));
+		
+		// 순수익 차액
+		ss.setSales_gap(String.valueOf((ss_entity.getSales_total() - ss_entity.getSales_cancel()) - (ss_entity.getPre_sales_total() - ss_entity.getPre_sales_cancel())));
+		
+		log.info("ss::{}",ss);
+		
 		return ss;
 	}
 

@@ -36,20 +36,20 @@ public class SalesSettlementDetailViewEntity implements Serializable{
 	
 	@Id
 	@Column(name="sales_total")
-	private String sales_total;
+	private Integer sales_total;
 	
 	@Column(name="sales_cancel")
-	private String sales_cancel;
+	private Integer sales_cancel;
 	
 	@Transient
 	@Column(name="pre_sales_income")
 	private String pre_sales_income;
 	
 	@Column(name="pre_sales_total")
-	private String pre_sales_total;
+	private Integer pre_sales_total;
 	
 	@Column(name="pre_sales_cancel")
-	private String pre_sales_cancel;
+	private Integer pre_sales_cancel;
 	
 	@Transient
 	@Column(name="sales_gap")
