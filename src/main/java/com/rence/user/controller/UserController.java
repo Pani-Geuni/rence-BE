@@ -60,29 +60,17 @@ public class UserController {
 		
 		Map<String, String> map = new HashMap<String, String>();
 
-		// 로그인 성공시 기존의 유저관련쿠키 제거
-		Cookie cc = new Cookie("user_no", null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
-		Cookie cc2 = new Cookie("user_image", null);
-		cc.setMaxAge(0); // 유효시간을 0으로 설정
-		cc2.setMaxAge(0);
-		response.addCookie(cc); // 응답 헤더에 추가해서 없어지도록 함
-		response.addCookie(cc2);
-
 		UserDto udto = service.user_login_info(username);
 
-		
-
 		session.setAttribute("user_id", udto.getUser_id());
-
-		Cookie cookie = new Cookie("user_no", udto.getUser_no()); // 고유번호 쿠키 저장
-		Cookie cookie2 = new Cookie("user_image", udto.getUser_image()); // 고유번호 쿠키 저장
-		cookie.setPath("/");
-		cookie2.setPath("/");
-		response.addCookie(cookie);
-		response.addCookie(cookie2);
-
+		
+		String user_no = udto.getUser_no();
+		String user_image = udto.getUser_image();
+		
 		log.info("User Login success.....");
 		map.put("result", "1"); // 로그인 성공
+		map.put("user_no", username);
+		map.put("user_image", user_image);
 
 		String jsonObject = gson.toJson(map);
 
