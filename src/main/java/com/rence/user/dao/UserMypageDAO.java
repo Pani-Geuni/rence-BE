@@ -1,4 +1,4 @@
-package com.rence.user.repository;
+package com.rence.user.dao;
 
 import java.util.List;
 

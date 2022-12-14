@@ -18,13 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.rence.office.common.OfficeInfoMap;
+import com.rence.user.dao.UserMypageDAO;
 import com.rence.user.model.MyPageReserveListDto;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserMileageDto;
 import com.rence.user.model.UserMypageDto;
 import com.rence.user.model.UserQuestionDto;
 import com.rence.user.model.UserReviewDto;
-import com.rence.user.repository.UserMypageDAO;
 
 import lombok.extern.slf4j.Slf4j;
 

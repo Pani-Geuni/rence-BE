@@ -1,4 +1,4 @@
-package com.rence.user.repository;
+package com.rence.user.dao;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 
@@ -22,6 +22,12 @@ import com.rence.user.model.UserQuestioEntity;
 import com.rence.user.model.UserQuestionDto;
 import com.rence.user.model.UserReviewDto;
 import com.rence.user.model.UserReviewEntity;
+import com.rence.user.repository.MileageRepository;
+import com.rence.user.repository.MyQuestionRepository;
+import com.rence.user.repository.MyReserveRepository;
+import com.rence.user.repository.MypageRepository;
+import com.rence.user.repository.UserRepository;
+import com.rence.user.repository.UserReviewRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

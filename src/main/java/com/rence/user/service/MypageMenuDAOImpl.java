@@ -1,11 +1,17 @@
 package com.rence.user.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.rence.office.model.OfficeMileageDto;
+import com.rence.office.model.OfficeMileageEntity;
 import com.rence.office.model.OfficePaymentDto;
 import com.rence.office.model.OfficePaymentEntity;
+import com.rence.office.repo.OfficeMileageRepository;
 import com.rence.office.repo.OfficeReserveRepository;
 import com.rence.user.controller.UserInfoDto;
 import com.rence.user.model.ReserveInfo_ViewDto;
@@ -14,6 +20,7 @@ import com.rence.user.model.ReserveMileageDto;
 import com.rence.user.model.ReserveMileageEntity;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
+import com.rence.user.model.UserQuestionDto;
 import com.rence.user.repository.MypageMenuRepository;
 import com.rence.user.repository.OfficePaymentRepository;
 import com.rence.user.repository.ReserveMileageRepository;
@@ -35,11 +42,12 @@ public class MypageMenuDAOImpl implements MypageMenuDAO {
 
 	@Autowired
 	OfficePaymentRepository payment_repository;
-	
+
 	@Autowired
 	OfficeReserveRepository reserve_repository;
-	
-	
+
+	@Autowired
+	OfficeMileageRepository mileage_repository;
 
 	// 예약 상세정보
 	@Override
@@ -95,6 +103,45 @@ public class MypageMenuDAOImpl implements MypageMenuDAO {
 		log.info("reserve_no: {}", user_no);
 
 		int result = reserve_repository.update_reserve_cancel(reserve_no, user_no);
+
+		return result;
+	}
+
+	@Override
+	public List<OfficeMileageDto> select_all_mileage_cancel(String payment_no) {
+		log.info("select_all_mileage_cancel()...");
+
+		List<OfficeMileageEntity> entity_list = mileage_repository.select_all_mileage_cancel(payment_no);
+
+		List<OfficeMileageDto> vos = entity_list.stream().map(source -> modelmapper.map(source, OfficeMileageDto.class))
+				.collect(Collectors.toList());
+
+		return vos;
+	}
+
+	@Override
+	public OfficeMileageDto select_one_mileage_cancel(String payment_no, String mileage_state) {
+		log.info("select_one_mileage_cancel()...");
+
+		OfficeMileageEntity entity = mileage_repository.select_one_mileage_cancel(payment_no, mileage_state);
+
+		OfficeMileageDto dto = modelmapper.map(entity, OfficeMileageDto.class);
+
+		return dto;
+	}
+
+	@Override
+	public int insert_mileage_changed(OfficeMileageDto dto) {
+		log.info("insert_mileage_changed()...");
+
+		int result = mileage_repository.insert_mileage_changed(dto);
+
+		return result;
+	}
+
+	@Override
+	public int update_mileage_state(String mileage_no) {
+		int result = mileage_repository.update_mileage_state(mileage_no);
 
 		return result;
 	}
