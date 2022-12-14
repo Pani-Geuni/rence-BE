@@ -7,7 +7,7 @@ import com.rence.user.model.UserDto;
 import com.rence.user.model.UserMileageDto;
 import com.rence.user.model.UserMypageDto;
 import com.rence.user.model.UserQuestionDto;
-import com.rence.user.model.UserReviewDto;
+import com.rence.user.model.UserReview_ViewDto;
 
 public interface UserMypageDAO {
 
@@ -55,7 +55,7 @@ public interface UserMypageDAO {
 	long total_rowCount_review(String user_no);
 
 	//마이페이지 - 리뷰 리스트 - 리뷰 리스트
-	List<UserReviewDto> select_all_review_paging(String user_no, Integer page);
+	List<UserReview_ViewDto> select_all_review_paging(String user_no, Integer page);
 
 	//마이페이지 - 문의 리스트 - 문의 리스트 수
 	long total_rowCount_question(String user_no);
