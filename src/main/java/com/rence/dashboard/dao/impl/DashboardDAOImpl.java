@@ -48,6 +48,7 @@ import com.rence.dashboard.model.ReviewListViewEntity;
 import com.rence.dashboard.model.RoomDTO;
 import com.rence.dashboard.model.RoomEntity;
 import com.rence.dashboard.model.RoomSummaryViewDTO;
+import com.rence.dashboard.model.RoomSummaryViewEntity;
 import com.rence.dashboard.model.SalesSettlementDetailViewDTO;
 import com.rence.dashboard.model.SalesSettlementDetailViewEntity;
 import com.rence.dashboard.model.SalesSettlementSummaryViewDTO;
@@ -201,33 +202,10 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 */
 	@Override
 	public RoomSummaryViewDTO room_summary_selectOne(String backoffice_no) {
-		RoomSummaryViewDTO rs = new RoomSummaryViewDTO();
 
-		Float review_point = rm_summary_repository.select_avg_review_point(backoffice_no);
-		if (review_point == null) {
-			rs.setReview_point((float) 0.0);
-		} else {
-			rs.setReview_point(review_point);
-		}
-		Integer comment_no = rm_summary_repository.select_comment_cnt(backoffice_no);
-		if (comment_no == null) {
-			rs.setComment_no(0);
-		} else {
-			rs.setComment_no(comment_no);
-		}
-		Integer review_no = rm_summary_repository.select_review_cnt(backoffice_no);
-		if (review_no == null) {
-			rs.setReview_no(0);
-		} else {
-			rs.setReview_no(review_no);
-		}
-		Integer reserve_no = rm_summary_repository.select_reserve_cnt(backoffice_no);
-		if (reserve_no == null) {
-			rs.setReserve_no(0);
-		} else {
-			rs.setReserve_no(reserve_no);
-		}
-
+		RoomSummaryViewEntity rse = rm_summary_repository.select_room_summary(backoffice_no);
+		RoomSummaryViewDTO rs = modelMapper.map(rse, RoomSummaryViewDTO.class);
+		
 		return rs;
 	}
 
@@ -641,9 +619,9 @@ public class DashboardDAOImpl implements DashboardDAO {
 	 * 일정 관리 - 날짜, 시간 선택 후
 	 */
 	@Override
-	public List<ScheduleListViewDTO> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type) {
+	public List<ScheduleListViewDTO> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type, int min, int max) {
 		
-		ScheduleListViewDTO sc = new ScheduleListViewDTO();
+		List<ScheduleListViewDTO> sc_vos = new ArrayList<ScheduleListViewDTO>();
 
 		// 1, 2 날짜 형태 변환
 		String reserve_stime = null;
@@ -671,68 +649,15 @@ public class DashboardDAOImpl implements DashboardDAO {
 			log.info("reserve_etime : {} ", reserve_etime);
 		}
 
-		// 1.해당 날짜, 시간에 예약이 있는 리스트
-		List<ScheduleListViewEntity> sc_vos_o_entity = sc_repository.backoffice_schedule_list(backoffice_no, reserve_stime, reserve_etime);
-		List<ScheduleListViewDTO> sc_vos_o =  sc_vos_o_entity.stream().map(svo -> modelMapper.map(svo, ScheduleListViewDTO.class)).collect(Collectors.toList());
-		log.info("sc_vos_o : {} ", sc_vos_o.size());
+		List<ScheduleListViewEntity> sc_vos_o_entity = sc_repository.backoffice_schedule_list(backoffice_no, reserve_stime, reserve_etime, min, max);
+		sc_vos =  sc_vos_o_entity.stream().map(svo -> modelMapper.map(svo, ScheduleListViewDTO.class)).collect(Collectors.toList());
 
-		// 2.백오피스가 가진 모든 공간 리스트
-		List<ScheduleListViewEntity> sc_vos_x_entity = sc_repository.backoffice_schedule_list_All(backoffice_no);
-		List<ScheduleListViewDTO> sc_vos_x =  sc_vos_x_entity.stream().map(svo -> modelMapper.map(svo, ScheduleListViewDTO.class)).collect(Collectors.toList());
-		log.info("sc_vos_x : {} ", sc_vos_x);
-		log.info("sc_vos_x : {} ", sc_vos_x.size());
-
-		// 3.휴무, 브레이크 타임이 설정된 공간 리스트
-		not_stime = not_sdate + not_stime;
-		not_etime = not_edate + not_etime;
-		log.info("not_stime : {} ", not_stime);
-		log.info("not_etime : {} ", not_etime);
-		List<ScheduleEntity> off_list_entity = schedule_repository.backoffice_schedule_list_exist_off(backoffice_no, not_stime, not_etime);
-		List<ScheduleDTO> off_list = off_list_entity.stream().map(svo -> modelMapper.map(svo, ScheduleDTO.class)).collect(Collectors.toList());
-
-		log.info("off_list : {} ", off_list);
-		log.info("off_list : {} ", off_list.size());
-
-		List<ScheduleListViewDTO> sc_vos = new ArrayList<ScheduleListViewDTO>();
-
-		if (sc_vos_x != null) {
-			// 2 - 1 (중복 제거)
-			if (sc_vos_o != null) {
-
-				for (int j = 0; j < sc_vos_o.size(); j++) {
-					String room_no = sc_vos_o.get(j).getRoom_no();
-					Predicate<ScheduleListViewDTO> condition = str -> str.getRoom_no().equals(room_no);
-					sc_vos_x.removeIf(condition);
-				}
-			}
-			log.info("sc_vos_x - sc_vos_o : {} ", sc_vos_x.size());
-
-			// 공간 예약 상태 설정
-			for (ScheduleListViewDTO scvo : sc_vos_o) {
+		for (ScheduleListViewDTO scvo : sc_vos) {
+			if (scvo.getReserve_cnt()>0) {
 				scvo.setReserve_is("O");
-			}
-
-			for (ScheduleListViewDTO scvo : sc_vos_x) {
+			}else {
 				scvo.setReserve_is("X");
-				scvo.setReserve_cnt(0);
 			}
-
-			// 2 -3(휴무, 브레이크 타임이 설정된 공간 제외)
-			if (off_list != null && sc_vos_x != null) {
-				for (int j = 0; j < off_list.size(); j++) {
-					String room_no = off_list.get(j).getRoom_no();
-					Predicate<ScheduleListViewDTO> condition = str -> str.getRoom_no().equals(room_no);
-					sc_vos_x.removeIf(condition);
-				}
-			}
-
-			log.info("sc_vos_x - off_list : {} ", sc_vos_x.size());
-
-			sc_vos.addAll(sc_vos_o);
-			sc_vos.addAll(sc_vos_x);
-
-		} else {
-			sc_vos = null;
 		}
 
 		log.info("sc_vos : {} ", sc_vos.size());
@@ -886,6 +811,39 @@ public class DashboardDAOImpl implements DashboardDAO {
 	public long backoffice_sales_selectAll_cnt(String backoffice_no) {
 		return s_repository.backoffice_sales_selectAll_cnt(backoffice_no);
 	}
+	
+	// 일정 리스트
+	@Override
+	public int backoffice_room_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type) {
+		// 1, 2 날짜 형태 변환
+		String reserve_stime = null;
+		String reserve_etime = null;
+		
+		if (off_type.equals("dayoff")) { // 휴무일 때
+			log.info("휴무");
+
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+
+			reserve_stime = (not_sdate + not_stime);
+			log.info("reserve_stime : {} ", reserve_stime);
+			reserve_etime = (not_edate + not_etime);
+			log.info("reserve_etime : {} ", reserve_etime);
+		} else { // 브레이크 타임일 때
+			log.info("브레이크타임");
+
+			log.info("not_sdate : {} ", not_sdate);
+			reserve_stime = (not_sdate + not_stime);
+			log.info("reserve_stime : {} ", reserve_stime);
+
+			not_edate = (not_sdate);
+			log.info("not_edate : {} ", not_edate);
+			reserve_etime = (not_edate + not_etime);
+			log.info("reserve_etime : {} ", reserve_etime);
+		}
+		
+		return sc_repository.backoffice_schedule_list_cnt(backoffice_no, reserve_stime, reserve_etime);
+	}
 
 	// 예약자 리스트
 	public int backoffice_reservation_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime,
@@ -1022,5 +980,6 @@ public class DashboardDAOImpl implements DashboardDAO {
 		reserveAutoUpdateRepository.reserve_auto_delete(reserve_no);
 		
 	}
+
 
 }
