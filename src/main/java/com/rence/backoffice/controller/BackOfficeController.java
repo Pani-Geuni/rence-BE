@@ -51,8 +51,8 @@ public class BackOfficeController {
 	@Autowired
 	BackOfficeFileService fileService;
 
-	@Autowired
-	HttpSession session;
+//	@Autowired
+//	HttpSession session;
 
 	/**
 	 * 백오피스 신청 처리
@@ -142,14 +142,6 @@ public class BackOfficeController {
 	public String backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
 
 		Map<String, String> map = new HashMap<String, String>();
-
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (int i = 0; i < cookies.length; i++) {
-				cookies[i].setMaxAge(0);
-				response.addCookie(cookies[i]);
-			}
-		}
 		
 		map.put("result", "1");
 

@@ -139,18 +139,14 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	@Override
 	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response) {
 
-		log.info(username);
 		BackOfficeDTO bvo = dao.backoffice_login_info(username);
-		log.info("bvo::{}",bvo);
 
 		Map<String, String> map = new HashMap<String, String>();
 
-		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
-		Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
-		Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
 		map.put("result", "1");
-		response.addCookie(cookie_no);
-		response.addCookie(cookie_profile);
+		map.put("backoffice_no", bvo.getBackoffice_no());
+		map.put("host_image", bvo.getHost_image());
+		map.put("backoffice_id", bvo.getBackoffice_id());
 
 		return map;
 	}
