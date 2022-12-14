@@ -117,7 +117,7 @@ public class MypageMenuSeriviceImpl implements MypageMenuSerivice {
 		return map;
 	}
 	
-	// 상세 예약 페이지 - 예약 취소
+	//상세 예약 페이지 - 예약 취소
 	@Override
 	public Map<String, Object> reserve_cancel_rsu(String reserve_no, String user_no) {
 		log.info("reserve_cancel_rsu()...");
