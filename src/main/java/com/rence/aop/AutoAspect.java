@@ -16,7 +16,7 @@ import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.service.BackOfficeService;
 import com.rence.dashboard.model.ReserveUpdateDTO;
 import com.rence.dashboard.service.DashboardService;
-import com.rence.office.model.OfficeReserveVO;
+import com.rence.office.model.OfficeReserveDto;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -154,310 +154,77 @@ public class MypageController {
 		
 		Map<String, Object> map = service.reserve_list_rsu(time_point, user_no, page);
 		
-
-		
-
 		String jsonObject = gson.toJson(map);
-//		return "thymeleaf/layouts/office/layout_myPage";
 		return jsonObject;
 	}
 
-//	// **********************
-//	// 마일리지 리스트
-//	// **********************
-//	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
-//	@GetMapping("/mileage")
-//	public String go_mileage(UserDto udto, Model model, HttpServletRequest request,
-//			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//
-//		log.info("go_mileage()...");
-//		log.info("UserDto(사용자 고유번호): {}", udto);
-//
-//		log.info("current page: {}", page);
-//
-//		// 총 마일리지 부분
-//		UserMileageVO umdto = service.totalMileage_selectOne(udto);
-//		log.info("umdto: {}", umdto);
-//
-//		// 마일리지 콤마단위로 변환
-//		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
-//		String mileage_total = dc.format(umdto.getMileage_total());
-//		log.info("mileage_total: " + mileage_total);
-//
-//		// 페이징 처리 로직(마일리지 리스트 전용!!!!)
-//		// 리스트 수
-//		long total_rowCount_mileage_all = service.total_rowCount_mileage_all(udto);
-//		total_rowCount_mileage_all -= 1; // 회원가입시 들어가는 기본값 제외
-//		log.info("total_rowCount_mileage_all: {}", total_rowCount_mileage_all);
-//
-//		// 총 페이징되는 수
-//		long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_all / 8.0);
-//		log.info("totalPageCnt: {}", totalPageCnt);
-//
-//		// 현재페이지
-//		long nowPage = page;
-//
-//		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
-//		long maxPage = 0;
-//
-//		if (nowPage % 5 != 0) {
-//			if (nowPage == totalPageCnt) {
-//				maxPage = nowPage;
-//			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-//				maxPage = totalPageCnt;
-//			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-//				maxPage = ((nowPage / 5) + 1) * 5;
-//			}
-//		} else if (nowPage % 5 == 0) {
-//			if (nowPage <= totalPageCnt) {
-//				maxPage = nowPage;
-//			}
-//		}
-//		log.info("maxPage: " + maxPage);
-//
-//		map.put("totalPageCnt", totalPageCnt);
-//		map.put("nowPage", nowPage);
-//		map.put("maxPage", maxPage);
-//
-//		// 페이징처리를 위한 페이지 계산 로직끝
-//
-//		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(udto, page, total_rowCount_mileage_all);
-//		log.info("vos: " + vos);
-//
-//		for (int i = 0; i < vos.size(); i++) {
-//			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
-//		}
-//		log.info("Type change vos: {}" + vos);
-//
-//		map.put("list", vos);
-//		map.put("page", "mileage");
-//		model.addAttribute("res", map);
-//		model.addAttribute("mileage_total", mileage_total);
-//		model.addAttribute("searchKey", "all");
-//
-//		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
-//		model.addAttribute("title", "마일리지리스트");
-//
-//		return "thymeleaf/layouts/office/layout_myPage";
-//
-//	}
-//
-//	// **********************
-//	// 마일리지 리스트 - searchKey
-//	// **********************
-//	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")
-//	@GetMapping("/mileage_search_list")
-//	public String go_mileage_search_list(UserDto udto, Model model, HttpServletRequest request, String searchKey,
-//			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		log.info("mileage_search_list()...");
-//
-//		log.info("검색 키워드: " + searchKey);
-//		log.info("UserDto(사용자 고유번호): {}", udto);
-//
-//		// 총 마일리지 부분
-//		UserMileageVO umdto = service.totalMileage_selectOne(udto);
-//		log.info("umdto: {}", umdto);
-//
-//		// 마일리지 콤마단위로 변환
-//		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
-//		String mileage_total = dc.format(umdto.getMileage_total());
-//		log.info("mileage_total: " + mileage_total);
-//
-//		// 페이징 처리 로직(이거는 마일리지 전용임!!!)
-//		// 리스트 수
-//		long total_rowCount_mileage_search = service.total_rowCount_mileage_searchKey(udto, searchKey);
-//		total_rowCount_mileage_search -= 1;// 회원가입시 들어가는 기본값 제외
-//		log.info("total_rowCount_mileage_search: {}", total_rowCount_mileage_search);
-//
-//		// 총 페이징되는 수
-//		long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_search / 8.0);
-//		log.info("totalPageCnt: {}", totalPageCnt);
-//
-//		// 현재페이지
-//		long nowPage = page;
-//
-//		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
-//		long maxPage = 0;
-//
-//		if (nowPage % 5 != 0) {
-//			if (nowPage == totalPageCnt) {
-//				maxPage = nowPage;
-//			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-//				maxPage = totalPageCnt;
-//			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-//				maxPage = ((nowPage / 5) + 1) * 5;
-//			}
-//		} else if (nowPage % 5 == 0) {
-//			if (nowPage <= totalPageCnt) {
-//				maxPage = nowPage;
-//			}
-//		}
-//		log.info("maxPage: " + maxPage);
-//
-//		map.put("totalPageCnt", totalPageCnt);
-//		map.put("nowPage", nowPage);
-//		map.put("maxPage", maxPage);
-//
-//		// 페이징처리를 위한 페이지 계산 로직끝
-//
-//		List<UserMileageVO> vos = service.user_mileage_search_list_paging(udto, searchKey, page,
-//				total_rowCount_mileage_search);
-//		log.info("vos: " + vos);
-//
-//		for (int i = 0; i < vos.size(); i++) {
-//			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
-//		}
-//		log.info("Type change vos: {}" + vos);
-//
-//		map.put("list", vos);
-//		map.put("page", "mileage");
-//
-//		model.addAttribute("res", map);
-//		model.addAttribute("mileage_total", mileage_total);
-//		model.addAttribute("searchKey", searchKey);
-//
-//		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
-//		model.addAttribute("title", "마일리지리스트");
-//
-//		return "thymeleaf/layouts/office/layout_myPage";
-//	}
-//
-//	// **********************
-//	// 후기 리스트 이동
-//	// **********************
-//	@ApiOperation(value = "후기 리스트", notes = "후기 리스트 입니다.")
-//	@GetMapping("/review_list")
-//	public String review_list(String user_no, Model model,
-//			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-//		log.info("review_list()...");
-//		log.info("user_no: " + user_no);
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//
-//		// 페이징 처리 로직
-//		// 리스트 수
-//		long total_rowCount_review = service.total_rowCount_review(user_no);
-//		log.info("total_rowCount_review: {}", total_rowCount_review);
-//
-//		// 총 페이징되는 수
-//		long totalPageCnt = (long) Math.ceil(total_rowCount_review / 8.0);
-//		log.info("totalPageCnt: {}", totalPageCnt);
-//
-//		// 현재페이지
-//		long nowPage = page;
-//
-//		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
-//		long maxPage = 0;
-//
-//		if (nowPage % 5 != 0) {
-//			if (nowPage == totalPageCnt) {
-//				maxPage = nowPage;
-//			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-//				maxPage = totalPageCnt;
-//			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-//				maxPage = ((nowPage / 5) + 1) * 5;
-//			}
-//		} else if (nowPage % 5 == 0) {
-//			if (nowPage <= totalPageCnt) {
-//				maxPage = nowPage;
-//			}
-//		}
-//		log.info("maxPage: " + maxPage);
-//
-//		map.put("totalPageCnt", totalPageCnt);
-//		map.put("nowPage", nowPage);
-//		map.put("maxPage", maxPage);
-//
-//		// 페이징처리를 위한 페이지 계산 로직끝
-//
-//		List<UserReviewVO> list = service.select_all_review_paging(user_no, page);
-//
-//		map.put("page", "review");
-//		map.put("list", list);
-//
-//		model.addAttribute("res", map);
-//		log.info("review_list : {}", map);
-//
-//		model.addAttribute("content", "thymeleaf/html/office/my_page/review_list");
-//		model.addAttribute("title", "리뷰리스트");
-//
-//		return "thymeleaf/layouts/office/layout_myPage";
-//	}
-//
-//	// **********************
-//	// 마이페이지 - 문의 리스트
-//	// **********************
-//	@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
-//	@GetMapping("/question_list")
-//	public String question_list(String user_no, Model model,
-//			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-//		Map<String, Object> map = new HashMap<String, Object>();
-//
-//		// 페이징 처리 로직
-//		// 리스트 수
-//		long total_rowCount_question = service.total_rowCount_question(user_no);
-//		log.info("total_rowCount_question: {}", total_rowCount_question);
-//
-//		// 총 페이징되는 수
-//		long totalPageCnt = (long) Math.ceil(total_rowCount_question / 8.0);
-//		log.info("totalPageCnt: {}", totalPageCnt);
-//
-//		// 현재페이지
-//		long nowPage = page;
-//
-//		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
-//		long maxPage = 0;
-//
-//		if (nowPage % 5 != 0) {
-//			if (nowPage == totalPageCnt) {
-//				maxPage = nowPage;
-//			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-//				maxPage = totalPageCnt;
-//			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-//				maxPage = ((nowPage / 5) + 1) * 5;
-//			}
-//		} else if (nowPage % 5 == 0) {
-//			if (nowPage <= totalPageCnt) {
-//				maxPage = nowPage;
-//			}
-//		}
-//		log.info("maxPage: " + maxPage);
-//
-//		map.put("totalPageCnt", totalPageCnt);
-//		map.put("nowPage", nowPage);
-//		map.put("maxPage", maxPage);
-//
-//		// 페이징처리를 위한 페이지 계산 로직끝
-//
-//		List<UserQuestionVO> list = service.select_all_question_paging(user_no, page);
-//		if (list != null) {
-//			for (UserQuestionVO vo : list) {
-//				UserQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-//				if (vo2 != null) {
-//					vo.setAnswer_content(vo2.getComment_content());
-//					vo.setAnswer_date(vo2.getComment_date());
-//					vo.setState("Y");
-//				} else {
-//					vo.setState("N");
-//				}
-//			}
-//		}
-//
-//		map.put("page", "question_list");
-//		map.put("list", list);
-//
-//		model.addAttribute("res", map);
-//
-//		log.info("question_list : {}", map);
-//
-//		model.addAttribute("content", "thymeleaf/html/office/my_page/question_list");
-//		model.addAttribute("title", "문의리스트");
-//
-//		return "thymeleaf/layouts/office/layout_myPage";
-//	}
+	// **********************
+	// 마일리지 리스트
+	// **********************
+	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
+	@GetMapping("/mileage")
+	public String go_mileage(UserDto udto, Model model, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+	
+		log.info("go_mileage()...");
+		log.info("UserDto(사용자 고유번호): {}", udto);
+		log.info("current page: {}", page);
+		
+		Map<String, Object> map = service.mileage_list_page(udto, page);
+		
+
+
+		String jsonObject = gson.toJson(map);
+		return jsonObject;
+
+
+	}
+
+	// **********************	// 마일리지 리스트 - searchKey	// **********************	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")	@GetMapping("/mileage_search_list")	public String go_mileage_search_list(UserDto udto, Model model, HttpServletRequest request, String searchKey,			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+		
+		log.info("go_mileage()...");
+		log.info("UserDto(사용자 고유번호): {}", udto);
+		log.info("current page: {}", page);
+		
+		Map<String, Object> map = service.mileage_list_page_searchKey(udto, page,searchKey);
+		
+
+
+		String jsonObject = gson.toJson(map);
+		return jsonObject;
+	}
+	// **********************
+	// 후기 리스트 이동
+	// **********************
+	@ApiOperation(value = "후기 리스트", notes = "후기 리스트 입니다.")
+	@GetMapping("/review_list")
+	public String review_list(String user_no, Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+		
+		log.info("review_list()...");
+		log.info("user_no: " + user_no);
+		Map<String, Object> map = service.review_list_page(user_no, page);
+		
+		String jsonObject = gson.toJson(map);
+		return jsonObject;
+	
+	}
+
+	// **********************
+	// 마이페이지 - 문의 리스트
+	// **********************
+	@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
+	@GetMapping("/question_list")
+	public String question_list(String user_no, Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+		
+		log.info("question_list()...");
+		log.info("user_no: " + user_no);
+		Map<String, Object> map = service.question_list_page(user_no, page);
+		
+		String jsonObject = gson.toJson(map);
+		return jsonObject;
+	
+	}
 
 }// end class

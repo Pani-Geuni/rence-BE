@@ -32,4 +32,16 @@ public interface UserMypageSerivice {
 	// 마이페이지 - 예약리스트
 	Map<String, Object> reserve_list_rsu(String time_point, String user_no, Integer page);
 
+	// 마이페이지 - 마일리지리스트
+	Map<String, Object> mileage_list_page(UserDto udto, Integer page);
+
+	// 마이페이지 - 마일리조건리스트
+	Map<String, Object> mileage_list_page_searchKey(UserDto udto, Integer page, String searchKey);
+
+	// 마이페이지 - 리뷰리스트
+	Map<String, Object> review_list_page(String user_no, Integer page);
+
+	// 마이페이지 - 문의리스트
+	Map<String, Object> question_list_page(String user_no, Integer page);
+
 }

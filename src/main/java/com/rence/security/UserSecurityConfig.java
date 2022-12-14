@@ -54,6 +54,8 @@ public class UserSecurityConfig {
 
 		http.authorizeRequests().antMatchers("/").permitAll()
 //		.antMatchers("/master/login").permitAll()
+				
+				
 				.antMatchers("/backoffice/landing").permitAll() // 백오피스 홈페이지
 				.antMatchers("/rence/user_auth").permitAll() // 회원가입 - 이메일 인증
 				.antMatchers("/rence/user_authOK").permitAll() // 회원가입 - 이메일 완료
@@ -62,6 +64,7 @@ public class UserSecurityConfig {
 				.antMatchers("/rence/find_id").permitAll() // 아이디 찾기
 				.antMatchers("/rence/find_pw").permitAll() // 비밀번호 찾기
 				.antMatchers("/office/**").permitAll()
+				.antMatchers("/rence/reserve_list").permitAll() // 테스트
 				.antMatchers("/", "/test/", "/api/v2/**", "/v3/api-docs", "/static/**", "/swagger*/**",
 						"/api/v1/auth/**", "/h2-console/**", "/favicon.ico", "/swagger-ui.html", "/swagger/**",
 						"/swagger-resources/**", "webjars/**", "/v2/api-docs", "/user/insertOK", "/js/**", "/css/**",
