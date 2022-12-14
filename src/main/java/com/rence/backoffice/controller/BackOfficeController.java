@@ -111,7 +111,7 @@ public class BackOfficeController {
 	@PostMapping("/loginSuccess")
 	public String backoffice_loginOK(@RequestParam String username, HttpServletResponse response) {
 
-		Map<String, String> map = service.backoffice_loginOK(username, response, session);
+		Map<String, String> map = service.backoffice_loginOK(username, response);
 
 		String json = gson.toJson(map);
 
