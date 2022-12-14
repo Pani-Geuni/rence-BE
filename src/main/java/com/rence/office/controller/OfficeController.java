@@ -1,88 +1,58 @@
-//
-//package com.rence.office.controller;
-//
-//import java.text.DecimalFormat;
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//import java.time.LocalDate;
-//import java.time.format.DateTimeFormatter;
-//import java.time.temporal.ChronoUnit;
-//import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.Date;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.stream.Collectors;
-//import java.util.stream.IntStream;
-//
-//import javax.servlet.http.HttpSession;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
-//import com.rence.backoffice.model.BackOfficeVO;
-//import com.rence.backoffice.service.CustomDateFormatter;
-//import com.rence.common.OptionEngToKorMap;
-//import com.rence.office.common.OfficeInfoMap;
-//import com.rence.office.model.Comment_EntityVO;
-//import com.rence.office.model.ListViewVO;
-//import com.rence.office.model.OfficeInfoVO;
-//import com.rence.office.model.OfficeMileageVO;
-//import com.rence.office.model.OfficeOperatingTimeVO;
-//import com.rence.office.model.OfficeOperatingTimeVO_date;
-//import com.rence.office.model.OfficePaymentVO;
-//import com.rence.office.model.OfficeQuestionVO;
-//import com.rence.office.model.OfficeReserveVO;
-//import com.rence.office.model.OfficeReserveVO_date;
-//import com.rence.office.model.OfficeReviewVO;
-//import com.rence.office.model.OfficeRoomVO;
-//import com.rence.office.model.PaymentInfoVO;
-//import com.rence.office.model.RoomScheduleVO;
-//import com.rence.office.service.OfficeService;
-//
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
-//import lombok.extern.slf4j.Slf4j;
-//
-//@Slf4j
-//@Controller
-//@Api(tags = "오피스 컨트롤러")
-//@RequestMapping("/office")
-//public class OfficeController {
-//
-//	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//
-//	@Autowired
-//	OfficeService service;
-//
-//	@Autowired
-//	HttpSession session;
-//
-//	/*
-//	 * 오피스(공간) 상세 페이지
-//	 */
-//	@ApiOperation(value = "공간 소개 페이지 로드 (데스크,회의실)", notes = "데스크 / 회의실 공간 소개 페이지 로드하는 컨트롤러")
-//	@GetMapping(value = "/space_introduce")
-//	public String space_intruduce(BackOfficeVO bvo, String introduce_menu,
-//			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
-//
-//		Map<String, Object> map = new HashMap<String, Object>();
-//
-//		OptionEngToKorMap info_map = new OptionEngToKorMap();
-//		String backoffice_no = bvo.getBackoffice_no();
-//
-//		// ******************
-//		// backoffice 기본 정보
-//		// ******************
+
+package com.rence.office.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.common.OptionEngToKorMap;
+import com.rence.user.controller.OfficeService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@Api(tags = "오피스 컨트롤러")
+@RequestMapping("/office")
+public class OfficeController {
+
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+	@Autowired
+	OfficeService service;
+
+	@Autowired
+	HttpSession session;
+
+	/*
+	 * 오피스(공간) 상세 페이지
+	 */
+	@ApiOperation(value = "공간 소개 페이지 로드 (데스크,회의실)", notes = "데스크 / 회의실 공간 소개 페이지 로드하는 컨트롤러")
+	@GetMapping(value = "/space_introduce")
+	public String space_intruduce(BackOfficeDTO bdto, String introduce_menu,
+			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		OptionEngToKorMap info_map = new OptionEngToKorMap();
+		String backoffice_no = bdto.getBackoffice_no();
+
+		// ******************
+		// backoffice 기본 정보
+		// ******************
 //		OfficeInfoVO ovo = service.select_one_office_info(backoffice_no);
 //		List<String> type_list = new ArrayList<String>();
 //		List<String> tag_list = new ArrayList<String>();
@@ -316,8 +286,8 @@
 //		model.addAttribute("page", "space_detail");
 //		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
 //		model.addAttribute("title", "공간 상세 페이지");
-//
-//		return "thymeleaf/layouts/office/layout_base";
-//	}
-//
-//}//end class
+
+		return "thymeleaf/layouts/office/layout_base";
+	}
+
+}//end class
