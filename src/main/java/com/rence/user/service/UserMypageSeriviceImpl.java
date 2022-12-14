@@ -24,7 +24,7 @@ import com.rence.user.model.UserDto;
 import com.rence.user.model.UserMileageDto;
 import com.rence.user.model.UserMypageDto;
 import com.rence.user.model.UserQuestionDto;
-import com.rence.user.model.UserReviewDto;
+import com.rence.user.model.UserReview_ViewDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -424,7 +424,7 @@ public class UserMypageSeriviceImpl implements UserMypageSerivice {
 
 		// 페이징처리를 위한 페이지 계산 로직끝
 
-		List<UserReviewDto> list = dao.select_all_review_paging(user_no, page);
+		List<UserReview_ViewDto> list = dao.select_all_review_paging(user_no, page);
 
 		map.put("page", "review");
 		map.put("list", list);

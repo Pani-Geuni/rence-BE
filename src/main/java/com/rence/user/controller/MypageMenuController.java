@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rence.user.model.ReviewDto;
 import com.rence.user.service.MypageMenuSerivice;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,10 +41,9 @@ public class MypageMenuController {
 		log.info("reserve_info_rsu()...");
 
 		Map<String, Object> map = service.reserve_info_rsu(reserve_no, request);
-		
 
-		String jsonObject = gson.toJson(map);
-		return jsonObject;
+		String json = gson.toJson(map);
+		return json;
 	}
 
 	/**
@@ -53,13 +54,11 @@ public class MypageMenuController {
 		log.info("reserve_cancel_rsu()...");
 
 		Map<String, String> map = service.reserve_cancel_rsu(reserve_no, user_no);
-	
+
 		String json = gson.toJson(map);
 		return json;
 	}
-	
-	
-	
+
 	/**
 	 * 예약 취소 후 결제 취소
 	 * 
@@ -67,11 +66,63 @@ public class MypageMenuController {
 	 */
 	@PostMapping(value = "/payment_cancel")
 	public String payment_cancel_rsu(String reserve_no, Integer cancel_amount, String reason) throws IOException {
+		log.info("payment_cancel_rsu()...");
+
+		Map<String, String> map = service.payment_cancel_rsu(reserve_no, cancel_amount, reason);
+
+		String json = gson.toJson(map);
+		return json;
+	}
+
+	/**
+	 * 상세 예약 페이지 이동 - 과거
+	 */
+	@GetMapping(value = "/reserved_info")
+	public String reserved_info(String reserve_no, HttpServletRequest request) {
+		log.info("reserved_info()...");
+
+		Map<String, Object> map = service.reserved_info(reserve_no, request);
+
+		String json = gson.toJson(map);
+		return json;
+	}
+
+	/**
+	 * 후기 추가 컨트롤러
+	 */
+	@ApiOperation(value = "후기 추가 컨트롤러", notes = "후기 추가 로직 컨트롤러")
+	@GetMapping(value = "/insert_review")
+	public String insert_review(ReviewDto dto) {
+		log.info("insert_review()...");
+
+		Map<String, String> map = service.insert_review(dto);
+
+		String json = gson.toJson(map);
+		return json;
+	}
+
+	/**
+	 * 후기 내역 페이지 - 댓글 삭제
+	 */
+	@GetMapping(value = "/delete_review")
+	public String delete_review(String user_no, String review_no) {
+		log.info("delete_review()...");
+
+		Map<String, String> map = service.delete_review(user_no, review_no);
 		
-		log.info("payment_cancel_rsu()...");	
-		
-		Map<String, String> map  = service.payment_cancel_rsu(reserve_no, cancel_amount, reason);
-		
+		String json = gson.toJson(map);
+		return json;
+	}
+
+	/**
+	 * 문의 리스트 페이지 - 문의 삭제
+	 */
+	@GetMapping(value = "/delete_comment")
+	public String delete_comment(String user_no, String comment_no) {
+		log.info("delete_comment()...");
+
+		Map<String, String> map = service.delete_comment(user_no, comment_no);
+
 		String json = gson.toJson(map);
 		return json;
 	}

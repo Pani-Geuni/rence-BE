@@ -1,4 +1,4 @@
-package com.rence.user.service;
+package com.rence.user.dao;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +18,7 @@ import com.rence.user.model.ReserveInfo_ViewDto;
 import com.rence.user.model.ReserveInfo_ViewEntity;
 import com.rence.user.model.ReserveMileageDto;
 import com.rence.user.model.ReserveMileageEntity;
+import com.rence.user.model.ReviewDto;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
 import com.rence.user.model.UserQuestionDto;
@@ -48,6 +49,11 @@ public class MypageMenuDAOImpl implements MypageMenuDAO {
 
 	@Autowired
 	OfficeMileageRepository mileage_repository;
+	
+	
+	/** ******************* **/
+	/** 예약 상세 페이지 SECTION **/
+	/** ******************* **/
 
 	// 예약 상세정보
 	@Override
@@ -142,6 +148,54 @@ public class MypageMenuDAOImpl implements MypageMenuDAO {
 	@Override
 	public int update_mileage_state(String mileage_no) {
 		int result = mileage_repository.update_mileage_state(mileage_no);
+
+		return result;
+	}
+
+	@Override
+	public int update_payment_cancel(String reserve_no, Integer cancel_amount) {
+		int result = payment_repository.update_payment_cancel(reserve_no, cancel_amount);
+
+		return result;
+	}
+
+	/** ******************* **/
+	/** 후기 내역 페이지 SECTION **/
+	/** ******************* **/
+
+	@Override
+	public int is_write_review(String room_no, String backoffice_no) {
+		int result = menuRepository.is_write_review(room_no, backoffice_no);
+
+		return result;
+	}
+
+	@Override
+	public int insert_reviewOK(ReviewDto dto) {
+		log.info("insert_reviewOK | {}", dto);
+		int result = 0;
+
+		try {
+			menuRepository.insert_review(dto.getReview_point(), dto);
+		} catch (Exception e) {
+			result = -1;
+		}
+		return result;
+	}
+
+	@Override
+	public int delete_review(String review_no) {
+		int result = menuRepository.delete_review(review_no);
+
+		return result;
+	}
+
+	/** ******************* **/
+	/** 문의 내역 페이지 SECTION **/
+	/** ******************* **/
+	@Override
+	public int delete_comment(String comment_no) {
+		int result = menuRepository.delete_comment(comment_no);
 
 		return result;
 	}

@@ -17,12 +17,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+@Entity
 @Data
 @Immutable
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserReviewDto {
+@Table(name="user_review_view")
+public class UserReview_ViewEntity {
 
 	@Id
 	@Column(name="review_no")

@@ -20,8 +20,8 @@ import com.rence.user.model.UserMypageDto;
 import com.rence.user.model.UserMypageEntity;
 import com.rence.user.model.UserQuestioEntity;
 import com.rence.user.model.UserQuestionDto;
-import com.rence.user.model.UserReviewDto;
-import com.rence.user.model.UserReviewEntity;
+import com.rence.user.model.UserReview_ViewDto;
+import com.rence.user.model.UserReview_ViewEntity;
 import com.rence.user.repository.MileageRepository;
 import com.rence.user.repository.MyQuestionRepository;
 import com.rence.user.repository.MyReserveRepository;
@@ -311,7 +311,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 
 	//리뷰(후기) 리스트
 	@Override
-	public List<UserReviewDto> select_all_review_paging(String user_no, Integer page) {
+	public List<UserReview_ViewDto> select_all_review_paging(String user_no, Integer page) {
 		log.info("select_all_review_paging()....");
 		log.info("user_no: {}", user_no);
 		log.info("current page: {}", page);
@@ -323,11 +323,11 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 		log.info("start_row: " + start_row);
 		log.info("end_row: " + end_row);
 
-		List<UserReviewEntity> entity_vos = userReviewRepository.select_all_review_paging(user_no, start_row, end_row);
+		List<UserReview_ViewEntity> entity_vos = userReviewRepository.select_all_review_paging(user_no, start_row, end_row);
 		log.info("entity_vos: {}", entity_vos);
 
-		List<UserReviewDto> vos = entity_vos.stream()
-				.map(source -> modelmapper.map(source, UserReviewDto.class)).collect(Collectors.toList());
+		List<UserReview_ViewDto> vos = entity_vos.stream()
+				.map(source -> modelmapper.map(source, UserReview_ViewDto.class)).collect(Collectors.toList());
 		return vos;
 	}
 	

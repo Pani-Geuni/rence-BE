@@ -1,4 +1,4 @@
-package com.rence.user.service;
+package com.rence.user.dao;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import com.rence.office.model.OfficePaymentDto;
 import com.rence.user.controller.UserInfoDto;
 import com.rence.user.model.ReserveInfo_ViewDto;
 import com.rence.user.model.ReserveMileageDto;
+import com.rence.user.model.ReviewDto;
 import com.rence.user.model.UserDto;
 
 public interface MypageMenuDAO {
@@ -29,6 +30,16 @@ public interface MypageMenuDAO {
 	int insert_mileage_changed(OfficeMileageDto temp_vo);
 
 	int update_mileage_state(String mileage_no);
+
+	int update_payment_cancel(String reserve_no, Integer update_cancel_amount);
+
+	int is_write_review(String room_no, String backoffice_no);
+
+	int insert_reviewOK(ReviewDto dto);
+
+	int delete_review(String review_no);
+
+	int delete_comment(String comment_no);
 
 	
 }//end class

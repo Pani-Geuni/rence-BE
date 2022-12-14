@@ -1,6 +1,6 @@
 /**
  * @author 강경석
- * user_review_view
+ * user_review_View
  */
 
 package com.rence.user.model;
@@ -17,13 +17,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @Data
 @Immutable
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="user_review_view")
-public class UserReviewEntity {
+public class UserReview_ViewDto {
 
 	@Id
 	@Column(name="review_no")
