@@ -35,7 +35,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 	@Autowired
 	BackOfficeSendEmail authSendEmail;
-	
+
 	@Autowired
 	HttpSession session;
 
@@ -95,15 +95,15 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 					map.put("auth_no", avo2.getAuth_no());
 
 				} else { // 전송 실패
-					log.info("failed...");
+					log.info("send failed...");
 					map.put("result", "0");
 				}
 			} else { // 재전송 실패
-				log.info("failed...3");
+				log.info("re-send failed...3");
 				map.put("result", "3");
 			}
 		} else { // 중복체크 실패
-			log.info("failed...");
+			log.info("over failed...");
 			map.put("result", "0");
 		}
 
@@ -143,7 +143,17 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 		Map<String, String> map = new HashMap<String, String>();
 
+		log.info("JsessionId::{}",session.getId());
+		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
+		Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
+		Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
 		map.put("result", "1");
+		log.info("successed...");
+		response.addCookie(cookie_no);
+		response.addCookie(cookie_profile);
+
+		map.put("result", "1");
+		map.put("JsessionId", session.getId());
 		map.put("backoffice_no", bvo.getBackoffice_no());
 		map.put("host_image", bvo.getHost_image());
 		map.put("backoffice_id", bvo.getBackoffice_id());
@@ -165,7 +175,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 			if (bvo2 != null) {
 				int flag = dao.backoffice_resetOK_pw(bvo2);
-				if (flag==1) {
+				if (flag == 1) {
 					map.put("result", "1");
 				}
 				log.info("save failed...");
@@ -191,23 +201,22 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 		Cookie[] cookies = request.getCookies();
 		String backoffice_no = "";
-		if (cookies!=null) {
-			for(Cookie cookie:cookies){
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("backoffice_no")) {
 					backoffice_no = cookie.getValue();
 				}
-			}		
+			}
 		}
 
 		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = dao.backoffice_settingOK_pw(bvo);
-		
-		Map<String, String> map = new HashMap<String,String>();
-		
-		
+
+		Map<String, String> map = new HashMap<String, String>();
+
 		if (result == 1) {
 			if (session.getAttribute("backoffice_id") != null) {
-				if(backoffice_no.equals(bvo.getBackoffice_no())) {
+				if (backoffice_no.equals(bvo.getBackoffice_no())) {
 					// HOST 로그인 session이 존재할 때
 					// Host 환경설정 > 비밀번호 수정
 					log.info("succeed...setting");
@@ -223,11 +232,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 			log.info("fail...");
 			map.put("result", "0");
 		}
-		
+
 		return map;
 	}
 
-	
 	/**
 	 * 
 	 * AOP ... 이메일 인증 번호 삭제

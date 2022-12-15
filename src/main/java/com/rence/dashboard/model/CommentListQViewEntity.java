@@ -53,14 +53,14 @@ public class CommentListQViewEntity {
 	@Column(name="backoffice_no")
 	private String backoffice_no;
 	
-	@Transient
-	private String answer_no;
-	
-	@Transient
-	private String answer_content;
-	
-	@Transient
-	private String answer_date;
+//	@Transient
+//	private String answer_no;
+//	
+//	@Transient
+//	private String answer_content;
+//	
+//	@Transient
+//	private String answer_date;
 	
 
 }

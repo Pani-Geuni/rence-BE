@@ -12,7 +12,7 @@ import com.rence.dashboard.model.SalesSettlementSummaryViewEntity;
 
 public interface SalesSettlementSummaryRepository extends JpaRepository<SalesSettlementSummaryViewEntity, Object> {
 
-	// 일
+	// 일일 정산 요약
 	@Query(nativeQuery = true, value = "select " 
 			+ "(select ("
 			+ "(select NVL(sum(p.payment_total),0) as sales_total from paymentinfo p, roominfo rm where p.room_no=rm.room_no and p.payment_state='T' and (((rm.room_type='desk') or (rm.room_type like 'meeting%')) and p.backoffice_no=?1  and trunc(payment_date)=trunc(current_date))) + "
