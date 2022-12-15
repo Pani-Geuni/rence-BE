@@ -959,9 +959,10 @@ public class DashboardServiceImpl implements DashboardService {
 
 		map.put("page", "reservation");
 		map.put("nowCnt", 1);
+		map.put("maxCnt", total_cnt);
 
 //		if (total_cnt > 0) {
-			map.put("maxCnt", total_cnt);
+//			map.put("maxCnt", total_cnt);
 //		} else {
 //			map.put("maxCnt", 0);
 //		}
@@ -974,6 +975,9 @@ public class DashboardServiceImpl implements DashboardService {
 		return map;
 	}
 
+	/**
+	 *  일정 관리 - 해당 날짜, 시간에 예약자 리스트 *************스크롤 페이징*****************
+	 */
 	@Override
 	public Map<String, Object> backoffice_reservation_paging(String backoffice_no, String room_no, String not_sdate,
 			String not_edate, String not_stime, String not_etime, String off_type, Integer page) {
