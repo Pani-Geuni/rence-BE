@@ -113,14 +113,15 @@ public class MypageController {
 	// **********************
 	@ApiOperation(value = "프로필 수정", notes = "프로필 수정 입니다.")
 	@RequestMapping(value = "/user_img_updateOK", method = RequestMethod.POST)
-	public String user_img_updateOK(UserDto udto, HttpServletRequest request, HttpServletResponse response,
-			MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile") MultipartFile multipartFile_user) {
+	public String user_img_updateOK(UserDto udto, HttpServletRequest request, MultipartHttpServletRequest mtfRequest,
+			@RequestParam(value = "multipartFile") MultipartFile multipartFile_user) {
 		log.info("user_img_updateOK()...");
 		log.info("result: {}", udto);
 		
-		int result = service.user_img_updateOK(udto, request, mtfRequest, response, multipartFile_user);
+		Map<String, String> map = service.user_img_updateOK(udto, request, mtfRequest,multipartFile_user);
 		
-		return "redirect:/rence/go_my_page";
+		String jsonObject = gson.toJson(map);
+		return jsonObject;
 	}
 
 	// **********************
