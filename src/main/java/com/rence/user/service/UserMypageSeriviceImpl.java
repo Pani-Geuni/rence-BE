@@ -63,10 +63,6 @@ public class UserMypageSeriviceImpl implements UserMypageSerivice {
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		umdto.setMileage_total(dc.format(Integer.parseInt(umdto.getMileage_total())));
 
-		Cookie cookie2 = new Cookie("user_image", umdto.getUser_image()); // 고유번호 쿠키 저장
-		cookie2.setPath("/");
-		response.addCookie(cookie2);
-
 		umdto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/" + umdto.getUser_image());
 
 		return umdto;
@@ -113,9 +109,11 @@ public class UserMypageSeriviceImpl implements UserMypageSerivice {
 	}
 
 	@Override
-	public int user_img_updateOK(UserDto udto, HttpServletRequest request, MultipartHttpServletRequest mtfRequest,
-			HttpServletResponse response, MultipartFile multipartFile_user) {
+	public Map<String, String> user_img_updateOK(UserDto udto, HttpServletRequest request, MultipartHttpServletRequest mtfRequest,
+			MultipartFile multipartFile_user) {
 		log.info("user_img_updateOK()...");
+		
+		Map<String, String> map = new HashMap<String, String>();
 		
 		//쿠키에서 유저 번호 가져오기
 		String user_no = null;
@@ -131,13 +129,12 @@ public class UserMypageSeriviceImpl implements UserMypageSerivice {
 		// 사진(파일)업로드
 		udto = fileuploadService.FileuploadOK(udto, mtfRequest, multipartFile_user);
 		log.info("fileresult: {}", udto);
+		
+		udto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/" + udto.getUser_image());
+		map.put("user_image", udto.getUser_image());
+		map.put("result", "1");
 
-		Cookie cookie2 = new Cookie("user_image", udto.getUser_image()); // 고유번호 쿠키 저장
-		cookie2.setPath("/");
-		response.addCookie(cookie2);
-
-		int result = dao.user_img_updateOK(udto);
-		return result;
+		return map;
 	}
 	
 	//마이페이지- 회원탈퇴

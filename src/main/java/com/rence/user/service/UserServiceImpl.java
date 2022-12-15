@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 	UserSendEmail authSendEmail;
 
 	@Override
-	// 로그인 성공로직
+	// 로그인
 	public UserDto user_login_info(String username) {
 		log.info("user_login_info()...");
 		log.info("username: {}", username);
