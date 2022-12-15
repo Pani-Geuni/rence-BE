@@ -13,17 +13,13 @@ import org.springframework.data.annotation.Immutable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 @Table(name="reserve_info_payment")
 public class ReserveMileageEntity {
 
@@ -48,4 +44,5 @@ public class ReserveMileageEntity {
 	
 	@Column(name="mileage_no")
 	private String mileage_no;
-}
+	
+}//end class

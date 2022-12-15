@@ -28,16 +28,22 @@ public class UserReview_ViewEntity {
 	@Id
 	@Column(name="review_no")
 	String review_no;
+	
 	@Column(name="review_content")
 	String review_content;
+	
 	@Column(name="review_point")
 	Integer review_point;
+	
 	@Column(name="review_date")
 	String review_date;
+	
 	@Column(name="room_name")
 	String room_name;
+	
 	@Column(name="company_name")
 	String company_name;
+	
 	@Column(name="user_no")
 	String user_no;
 	

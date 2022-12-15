@@ -9,4 +9,4 @@ public interface userFao {
 
 	UserDto FileuploadOK(UserDto udto, MultipartHttpServletRequest mtfRequest, MultipartFile multipartFile_user);
 
-}
+}//end class
