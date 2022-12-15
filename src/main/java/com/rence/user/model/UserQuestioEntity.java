@@ -11,19 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.data.annotation.Immutable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+@Immutable
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="user_commentpage_view")
-
 public class UserQuestioEntity {
-	
 	
 	@Id 
 	@Column(name="comment_no", insertable = false, updatable = false)
@@ -52,8 +52,8 @@ public class UserQuestioEntity {
 	
 	@Transient
 	String answer_content;
+	
 	@Transient
 	String answer_date;
-	
 
 }//end class

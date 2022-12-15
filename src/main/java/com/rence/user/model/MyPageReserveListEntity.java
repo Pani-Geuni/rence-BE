@@ -4,7 +4,6 @@
  * 유저 마일리지 상세페이지 데이터 VO 
  */
 
-
 package com.rence.user.model;
 
 import javax.persistence.Column;

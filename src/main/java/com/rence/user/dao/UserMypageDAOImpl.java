@@ -1,7 +1,5 @@
 package com.rence.user.dao;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -128,7 +126,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 	// 마이페이지 - 예약리스트 - 총 예약리스트 수
 	@Override
 	public long total_rowCount_reserve(String user_no, String time_point) {
-		log.info("total_rowCount_reserve_now()....");
+		log.info("total_rowCount_reserve()....");
 		log.info("user_no: {}", user_no);
 		log.info("time_point: {}", time_point);
 		long total_rowCount_reserve = 0;
@@ -157,7 +155,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 
 		List<MyPageReserveListEntity> entity_vos = myReserveRepository.select_all_now_reserve_list_paging(user_no,
 				start_row, end_row);
-		log.info("entity_vos: {}", entity_vos);
+		//log.info("entity_vos: {}", entity_vos);
 
 		List<MyPageReserveListDto> vos = entity_vos.stream()
 				.map(source -> modelmapper.map(source, MyPageReserveListDto.class)).collect(Collectors.toList());
@@ -265,7 +263,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 	@Override
 	public List<UserMileageDto> user_mileage_search_list_paging(UserDto udto, String searchKey, Integer page,
 			long total_rowCount_mileage_search) {
-		log.info("user_mileage_search_list()....");
+		log.info("user_mileage_search_list_paging()....");
 		log.info("udto: {}", udto);
 		log.info("searchKey: {}", searchKey);
 		List<UserMileageEntity> entity_vos = null;
@@ -365,7 +363,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 	// 마이페이지 - 문의내역리스트(답변)
 	@Override
 	public UserQuestionDto select_one_answer(String comment_no) {
-		log.info("select_all_question()....");
+		log.info("select_one_answer()....");
 		log.info("comment_no: {}", comment_no);
 		UserQuestioEntity entity = myQuestionRepository.select_one_answer(comment_no);
 		

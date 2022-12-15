@@ -24,13 +24,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
-@Entity
 @Immutable
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 @Table(name="REVIEW")
 public class ReviewEntity {
 	
@@ -59,4 +57,4 @@ public class ReviewEntity {
 	@Column(name="user_no")
 	String user_no;
 	
-}
+}//end classs

@@ -10,12 +10,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.data.annotation.Immutable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+@Immutable
 @Slf4j
 @Data
 public class UserDto implements Serializable,UserDetails  {
@@ -41,9 +43,7 @@ public class UserDto implements Serializable,UserDetails  {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		  Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-//	      for(String role : auth.split(",")) {
-//	         roles.add(new SimpleGrantedAuthority(role));
-//	      }
+
 	      return roles;
 
 	}

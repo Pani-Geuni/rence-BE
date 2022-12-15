@@ -8,7 +8,6 @@ import com.rence.user.controller.UserInfoDto;
 import com.rence.user.model.ReserveInfo_ViewDto;
 import com.rence.user.model.ReserveMileageDto;
 import com.rence.user.model.ReviewDto;
-import com.rence.user.model.UserDto;
 
 public interface MypageMenuDAO {
 

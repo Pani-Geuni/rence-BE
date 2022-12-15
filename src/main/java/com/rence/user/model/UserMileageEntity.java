@@ -26,7 +26,6 @@ import lombok.NoArgsConstructor;
 @Table(name="USER_DETAIL_MILEAGE_VIEW")
 public class UserMileageEntity {
 	
-	
 	@Column(name="user_no")
 	private String user_no; // 
 	@Column(name="mileage_total")
@@ -43,4 +42,4 @@ public class UserMileageEntity {
 	@Column(name="date")
 	private Date date; // payment_date
 	
-}
+}//end class
