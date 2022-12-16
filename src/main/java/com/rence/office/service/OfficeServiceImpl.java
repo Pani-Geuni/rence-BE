@@ -1,4 +1,4 @@
-package com.rence.office.controller;
+package com.rence.office.service;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -25,6 +25,7 @@ import com.rence.backoffice.common.CustomDateFormatter;
 import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.office.common.OfficeInfoMap;
+import com.rence.office.dao.officeDAO;
 import com.rence.office.model.Comment_Dto;
 import com.rence.office.model.ListViewDto;
 import com.rence.office.model.OfficeInfo_ViewDto;
