@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Immutable;
+import org.springframework.lang.NonNullFields;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 public class UserDto implements Serializable,UserDetails  {
+	
 	
 	private String user_no; //사용자 고유번호
 	
