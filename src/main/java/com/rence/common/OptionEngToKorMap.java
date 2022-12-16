@@ -107,11 +107,12 @@ public class OptionEngToKorMap {
 			
 			for (int i = 0; i < image_split.length; i++) {
 				System.out.println(image_split[i].trim());
-				option_list.add(image_split[i].trim());
+				option_list.add("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+image_split[i].trim());
 			}
 			
 			return option_list;
 		}
+//		odto.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+odto.getBackoffice_image());
 	
 	// 주변 시설
 	public List<String> splitAroundOption(String options) {

@@ -66,6 +66,7 @@ public class OfficeServiceImpl implements OfficeService {
 		// backoffice 기본 정보
 		// ******************
 		OfficeInfo_ViewDto odto = dao.select_one_office_info(backoffice_no);
+		
 		List<String> type_list = new ArrayList<String>();
 		List<String> tag_list = new ArrayList<String>();
 		List<String> img_list = new ArrayList<String>();
@@ -87,6 +88,7 @@ public class OfficeServiceImpl implements OfficeService {
 		}
 
 		img_list = info_map.splitImage(odto.getBackoffice_image());
+		odto.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+odto.getBackoffice_image());
 
 		if (odto.getBackoffice_option() != null) {
 			option_list = info_map.splitOption(odto.getBackoffice_option());
@@ -163,10 +165,13 @@ public class OfficeServiceImpl implements OfficeService {
 		String is_login = (String) session.getAttribute("user_id");
 
 		if (cvdto != null) {
+			
+			
 			for (OfficeQuestionDto vo : cvdto) {
 
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
+				
 
 				OfficeQuestionDto dto2 = dao.select_one_answer(vo.getComment_no());
 				if (dto2 != null) {
