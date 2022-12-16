@@ -12,6 +12,7 @@ import com.rence.office.model.OfficeMileageEntity;
 import com.rence.office.model.OfficePaymentDto;
 import com.rence.office.model.OfficePaymentEntity;
 import com.rence.office.repo.OfficeMileageRepository;
+import com.rence.office.repo.OfficePaymentRepository;
 import com.rence.office.repo.OfficeReserveRepository;
 import com.rence.user.controller.UserInfoDto;
 import com.rence.user.model.ReserveInfo_ViewDto;
@@ -21,7 +22,6 @@ import com.rence.user.model.ReserveMileageEntity;
 import com.rence.user.model.ReviewDto;
 import com.rence.user.model.UserEntity;
 import com.rence.user.repository.MypageMenuRepository;
-import com.rence.user.repository.OfficePaymentRepository;
 import com.rence.user.repository.ReserveMileageRepository;
 
 import lombok.extern.slf4j.Slf4j;

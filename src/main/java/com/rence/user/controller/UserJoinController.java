@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,7 +66,7 @@ public class UserJoinController {
 	// **********************
 	@ApiOperation(value = "이메일 인증번호요청", notes = "이메일 인증번호요청 입니다.")
 	@PostMapping("/user_auth")
-//	@Transactional
+	@Transactional
 	public String user_auth(AuthDTO adto, UserDto udto, EmailVO evo) {
 		log.info("Welcome user_auth");
 		log.info("{}", udto);

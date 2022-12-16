@@ -1,7 +1,3 @@
-/**
- * @author 전판근
- */
-
 package com.rence.office.model;
 
 import javax.persistence.Column;
@@ -15,31 +11,33 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @ToString
-public class OfficeReserveDto {
+@Table(name="OFFICE_INFO_VIEW")
+public class RoomScheduleEntity {
+
+	@Id
+	@Column(name="schedule_no")
+	private String schedule_no;
 	
-	private String reserve_no;
+	@Column(name="not_sdate")
+	private String not_sdate;
 	
-	private String reserve_stime;
+	@Column(name="not_edate")
+	private String not_edate;
 	
-	private String reserve_etime;
+	@Column(name="not_stime")
+	private String not_stime;
 	
-	private String reserve_sdate;
+	@Column(name="not_etime")
+	private String not_etime;
 	
-	private String reserve_edate;
-	
-	private String reserve_state;
-	
+	@Column(name="room_no")
 	private String room_no;
 	
-	private String user_no;
-	
+	@Column(name="backoffice_no")
 	private String backoffice_no;
-	
-	private String room_type;
-
 }

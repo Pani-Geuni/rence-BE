@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.model.AuthEntity;
+import com.rence.config.CustomModelMapper;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
 import com.rence.user.repository.UserAuthRepository;
@@ -47,8 +48,15 @@ public class UserDAOImpl implements UserDAO {
 		ModelMapper modelMapper = new ModelMapper();
 		
 		UserEntity userEntity = repository.emailCheckOK(udto.getUser_email());
-
-		UserDto udto2 = modelMapper.map(userEntity,UserDto.class);
+		log.info("============userEntity===========: {}", userEntity);
+		UserDto udto2 = new UserDto();
+		
+		if(userEntity != null) {
+			udto2 = modelMapper.map(userEntity,UserDto.class);
+		}
+		else {
+			udto2 = null;
+		}
 		
 		return udto2;
 	}
@@ -157,7 +165,11 @@ public class UserDAOImpl implements UserDAO {
 		
 		UserEntity userEntity =  repository.user_email_select(udto.getUser_email());
 
-		UserDto udto2 = modelMapper.map(userEntity,UserDto.class);
+		UserDto udto2 = new UserDto();
+		if(udto2 != null) {
+			udto2 = modelMapper.map(userEntity,UserDto.class);
+		}
+		
 		
 		return udto2;
 	}
@@ -171,7 +183,11 @@ public class UserDAOImpl implements UserDAO {
 		
 		UserEntity userEntity = repository.user_id_email_select(udto.getUser_id(), udto.getUser_email());
 
-		UserDto udto2 = modelMapper.map(userEntity,UserDto.class);
+		UserDto udto2 = new UserDto();
+		if(udto2 != null) {
+			udto2 = modelMapper.map(userEntity,UserDto.class);
+		}
+		
 		
 		return udto2;
 	}

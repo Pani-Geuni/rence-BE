@@ -40,6 +40,8 @@ public class UserDto implements Serializable,UserDetails  {
 	
 	private String user_state; //회원상태
 	
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		  Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();

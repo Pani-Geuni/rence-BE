@@ -1,7 +1,3 @@
-/**
- * @author 전판근
- */
-
 package com.rence.office.model;
 
 import java.util.Date;
@@ -80,4 +76,5 @@ public class OfficePaymentEntity {
 	
 	@Column(name="imp_uid")
 	private String imp_uid;
-}
+	
+}//end class
