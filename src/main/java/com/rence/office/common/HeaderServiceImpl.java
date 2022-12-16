@@ -26,6 +26,7 @@ public class HeaderServiceImpl implements HeaderService {
 			Integer page) {
 
 		log.info("search_list()..");
+		log.info("type: {} location: {} searchWord: {} condition: {} page: {} ",type, location, searchWord, condition, page );
 
 		Map<String, Object> map = new HashMap<String, Object>();
 

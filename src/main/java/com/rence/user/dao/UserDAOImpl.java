@@ -162,14 +162,15 @@ public class UserDAOImpl implements UserDAO {
 		log.info("user_email_select()....");
 		log.info("udto: {}", udto);
 		
-		UserEntity userEntity =  repository.user_email_select(udto.getUser_email());
+		UserDto udto2 = null;
+		
+		UserEntity userEntity = new UserEntity();
+		userEntity =  repository.user_email_select(udto.getUser_email());
 
-		UserDto udto2 = new UserDto();
-		if(udto2 != null) {
+		if(userEntity != null) {
 			udto2 = modelMapper.map(userEntity,UserDto.class);
 		}
-		
-		
+
 		return udto2;
 	}
 
@@ -182,11 +183,10 @@ public class UserDAOImpl implements UserDAO {
 		
 		UserEntity userEntity = repository.user_id_email_select(udto.getUser_id(), udto.getUser_email());
 
-		UserDto udto2 = new UserDto();
-		if(udto2 != null) {
+		UserDto udto2 = null;
+		if(userEntity != null) {
 			udto2 = modelMapper.map(userEntity,UserDto.class);
 		}
-		
 		
 		return udto2;
 	}
