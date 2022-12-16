@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Object> {
 	UserEntity emailCheckOK(String user_email);
 
 	// 아이디 중복체크
-	@Query(nativeQuery = true, value = "select * from userinfo where user_id=?1")
+	@Query(nativeQuery = true, value = "select count(*) from userinfo where user_id=?1")
 	int idCheckOK(String user_id);
 
 	// 회원가입 - 회원정보 입력
