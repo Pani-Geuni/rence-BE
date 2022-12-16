@@ -33,7 +33,7 @@ public class HeaderServiceImpl implements HeaderService {
 		log.info("total_cnt : {}", total_cnt);
 
 		List<ListViewDto> list = null;
-		list = dao.search_list(type, location, searchWord, condition, 9 * (page - 1) + 1, 9 * (page));
+		list = dao.search_list(type, location, searchWord, condition, 12 * (page - 1) + 1, 12 * (page));
 
 		if (list == null)
 			map.put("cnt", 0);
