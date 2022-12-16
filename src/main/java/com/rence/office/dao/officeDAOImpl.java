@@ -146,11 +146,14 @@ public class officeDAOImpl implements officeDAO {
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
 
+		List<OfficeQuestionDto> dtos =null;
 		List<OfficeQuestionEntity> entity_list = question_repository.select_all_comment(backoffice_no, start_row,
 				end_row);
 
-		List<OfficeQuestionDto> dtos = entity_list.stream()
-				.map(source -> modelmapper.map(source, OfficeQuestionDto.class)).collect(Collectors.toList());
+		if(entity_list != null) {
+			 dtos = entity_list.stream()
+					.map(source -> modelmapper.map(source, OfficeQuestionDto.class)).collect(Collectors.toList());
+		}
 
 		return dtos;
 	}
