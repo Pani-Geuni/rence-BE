@@ -177,8 +177,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 		log.info("start_row: " + start_row);
 		log.info("end_row: " + end_row);
 
-		List<MyPageReserveListEntity> entity_vos = myReserveRepository.select_all_before_reserve_list_paging(user_no,
-				start_row, end_row);
+		List<MyPageReserveListEntity> entity_vos = myReserveRepository.select_all_before_reserve_list_paging(user_no, start_row, end_row);
 		log.info("entity_vos: {}", entity_vos);
 
 		List<MyPageReserveListDto> vos = entity_vos.stream()
@@ -194,7 +193,7 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 
 		UserMileageEntity entity = mileageRepository.totalMileage_selectOne(udto.getUser_no());
 
-		UserMileageDto udto2 = modelmapper.map(udto, UserMileageDto.class);
+		UserMileageDto udto2 = modelmapper.map(entity, UserMileageDto.class);
 
 		return udto2;
 	}
@@ -371,4 +370,5 @@ public class UserMypageDAOImpl implements UserMypageDAO {
 		
 		return dto;
 	}
+	
 }// end class

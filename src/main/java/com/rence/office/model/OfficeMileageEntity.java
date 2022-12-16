@@ -25,8 +25,6 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 @Table(name="mileage")
 public class OfficeMileageEntity {
 

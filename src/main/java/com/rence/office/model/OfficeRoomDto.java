@@ -1,4 +1,3 @@
-
 package com.rence.office.model;
 
 import org.springframework.data.annotation.Immutable;
@@ -7,25 +6,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfficeMileageDto {
+@EqualsAndHashCode
+public class OfficeRoomDto {
 
-	private String mileage_no;
+	private String room_no;
 	
-	private int mileage_total;
+	private String backoffice_no;
 	
-	private String mileage_state;
-
-	private String user_no;
+	private String room_type;
 	
-	private int mileage_change;
+	private String room_name;
 	
-	private String payment_no;
-	
+	private String room_price;
 	
 }//end class
