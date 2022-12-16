@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String idCheckOK(UserDto udto) {
 		log.info("user_idCheckOK()...");
-		log.info("result: {}", udto);
+		log.info("입력 아이디: {}", udto.getUser_id());
 
 		String idCheck_result = null;
 

@@ -272,7 +272,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 		// backoffice 기본 정보
 		res.put("res", map);
-		res.put("odto", odto);
+		res.put("ovo", odto);
 		res.put("short_roadname_address", short_roadname_address);
 		res.put("type_list", type_list);
 		res.put("tag_list", tag_list);
