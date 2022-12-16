@@ -96,8 +96,11 @@ public class officeDAOImpl implements officeDAO {
 	@Override
 	public OfficeInfo_ViewDto select_one_office_info(String backoffice_no) {
 		log.info("select_one_office_info()...");
+		log.info("backoffice_no: {}",backoffice_no);
 
 		OfficeInfo_ViewEntity entity = detail_repository.select_one_office_info(backoffice_no);
+		log.info("entity: {}",entity);
+		
 
 		OfficeInfo_ViewDto dto = modelmapper.map(entity, OfficeInfo_ViewDto.class);
 
@@ -155,11 +158,14 @@ public class officeDAOImpl implements officeDAO {
 	@Override
 	public OfficeQuestionDto select_one_answer(String mother_no) {
 		log.info("select_one_answer()...");
-
+		log.info("mother_no: {}", mother_no);
+		OfficeQuestionDto dto = null;
 		OfficeQuestionEntity entity = question_repository.select_one_answer(mother_no);
 
-		OfficeQuestionDto dto = modelmapper.map(entity, OfficeQuestionDto.class);
-
+		if(entity != null) {
+			dto = modelmapper.map(entity, OfficeQuestionDto.class);
+		}
+		
 		return dto;
 	}
 

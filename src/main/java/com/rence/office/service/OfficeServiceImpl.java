@@ -298,8 +298,6 @@ public class OfficeServiceImpl implements OfficeService {
 		res.put("review_cnt", total_rowCount_review_all);
 
 		res.put("page", "space_detail");
-		res.put("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
-		res.put("title", "공간 상세 페이지");
 
 		return res;
 	}
