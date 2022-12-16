@@ -1,4 +1,4 @@
-package com.rence.office.controller;
+package com.rence.office.dao;
 
 import java.util.List;
 import java.util.stream.Collectors;
