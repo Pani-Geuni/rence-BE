@@ -2,15 +2,11 @@
 package com.rence.office.controller;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeDTO;
-import com.rence.common.OptionEngToKorMap;
-import com.rence.office.common.OfficeInfoMap;
 import com.rence.office.model.Comment_Dto;
-import com.rence.office.model.OfficeInfo_ViewDto;
 import com.rence.office.model.OfficePaymentDto;
 import com.rence.office.model.OfficeReserveDto;
-import com.rence.office.model.PaymentInfoDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -203,8 +195,7 @@ public class OfficeController {
 		log.info("{}...{}...{}", type, page, condition);
 
 		Map<String, Object> map = service.list_paging(type, page, condition);
-		
-		
+
 		Gson gson = new Gson();
 		String json = gson.toJson(map);
 
@@ -212,19 +203,17 @@ public class OfficeController {
 	}
 
 	// 검색 리스트 페이지 페이징
-		@ApiOperation(value = "검색 리스트 페이지 페이징 컨트롤러", notes = "검색 리스트 페이지를 페이징하는 컨트롤러")
-		@GetMapping(value = "/search_list_paging")
-		public String search_list_paging(String type, String location, String searchWord, String condition, Integer page) {
-			log.info("search_list_paging()...");
-			log.info("search_list()...");
-			
-			Map<String, Object> map = service.search_list_paging(type, location, searchWord, condition, page);
+	@ApiOperation(value = "검색 리스트 페이지 페이징 컨트롤러", notes = "검색 리스트 페이지를 페이징하는 컨트롤러")
+	@GetMapping(value = "/search_list_paging")
+	public String search_list_paging(String type, String location, String searchWord, String condition, Integer page) {
+		log.info("search_list_paging()...");
+		log.info("search_list()...");
 
-			
+		Map<String, Object> map = service.search_list_paging(type, location, searchWord, condition, page);
 
-			Gson gson = new Gson();
-			String json = gson.toJson(map);
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
 
-			return json;
-		}
+		return json;
+	}
 }// end class
