@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.model.AuthEntity;
-import com.rence.config.CustomModelMapper;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
 import com.rence.user.repository.UserAuthRepository;

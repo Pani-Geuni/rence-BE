@@ -874,35 +874,33 @@ public class OfficeServiceImpl implements OfficeService {
 
 			dto.setUser_name(maskingName);
 		}
-		Map<String, Object> result_map = new HashMap<String, Object>();
 		
 		// backoffice 기본 정보
-		result_map.put("res", map);
-		result_map.put("ovo", odto);
-		result_map.put("type_list", type_list);
-		result_map.put("tag_list", tag_list);
-		result_map.put("img_list", img_list);
-		result_map.put("option_list", option_list);
-		result_map.put("around_option_list", around_option_list);
-		result_map.put("short_roadname_address", short_roadname_address);
-		result_map.put("page", "space_detail_office");
+		map.put("ovo", odto);
+		map.put("type_list", type_list);
+		map.put("tag_list", tag_list);
+		map.put("img_list", img_list);
+		map.put("option_list", option_list);
+		map.put("around_option_list", around_option_list);
+		map.put("short_roadname_address", short_roadname_address);
+		map.put("page", "space_detail_office");
 
 		// backoffice 운영 시간
-		result_map.put("otvo", otvo);
+		map.put("otvo", otvo);
 
 		// backoffice 운영 공간
-		result_map.put("rvos", rdtos);
+		map.put("rvos", rdtos);
 
 		// backoffice 문의
-		result_map.put("is_login", is_login);
-		result_map.put("cvos", cdtos);
-		result_map.put("cvos_cnt", total_rowCount_question_all);
+		map.put("is_login", is_login);
+		map.put("cvos", cdtos);
+		map.put("cvos_cnt", total_rowCount_question_all);
 
 		// backoffice 후기
-		result_map.put("revos", revos);
-		result_map.put("review_cnt", total_rowCount_review_all);
+		map.put("revos", revos);
+		map.put("review_cnt", total_rowCount_review_all);
 
-		return result_map;
+		return map;
 	}
 	
 //	공간 결제 페이지
@@ -1118,22 +1116,21 @@ public class OfficeServiceImpl implements OfficeService {
 				}
 			}
 		}
-		Map<String, Object> result_map = new HashMap<String, Object>();
 		
-		result_map.put("condition", condition);
-		result_map.put("page", "list_page");
-		result_map.put("nowCnt", 1);
+		map.put("condition", condition);
+		map.put("page", "list_page");
+		map.put("nowCnt", 1);
 
 		if (total_cnt > 0)
 			map.put("maxCnt", total_cnt);
 		else
 			map.put("maxCnt", 0);
 
-		result_map.put("list", list);
-		result_map.put("res", map);
+		map.put("list", list);
+		
 
 
-		return result_map;
+		return map;
 	}
 	
 	// 리스트 페이지 페이징
