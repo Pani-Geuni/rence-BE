@@ -94,9 +94,11 @@ public class AutoAspect {
 //					Thread.sleep(600000);
 //					log.info("sleep-------------end-----------");
 //					log.info("reserve::{}",reserve);
-//					ReserveUpdateVO reserve_no = service.select_one_false_reserve(reserve.getReserve_stime(), reserve.getReserve_etime(), reserve.getRoom_no());
+//					ReserveUpdateDTO reserve_no = service.select_one_false_reserve(reserve.getReserve_stime(), reserve.getReserve_etime(), reserve.getRoom_no());
 //					log.info("reserve::{}",reserve_no);
-//					service.reserve_auto_delete(reserve_no.getReserve_no());
+//					if (reserve_no!=null) {
+//						service.reserve_auto_delete(reserve_no.getReserve_no());
+//					}
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}

@@ -6,22 +6,66 @@ package com.rence.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CorsFilter;
 
+import com.rence.security.jwt.JwtAccessDeniedHandler;
+import com.rence.security.jwt.JwtAuthenticationEntryPoint;
+import com.rence.security.jwt.JwtSecurityConfig;
+import com.rence.security.jwt.TokenProvider;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @EnableWebSecurity(debug = true)
 @Configuration
 @Order(2)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BackOfiiceSecurityConfig {
+
+//	@Bean
+//	public JwtAuthenticateFilter jwtAuthenticateFilter() {
+//		return new JwtAuthenticateFilter();
+//	}
+
+//	@Autowired
+//	JwtAuthenticateFilter jwtAuthenticateFilter;
+//	
+//	@Autowired
+//	private AuthEntryPointJwt unauthorizedHandler;
+
+	private final TokenProvider tokenProvider;
+	private final CorsFilter corsFilter;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+	public BackOfiiceSecurityConfig(TokenProvider tokenProvider, CorsFilter corsFilter,
+			JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+		this.tokenProvider = tokenProvider;
+		this.corsFilter = corsFilter;
+		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+	}
 
 	@Bean
 	public UserDetailsService customerUserDetailsService() {
 		return new BackOfficeUserDetailsService();
+	}
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
 	}
 
 	// BCryptPasswordEncoder는 Spring Security에서 제공하는 비밀번호 암호화 객체 (BCrypt라는 해시 함수를
@@ -44,30 +88,57 @@ public class BackOfiiceSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
-		http.authenticationProvider(authenticationProvider2());
+//		http.authenticationProvider(authenticationProvider2());
 
-		http.authorizeRequests().antMatchers("/backoffice/insert").permitAll().antMatchers("/backoffice/auth")
-				.permitAll().antMatchers("/backoffice/authOK").permitAll().antMatchers("/backoffice/insertOK")
-				.permitAll().antMatchers("/backoffice/setting_pw").permitAll().antMatchers("/backoffice/settingOK_pw")
-				.permitAll().antMatchers("/backoffice/reset_pw").permitAll();
+////		http.antMatcher("/backoffice/**").authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
+////				.anyRequest().authenticated() // 요청 URL에 따라 접근 권한을 설정
+////
+////				.and().formLogin() // 로그인 폼은
+////				.loginPage("/backoffice/landing") // 해당 주소로 로그인 페이지를 호출한다.
+////				.loginProcessingUrl("/backoffice/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. ->
+////				.successForwardUrl("/backoffice/loginSuccess") // 성공시 요청을 처리할 핸들러
+////				.failureForwardUrl("/backoffice/loginFail") // 실패시 요청을 처리할 핸들러
+////				.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃
+////																													// URL
+////				.logoutSuccessUrl("/backoffice/logoutOK") // 성공시 리턴 URL
+////				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
+////				.deleteCookies("JSESSIONID", "backoffice_no", "host_image") // JSESSIONID 쿠키 삭제
+////				.permitAll();
+//
+//		return http.build();
 
-		http.antMatcher("/backoffice/**").authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-				.anyRequest().authenticated() // 요청 URL에 따라 접근 권한을 설정
 
-				.and().formLogin() // 로그인 폼은
-				.loginPage("/backoffice/landing") // 해당 주소로 로그인 페이지를 호출한다.
-				.loginProcessingUrl("/backoffice/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. ->
-				.successForwardUrl("/backoffice/loginSuccess") // 성공시 요청을 처리할 핸들러
-				.failureForwardUrl("/backoffice/loginFail") // 실패시 요청을 처리할 핸들러
-				.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃
-																													// URL
+		http.csrf().disable()
+
+//				.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
+				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+				.accessDeniedHandler(jwtAccessDeniedHandler)
+//
+//        // enable h2-console
+//        .and()
+//        .headers()
+//        .frameOptions()
+//        .sameOrigin()
+
+				// 세션을 사용하지 않기 때문에 STATELESS로 설정
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+				.and().authorizeRequests().antMatchers("/backoffice/**").permitAll()
+
+				.anyRequest().authenticated()
+
+				.and().apply(new JwtSecurityConfig(tokenProvider))
+				
+				.and().logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃// URL
 				.logoutSuccessUrl("/backoffice/logoutOK") // 성공시 리턴 URL
-				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
+//				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
 				.deleteCookies("JSESSIONID", "backoffice_no", "host_image") // JSESSIONID 쿠키 삭제
 				.permitAll();
 
-		http.csrf().disable();
-
 		return http.build();
+
 	}
+
 }
