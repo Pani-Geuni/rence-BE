@@ -17,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -69,11 +71,13 @@ public class BackOfficeDTO implements Serializable, UserDetails{
    // security
    @Override
    public String getPassword() {
+	   log.info("this.getBackoffice_pw()::{}",this.getBackoffice_pw());
       return this.getBackoffice_pw();
    }
 
    @Override
    public String getUsername() {
+	   log.info("this.getBackoffice_id()::{}",this.getBackoffice_id());
       return this.getBackoffice_id();
    }
 

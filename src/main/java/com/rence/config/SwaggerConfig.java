@@ -58,7 +58,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	
 	// cors 설정
 	@Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry) { //.allowedOriginsPattern("*")
         registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET","POST", "HEAD", "PUT","DELETE", "OPTIONS", "PATCH")
                 .allowedHeaders("Content-Type","X-Requested-With","accept", "Origin",
                         "Access-Control-Request-Method","submissionid")

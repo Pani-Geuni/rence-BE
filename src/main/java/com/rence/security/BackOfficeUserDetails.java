@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.rence.backoffice.model.BackOfficeDTO;
 
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class BackOfficeUserDetails implements UserDetails {
 	
 	private BackOfficeDTO backoffice;
 	
-	
+
 	
 	public BackOfficeUserDetails(BackOfficeDTO backoffice) {
 		this.backoffice = backoffice;
@@ -32,12 +33,10 @@ public class BackOfficeUserDetails implements UserDetails {
 	}
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return backoffice.getBackoffice_pw();
 	}
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 	      log.info("id::::::::::::::::::{}",backoffice.getBackoffice_id());
 	      return backoffice.getBackoffice_id();
 

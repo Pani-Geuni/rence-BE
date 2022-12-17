@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 import com.rence.backoffice.common.BackOfficeSendEmail;
 import com.rence.backoffice.dao.BackOfficeDAO;
@@ -201,15 +202,20 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	public Map<String, String> backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		Cookie[] cookies = request.getCookies();
+//		Cookie[] cookies = request.getCookies();
 		String backoffice_no = "";
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("backoffice_no")) {
-					backoffice_no = cookie.getValue();
-				}
-			}
-		}
+//		if (cookies != null) {
+//			for (Cookie cookie : cookies) {
+//				if (cookie.getName().equals("backoffice_no")) {
+//					backoffice_no = cookie.getValue();
+//				}
+//			}
+//		}
+		
+		Cookie cookie = WebUtils.getCookie(request, "backoffice_no");
+		if (cookie != null) {
+			backoffice_no = cookie.getValue();
+		} 
 
 		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = dao.backoffice_settingOK_pw(bvo);
@@ -217,13 +223,13 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Map<String, String> map = new HashMap<String, String>();
 
 		if (result == 1) {
-			if (session.getAttribute("backoffice_id") != null) {
+//			if (session.getAttribute("backoffice_id") != null) {
 				if (backoffice_no.equals(bvo.getBackoffice_no())) {
 					// HOST 로그인 session이 존재할 때
 					// Host 환경설정 > 비밀번호 수정
 					log.info("succeed...setting");
 					map.put("result", "1");
-				}
+//				}
 			} else {
 				// 가입 신청이 완료되어
 				// 신청자의 메일에서 링크 페이지를 열고 수정 했을 때
