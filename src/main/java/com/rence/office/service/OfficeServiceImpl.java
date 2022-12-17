@@ -180,12 +180,13 @@ public class OfficeServiceImpl implements OfficeService {
 							vo.setAnswer_date(dto2.getComment_date());
 							vo.setComment_state("Y");
 						} else {
-							vo.setAnswer_content("null");
-							vo.setAnswer_date("null");
+							vo.setAnswer_content("x");
+		                     vo.setAnswer_date("x");
 						}
 					}
 				} else {
 					vo.setComment_state("N");
+					vo.setAnswer_date("x");
 
 				}
 
@@ -371,15 +372,15 @@ public class OfficeServiceImpl implements OfficeService {
 							dto.setAnswer_date(dto2.getComment_date());
 							dto.setComment_state("Y");
 						} else {
-							dto.setAnswer_content("null");
-							dto.setAnswer_date("null");
+							dto.setAnswer_content("x");
+							dto.setAnswer_date("x");
 						}
 					}
 
 				} else {
 					dto.setComment_state("N");
-					dto.setAnswer_content(null);
-					dto.setAnswer_date(null);
+					dto.setAnswer_content("x");
+					dto.setAnswer_date("x");
 				}
 
 				// 이름 마스킹
