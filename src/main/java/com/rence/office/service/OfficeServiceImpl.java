@@ -66,7 +66,7 @@ public class OfficeServiceImpl implements OfficeService {
 		// backoffice 기본 정보
 		// ******************
 		OfficeInfo_ViewDto odto = dao.select_one_office_info(backoffice_no);
-		
+
 		List<String> type_list = new ArrayList<String>();
 		List<String> tag_list = new ArrayList<String>();
 		List<String> img_list = new ArrayList<String>();
@@ -88,7 +88,6 @@ public class OfficeServiceImpl implements OfficeService {
 		}
 
 		img_list = info_map.splitImage(odto.getBackoffice_image());
-		odto.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+odto.getBackoffice_image());
 
 		if (odto.getBackoffice_option() != null) {
 			option_list = info_map.splitOption(odto.getBackoffice_option());
@@ -152,7 +151,6 @@ public class OfficeServiceImpl implements OfficeService {
 			}
 		}
 
-		log.info("maxPage: " + maxPage);
 
 		map.put("totalPageCnt", totalPageCnt);
 		map.put("nowPage", nowPage);
@@ -165,13 +163,10 @@ public class OfficeServiceImpl implements OfficeService {
 		String is_login = (String) session.getAttribute("user_id");
 
 		if (cvdto != null) {
-			
-			
 			for (OfficeQuestionDto vo : cvdto) {
 
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
-				
 
 				OfficeQuestionDto dto2 = dao.select_one_answer(vo.getComment_no());
 				if (dto2 != null) {
@@ -191,6 +186,8 @@ public class OfficeServiceImpl implements OfficeService {
 					}
 				} else {
 					vo.setComment_state("N");
+					vo.setAnswer_content(null);
+					vo.setAnswer_date(null);
 				}
 
 				// 이름 마스킹
@@ -568,13 +565,13 @@ public class OfficeServiceImpl implements OfficeService {
 		return IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(i -> startDate.plusDays(i))
 				.collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public Map<String, String> office_reserve_check_rsu(String backoffice_no, String room_no, String reserve_stime,
 			String reserve_etime) throws ParseException {
-		
+
 		log.info("office_reserve_check_rsu()...");
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 
 		List<OfficeReserveDto> dtos = dao.check_reserve_office(backoffice_no, room_no);
@@ -624,18 +621,17 @@ public class OfficeServiceImpl implements OfficeService {
 		} else {
 			map.put("result", "0");
 		}
-		
-		
-		log.info("map: {}",map);
-		
+
+		log.info("map: {}", map);
+
 		return map;
-		
+
 	}
-	
+
 	@Override
 	public Map<String, String> reserve_rsu(OfficeReserveDto rdto) throws ParseException {
 		log.info("reserve_rsu()....");
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 
 		OfficeReserveDto_date date_dto = new OfficeReserveDto_date();
@@ -666,7 +662,7 @@ public class OfficeServiceImpl implements OfficeService {
 		}
 		return map;
 	}
-	
+
 	@Override
 	public Map<String, Object> space_intruduce_office(BackOfficeDTO bdto, String introduce_menu, Integer page) {
 		log.info("space_intruduce_office()....");
@@ -878,7 +874,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 			dto.setUser_name(maskingName);
 		}
-		
+
 		// backoffice 기본 정보
 		map.put("ovo", odto);
 		map.put("type_list", type_list);
@@ -906,16 +902,14 @@ public class OfficeServiceImpl implements OfficeService {
 
 		return map;
 	}
-	
+
 //	공간 결제 페이지
 	@Override
 	public Map<String, Object> space_payment_rsu(OfficeReserveDto rdto) throws ParseException {
 		log.info("space_payment_rsu");
-		
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		
 		String reserve_no = rdto.getReserve_no();
 
 		PaymentInfoDto pdto = dao.select_one_final_payment_info(reserve_no);
@@ -964,15 +958,13 @@ public class OfficeServiceImpl implements OfficeService {
 		map.put("payment_all", payment_all);
 		map.put("earned_mileage", earned_mileage);
 
-
 		return map;
 	}
-	
+
 	@Override
 	public Map<String, String> space_payment_rsu(OfficePaymentDto pdto) {
 		log.info("space_payment_rsu");
-		
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 		PaymentInfoDto pvo2 = dao.select_one_final_payment_info(pdto.getReserve_no());
 		pdto.setRoom_no(pvo2.getRoom_no());
@@ -1055,11 +1047,11 @@ public class OfficeServiceImpl implements OfficeService {
 		}
 		return map;
 	}
-	
+
 	@Override
 	public Map<String, String> insert_question(Comment_Dto dto) {
 		log.info("insert_question");
-		
+
 		int result = dao.insert_question(dto);
 
 		log.info("insert_question()..");
@@ -1076,7 +1068,7 @@ public class OfficeServiceImpl implements OfficeService {
 		}
 		return map;
 	}
-	
+
 	@Override
 	public Map<String, Object> list_page(String type, Integer page, String condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -1120,7 +1112,7 @@ public class OfficeServiceImpl implements OfficeService {
 				}
 			}
 		}
-		
+
 		map.put("condition", condition);
 		map.put("page", "list_page");
 		map.put("nowCnt", 1);
@@ -1131,17 +1123,15 @@ public class OfficeServiceImpl implements OfficeService {
 			map.put("maxCnt", 0);
 
 		map.put("list", list);
-		
-
 
 		return map;
 	}
-	
+
 	// 리스트 페이지 페이징
 	@Override
 	public Map<String, Object> list_paging(String type, Integer page, String condition) {
 		log.info("list_paging()....");
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<ListViewDto> list = dao.select_all_list(type, condition, 12 * (page - 1) + 1, 12 * (page));
@@ -1185,14 +1175,14 @@ public class OfficeServiceImpl implements OfficeService {
 		map.put("list", list);
 		return map;
 	}
-	
+
 	// 검색 리스트 페이지 페이징
 	@Override
 	public Map<String, Object> search_list_paging(String type, String location, String searchWord, String condition,
 			Integer page) {
-		
+
 		log.info("search_list_paging()....");
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<ListViewDto> list = null;
