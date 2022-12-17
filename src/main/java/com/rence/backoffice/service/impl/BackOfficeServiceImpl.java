@@ -178,8 +178,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 				if (flag == 1) {
 					map.put("result", "1");
 				}
-				log.info("save failed...");
-				map.put("result", "0");
+				else {
+					log.info("save failed...");
+					map.put("result", "0");
+				}
 			} else {
 				log.info("update failed...");
 				map.put("result", "0");
