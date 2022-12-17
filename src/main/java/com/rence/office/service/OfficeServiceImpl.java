@@ -186,8 +186,7 @@ public class OfficeServiceImpl implements OfficeService {
 					}
 				} else {
 					vo.setComment_state("N");
-					vo.setAnswer_content(null);
-					vo.setAnswer_date(null);
+
 				}
 
 				// 이름 마스킹
@@ -379,6 +378,8 @@ public class OfficeServiceImpl implements OfficeService {
 
 				} else {
 					dto.setComment_state("N");
+					dto.setAnswer_content(null);
+					dto.setAnswer_date(null);
 				}
 
 				// 이름 마스킹
@@ -769,6 +770,7 @@ public class OfficeServiceImpl implements OfficeService {
 		List<OfficeQuestionDto> cdtos = dao.select_all_comment(backoffice_no, page);
 
 		String is_login = (String) session.getAttribute("user_id");
+//		String is_login = null;
 
 		if (cdtos != null) {
 			for (OfficeQuestionDto dto : cdtos) {
