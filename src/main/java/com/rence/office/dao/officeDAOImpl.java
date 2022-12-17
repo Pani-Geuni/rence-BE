@@ -140,7 +140,7 @@ public class officeDAOImpl implements officeDAO {
 
 	@Override
 	public List<OfficeQuestionDto> select_all_comment(String backoffice_no, Integer page) {
-		log.info("select_all_comment()...");
+//		log.info("select_all_comment()...");
 
 		Integer row_count = 4;
 		Integer start_row = (page - 1) * row_count + 1;
@@ -210,7 +210,7 @@ public class officeDAOImpl implements officeDAO {
 
 	@Override
 	public List<RoomScheduleDto> select_all_room_schedule(String backoffice_no, String room_no, String reserve_stime) {
-		log.info("select_all_room_schedule");
+		log.info("select_all_room_schedule()...");
 
 		List<RoomScheduleEntity> entity_list = room_schedule_repository.select_all_room_schedule(backoffice_no, room_no,
 				reserve_stime);
