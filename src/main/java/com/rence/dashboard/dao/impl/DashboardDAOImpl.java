@@ -588,7 +588,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	public BackOfficeOperatingTimeDTO backoffice_setting_selectOne_operatingtime(String backoffice_no) {
 
 		BackOfficeOperatingTimeEntity ovo = bos_repository.backoffice_setting_selectOne_operatingtime(backoffice_no);
-		BackOfficeOperatingTimeDTO ovo2 = modelMapper.map(ovo, BackOfficeOperatingTimeDTO.class);
+		BackOfficeOperatingTimeDTO ovo2 = operatingTime.operatingTimeEtoD(ovo);
 
 		return ovo2;
 	}

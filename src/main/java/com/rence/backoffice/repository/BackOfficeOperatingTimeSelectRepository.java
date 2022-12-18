@@ -15,10 +15,10 @@ import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 public interface BackOfficeOperatingTimeSelectRepository extends JpaRepository<BackOfficeOperatingTimeEntity, Object> {
 
 	@Query(nativeQuery = true, value = "select opetime_no,"
-			+ "TO_CHAR(mon_stime,'HH24:MI') mon_stime,TO_CHAR(mon_etime,'HH24:MI') mon_etime,TO_CHAR(tue_stime,'HH24:MI') tue_stime,TO_CHAR(tue_etime,'HH24:MI') tue_etime,"
-			+ "TO_CHAR(wed_stime,'HH24:MI') wed_stime,TO_CHAR(wed_etime,'HH24:MI') wed_etime,"
-			+ "TO_CHAR(thu_stime,'HH24:MI') thu_stime,TO_CHAR(thu_etime,'HH24:MI') thu_etime,TO_CHAR(fri_stime,'HH24:MI') fri_stime,TO_CHAR(fri_etime,'HH24:MI') fri_etime,"
-			+ "TO_CHAR(sat_stime,'HH24:MI') sat_stime,TO_CHAR(sat_etime,'HH24:MI') sat_etime,TO_CHAR(sun_stime,'HH24:MI') sun_stime,TO_CHAR(sun_etime,'HH24:MI') sun_etime,"
+			+ "mon_stime,mon_etime,tue_stime,tue_etime,"
+			+ "wed_stime,wed_etime,"
+			+ "thu_stime,thu_etime,fri_stime,fri_etime,"
+			+ "sat_stime,sat_etime,sun_stime,sun_etime,"
 			+ "backoffice_no, mon_dayoff, tue_dayoff, wed_dayoff, thu_dayoff, fri_dayoff, sat_dayoff, sun_dayoff"
 			+ " from backofficeoperatingtime where backoffice_no=?1")
 	public BackOfficeOperatingTimeEntity backoffice_setting_selectOne_operatingtime(String backoffice_no);
