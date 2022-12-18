@@ -1,7 +1,9 @@
 package com.rence.backoffice.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,7 +60,7 @@ public class BackOfficeLoginController {
 		this.authenticationManagerBuilder = authenticationManagerBuilder;
 	}
 
-	@PostMapping("/loginOK")
+	@PostMapping("/lo")
 	public Map<String, Object> authorize(@Valid @RequestBody LoginDTO loginDto, HttpServletResponse response) {
 
 		log.info("login info{}", loginDto);
@@ -67,6 +70,11 @@ public class BackOfficeLoginController {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginDto.getUsername(), loginDto.getPassword());
 		log.info("authenticationToken info{}", authenticationToken);
+		
+//		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+//		new org.springframework.security.core.userdetails.User(loginDto.getUsername(),
+//				loginDto.getPassword(),
+//	              grantedAuthorities);
 
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		log.info("authentication info{}", authentication);
@@ -113,6 +121,7 @@ public class BackOfficeLoginController {
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
 			response.addCookie(cookie_no);
 			response.addCookie(cookie_profile);
+			
 			
 			map.put("result", "1");
 			log.info("successed...");

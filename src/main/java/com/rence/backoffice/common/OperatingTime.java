@@ -116,5 +116,82 @@ public class OperatingTime {
 		return ovo2;
 		
 	}
+	
+	public BackOfficeOperatingTimeDTO operatingTimeEtoD(BackOfficeOperatingTimeEntity ovo) {
+		
+		BackOfficeOperatingTimeDTO ovo2 = new BackOfficeOperatingTimeDTO();
+		
+		CustomDateFormatter cdf = new CustomDateFormatter();
+		
+		ovo2.setBackoffice_no(ovo.getBackoffice_no());
+		
+		if (ovo.getMon_stime()!=null) {
+			String mon_stime = cdf.makeStringHourFormatter(ovo.getMon_stime());
+			ovo2.setMon_stime(mon_stime);
+		}
+		if(ovo.getMon_etime()!=null) {
+			String mon_etime = cdf.makeStringHourFormatter(ovo.getMon_etime());
+			ovo2.setMon_etime(mon_etime);
+		}
+		if (ovo.getTue_stime()!=null) {
+			String tue_stime = cdf.makeStringHourFormatter(ovo.getTue_stime());
+			ovo2.setTue_stime(tue_stime);
+		}
+		if (ovo.getTue_etime()!=null) {
+			String tue_etime = cdf.makeStringHourFormatter(ovo.getTue_etime());
+			ovo2.setTue_etime(tue_etime);
+		}
+		if (ovo.getWed_stime()!=null) {
+			String wed_stime = cdf.makeStringHourFormatter(ovo.getWed_stime());
+			ovo2.setWed_stime(wed_stime);
+		}
+		if (ovo.getWed_etime()!=null) {
+			String wed_etime = cdf.makeStringHourFormatter(ovo.getWed_etime());
+			ovo2.setWed_etime(wed_etime);
+		}
+		if (ovo.getThu_stime()!=null) {
+			String thu_stime = cdf.makeStringHourFormatter(ovo.getThu_stime());
+			ovo2.setThu_stime(thu_stime);
+		}
+		if (ovo.getThu_etime()!=null) {
+			String thu_etime = cdf.makeStringHourFormatter(ovo.getThu_etime());
+			ovo2.setThu_etime(thu_etime);
+		}
+		if (ovo.getFri_stime()!=null) {
+			String fri_stime = cdf.makeStringHourFormatter(ovo.getFri_stime());
+			ovo2.setFri_stime(fri_stime);
+		}
+		if (ovo.getFri_etime()!=null) {
+			String fri_etime = cdf.makeStringHourFormatter(ovo.getFri_etime());
+			ovo2.setFri_etime(fri_etime);
+		}
+		if (ovo.getSat_stime()!=null) {
+			String sat_stime = cdf.makeStringHourFormatter(ovo.getSat_stime());
+			ovo2.setSat_stime(sat_stime);
+		}
+		if (ovo.getSat_etime()!=null) {
+			String sat_etime = cdf.makeStringHourFormatter(ovo.getSat_etime());
+			ovo2.setSat_etime(sat_etime);
+		}
+		if (ovo.getSun_stime()!=null) {
+			String sun_stime = cdf.makeStringHourFormatter(ovo.getSun_stime());
+			ovo2.setSun_stime(sun_stime);
+		}
+		if(ovo.getSun_etime()!=null) {
+			String sun_etime = cdf.makeStringHourFormatter(ovo.getSun_etime());
+			ovo2.setSun_etime(sun_etime);
+		}
+		
+		ovo2.setMon_dayoff(ovo.getMon_dayoff());
+		ovo2.setTue_dayoff(ovo.getTue_dayoff());
+		ovo2.setWed_dayoff(ovo.getWed_dayoff());
+		ovo2.setThu_dayoff(ovo.getThu_dayoff());
+		ovo2.setFri_dayoff(ovo.getFri_dayoff());
+		ovo2.setSat_dayoff(ovo.getSat_dayoff());
+		ovo2.setSun_dayoff(ovo.getSun_dayoff());
+		
+		return ovo2;
+		
+	}
 }
 
