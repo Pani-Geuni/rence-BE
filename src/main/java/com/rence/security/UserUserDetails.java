@@ -22,6 +22,7 @@ public class UserUserDetails implements UserDetails {
 		this.user = user;
 	}
 
+	//현재 회원이 가지고 있는 권한들을 Lsit<GrantedAuthority> 형태로 리턴
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 

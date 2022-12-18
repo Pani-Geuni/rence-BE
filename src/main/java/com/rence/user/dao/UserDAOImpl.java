@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.backoffice.model.AuthDTO;
 import com.rence.backoffice.model.AuthEntity;
+import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeEntity;
 import com.rence.user.model.UserDto;
 import com.rence.user.model.UserEntity;
 import com.rence.user.repository.UserAuthRepository;
@@ -38,6 +40,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		return udto;
 	}
+	
 
 	//이메일 중복체크
 	@Override
