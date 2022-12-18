@@ -43,7 +43,9 @@ public class BackOfficeUserDetailsService implements UserDetailsService {
 			backoffice = modelMapper.map(be, BackOfficeDTO.class);
 		}
 		
-		return createUser(backoffice);
+		return new BackOfficeUserDetails(backoffice);
+
+//		return createUser(backoffice);
 	}
 	
 	 private org.springframework.security.core.userdetails.User createUser(BackOfficeDTO backoffice) {
