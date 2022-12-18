@@ -107,6 +107,7 @@ public class OfficeInfoMap {
 			
 			for (int i = 0; i < image_split.length; i++) {
 				option_list.add(image_split[i].trim());
+				option_list.add("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+image_split[i].trim());
 			}
 			
 			return option_list;
