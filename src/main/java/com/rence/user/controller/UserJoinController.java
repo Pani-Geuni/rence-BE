@@ -136,20 +136,10 @@ public class UserJoinController {
 	public String user_joinOK(UserDto udto) {
 		log.info("Welcome! user_joinOK");
 		log.info("result: {}", udto);
-
-		Map<String, String> map = new HashMap<String, String>();
-		// insert(성공시 1)
-		int join_result = service.user_insertOK(udto);
-		log.info("join_result: {}", join_result);
 		
-		if(join_result == 0) {
-			// 회원가입실패
-			map.put("result", "0");
-		} else if(join_result == 1) {
-			// 회원가입 성공
-			map.put("result", "1");
-		}
-
+		// insert(성공시 1)
+		Map<String, String> map = service.user_insertOK(udto);
+				
 		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}

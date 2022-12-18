@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Object> {
 			String user_birth);
 
 	// 회원가입 - 마일리지테이블에 초기마일리지 세팅을 위해 유저번호 불러오기
-	@Query(nativeQuery = true, value = "select * from( select * from userinfo order by user_no desc ) where rownum between 1 and 1")
+	@Query(nativeQuery = true, value = "select user_no from( select user_no from userinfo order by user_no desc ) where rownum between 1 and 1")
 	String user_select_userno();
 
 	// 회원가입 - 마일리지 초기값 입력(상태 T, 0)
