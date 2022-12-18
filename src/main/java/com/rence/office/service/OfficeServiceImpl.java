@@ -205,6 +205,7 @@ public class OfficeServiceImpl implements OfficeService {
 				String maskingName = firstName + maskingMidName + lastName;
 
 				vo.setUser_name(maskingName);
+				vo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+vo.getUser_image());
 			}
 		}
 
@@ -268,6 +269,8 @@ public class OfficeServiceImpl implements OfficeService {
 			String maskingName = firstName + maskingMidName + lastName;
 
 			dto.setUser_name(maskingName);
+			
+			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+dto.getUser_image());
 		}
 
 		Map<String, Object> res = new HashMap<String, Object>();
@@ -796,7 +799,8 @@ public class OfficeServiceImpl implements OfficeService {
 							dto.setAnswer_date("x");
 						}
 					}
-				} else {
+				}
+				else {
 					dto.setComment_state("N");
 					dto.setAnswer_content("x");
 					dto.setAnswer_date("x");
@@ -817,6 +821,8 @@ public class OfficeServiceImpl implements OfficeService {
 				String maskingName = firstName + maskingMidName + lastName;
 
 				dto.setUser_name(maskingName);
+				
+				dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+dto.getUser_image());
 			}
 		}
 
@@ -879,6 +885,8 @@ public class OfficeServiceImpl implements OfficeService {
 			String maskingName = firstName + maskingMidName + lastName;
 
 			dto.setUser_name(maskingName);
+			
+			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+dto.getUser_image());
 		}
 
 		// backoffice 기본 정보
