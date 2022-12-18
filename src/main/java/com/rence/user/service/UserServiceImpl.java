@@ -1,5 +1,8 @@
 package com.rence.user.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -130,9 +133,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	// 회원가입
-	public int user_insertOK(UserDto udto) {
+	public Map<String, String> user_insertOK(UserDto udto) {
 		log.info("user_insertOK()....");
 		log.info("udto: {}", udto);
+		
+		Map<String, String> map = new HashMap<String, String>();
 
 		int join_result = 0;
 		int insert_result = dao.user_insertOK(udto);
@@ -149,8 +154,19 @@ public class UserServiceImpl implements UserService {
 			// 회원가입은 했지만 마일리지 데이터가 안들어갔으므로 실패
 			join_result = 0;
 		}
+		
+		
+		log.info("join_result: {}", join_result);
+		
+		if(join_result == 0) {
+			// 회원가입실패
+			map.put("result", "0");
+		} else if(join_result == 1) {
+			// 회원가입 성공
+			map.put("result", "1");
+		}
 
-		return join_result;
+		return map;
 	}
 
 	// 아이디 찾기

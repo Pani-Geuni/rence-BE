@@ -3,6 +3,8 @@
  */
 package com.rence.user.service;
 
+import java.util.Map;
+
 import com.rence.backoffice.model.AuthDTO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserDto;
@@ -10,7 +12,7 @@ import com.rence.user.model.UserDto;
 
 public interface UserService {
 
-	int user_insertOK(UserDto udto);
+	Map<String, String> user_insertOK(UserDto udto);
 
 	String user_EmailCheckOK(UserDto udto, AuthDTO avo, EmailVO evo);
 	
