@@ -97,7 +97,7 @@ public class OptionEngToKorMap {
 			option_list.add(option_map.get(option_split[i]));
 		}
 		
-		return option_list;
+		return option_list; 
 	}
 	
 	// 공간 사진
