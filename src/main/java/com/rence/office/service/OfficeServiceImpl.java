@@ -274,7 +274,6 @@ public class OfficeServiceImpl implements OfficeService {
 			String maskingName = firstName + maskingMidName + lastName;
 
 			dto.setUser_name(maskingName);
-			
 			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 		}
 
@@ -407,6 +406,7 @@ public class OfficeServiceImpl implements OfficeService {
 				String maskingName = firstName + maskingMidName + lastName;
 
 				dto.setUser_name(maskingName);
+				dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 			}
 		}
 
@@ -480,6 +480,7 @@ public class OfficeServiceImpl implements OfficeService {
 			String maskingName = firstName + maskingMidName + lastName;
 
 			dto.setUser_name(maskingName);
+			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 		}
 
 		map.put("redtos", redtos);
@@ -827,7 +828,6 @@ public class OfficeServiceImpl implements OfficeService {
 				String maskingName = firstName + maskingMidName + lastName;
 
 				dto.setUser_name(maskingName);
-				
 				dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 			}
 		}
