@@ -9,7 +9,6 @@ package com.rence.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -60,7 +59,7 @@ public class UserController {
 		
 		Map<String, String> map = new HashMap<String, String>();
 
-		UserDto udto = service.user_login_info(username);	
+		UserDto udto = service.user_login_info(username);
 		
 		String user_id = udto.getUser_id();
 		String user_no = udto.getUser_no();
