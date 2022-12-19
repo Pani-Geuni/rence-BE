@@ -77,7 +77,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	public CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
 	    configuration.setAllowCredentials(true);
-	    configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+//	    configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+	    configuration.setAllowedOrigins(List.of("*"));
 	    configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 	    configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type","Content-Type","X-Requested-With","accept", "Origin",
                 "Access-Control-Request-Method","submissionid"));
