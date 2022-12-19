@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class OptionEngToKorMap {
 	Map<String, String> type_map = new HashMap<String, String>();
 	Map<String, String> option_map = new HashMap<String, String>();
@@ -101,18 +104,16 @@ public class OptionEngToKorMap {
 	}
 	
 	// 공간 사진
-		public List<String> splitImage(String images) {
-			List<String> option_list = new ArrayList<String>();
+		public String[] splitImage(String images) {
 			String[] image_split = images.split(",");
-			
+			log.info("image_split.length:  {}",image_split.length);
 			for (int i = 0; i < image_split.length; i++) {
 				System.out.println(image_split[i].trim());
-				option_list.add("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+image_split[i].trim());
+				image_split[i] = "https://rence.s3.ap-northeast-2.amazonaws.com/space/"+image_split[i].trim();
 			}
 			
-			return option_list;
+			return image_split;
 		}
-//		odto.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+odto.getBackoffice_image());
 	
 	// 주변 시설
 	public List<String> splitAroundOption(String options) {
