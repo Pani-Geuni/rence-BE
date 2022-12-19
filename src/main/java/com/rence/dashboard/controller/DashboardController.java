@@ -354,7 +354,7 @@ public class DashboardController {
 	 */
 	@ApiOperation(value = "업체 정보 변경 처리", notes = "대쉬보드 환경설정 페이지 - 업체 정보 변경")
 	@PostMapping("/updateOK_host")
-	public String backoffice_updateOK_host(BackOfficeDTO bvo, BackOfficeOperatingTimeDTO ovo, MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room) {
+	public String backoffice_updateOK_host(BackOfficeDTO bvo, BackOfficeOperatingTimeDTO ovo, MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room" , required = false) MultipartFile multipartFile_room) {
 
 		BackOfficeDTO bvo2 = service.backoffice_setting_selectOne(bvo);
 		if(!bvo.getBackoffice_image().equals(bvo2.getBackoffice_image())) {
