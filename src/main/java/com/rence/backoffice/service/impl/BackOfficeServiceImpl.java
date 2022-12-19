@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
@@ -144,16 +145,39 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 		Map<String, String> map = new HashMap<String, String>();
 
-		log.info("JsessionId::{}",session.getId());
-		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
+//		log.info("JsessionId::{}",session.getId());
+//		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
+		
+		
 		Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
+//		cookie_no.setPath("/");
+		cookie_no.setMaxAge(-1);
 		Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
-		map.put("result", "1");
-		log.info("successed...");
+//		cookie_profile.setPath("/");
+		cookie_profile.setMaxAge(-1);
 		response.addCookie(cookie_no);
 		response.addCookie(cookie_profile);
+		    
+		
+		
+//		ResponseCookie cookie = ResponseCookie.from("backoffice_no", bvo.getBackoffice_no())
+//	            .sameSite("None")
+//	            .secure(true)
+//	            .path("/backoffice").maxAge(60 * 30).httpOnly(true)
+//	            .build();
+//		ResponseCookie cookie2 = ResponseCookie.from("host_image", bvo.getHost_image())
+//				.sameSite("None")
+//				.secure(true)
+//				.path("/backoffice").maxAge(60 * 30).httpOnly(true)
+//				.build();
+//		response.setHeader("Set-Cookie", cookie.toString());
+//		response.addHeader("Set-Cookie", cookie2.toString());
+//		response.addHeader("backoffice_id", bvo.getBackoffice_id());
+		
+		
 
 		map.put("result", "1");
+		log.info("successed...");
 		map.put("JsessionId", session.getId());
 		map.put("backoffice_no", bvo.getBackoffice_no());
 		map.put("host_image", bvo.getHost_image());

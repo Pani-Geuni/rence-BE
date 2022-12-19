@@ -60,7 +60,7 @@ public class BackOfficeLoginController {
 		this.authenticationManagerBuilder = authenticationManagerBuilder;
 	}
 
-	@PostMapping("/lo")
+	@PostMapping("/log-in")
 	public Map<String, Object> authorize(@Valid @RequestBody LoginDTO loginDto, HttpServletResponse response) {
 
 		log.info("login info{}", loginDto);
@@ -114,8 +114,10 @@ public class BackOfficeLoginController {
 					.secure(true)
 					.path("/backoffice").maxAge(60 * 30).httpOnly(true)
 					.build();
-			response.setHeader("backoffice_no", cookie.getValue());
-			response.addHeader("host_image", cookie2.getValue());
+//			response.setHeader("backoffice_no", cookie.getValue());
+//			response.addHeader("host_image", cookie2.getValue());
+			response.addHeader("Set-Cookie", cookie.toString());
+			response.addHeader("Set-Cookie", cookie2.toString());
 			
 			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
@@ -134,7 +136,7 @@ public class BackOfficeLoginController {
 		return map;
 	}
 
-	@GetMapping("/logoutOK")
+	@GetMapping("/log-out")
 	public Map<String, Object> logout(@RequestBody @Valid TokenDTO requestTokenDto, HttpServletResponse response, HttpServletRequest request ) {
 
 		int result = BoService.logout(requestTokenDto.getToken());
