@@ -67,7 +67,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 		List<String> type_list = new ArrayList<String>();
 		List<String> tag_list = new ArrayList<String>();
-		List<String> img_list = new ArrayList<String>();
+		String[] img_list = null;
 		List<String> option_list = new ArrayList<String>();
 		List<String> around_option_list = new ArrayList<String>();
 
@@ -85,8 +85,10 @@ public class OfficeServiceImpl implements OfficeService {
 			tag_list.add("태그 없음");
 		}
 
+		log.info("--------odto.getBackoffice_image()---------- {}",odto.getBackoffice_image());
 		img_list = info_map.splitImage(odto.getBackoffice_image());
-
+		log.info("--------img_list---------- {}",img_list);
+		
 		if (odto.getBackoffice_option() != null) {
 			option_list = info_map.splitOption(odto.getBackoffice_option());
 		} else {
@@ -99,7 +101,10 @@ public class OfficeServiceImpl implements OfficeService {
 			around_option_list.add("주변 시설 없음");
 		}
 
+		
 		String short_roadname_address = info_map.makeShortAddress(odto.getRoadname_address());
+		
+		
 
 		// ******************
 		// backoffice 운영 시간
