@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserSendEmail authSendEmail;
 
-	@Override
 	// 로그인
+	@Override
 	public UserDto user_login_info(String username) {
 		log.info("user_login_info()...");
 		log.info("username: {}", username);
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
 		return dao.user_login_info(username);
 	}
 
-	@Override
 	// 이메일 체크
+	@Override
 	public String user_EmailCheckOK(UserDto udto, AuthDTO adto, EmailVO evo) {
 		log.info("user_EmailCheckOK()....");
 		log.info("udto: {}", udto);
@@ -131,8 +131,8 @@ public class UserServiceImpl implements UserService {
 		return idCheck_result;
 	}
 
-	@Override
 	// 회원가입
+	@Override
 	public Map<String, String> user_insertOK(UserDto udto) {
 		log.info("user_insertOK()....");
 		log.info("udto: {}", udto);
