@@ -57,7 +57,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		OptionEngToKorMap info_map = new OptionEngToKorMap();
+		OptionEngToKorMap_office info_map = new OptionEngToKorMap_office();
 		String backoffice_no = bdto.getBackoffice_no();
 
 		// ******************
@@ -210,7 +210,7 @@ public class OfficeServiceImpl implements OfficeService {
 				String maskingName = firstName + maskingMidName + lastName;
 
 				vo.setUser_name(maskingName);
-				vo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+vo.getUser_image());
+				vo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+vo.getUser_image());
 			}
 		}
 
@@ -275,7 +275,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 			dto.setUser_name(maskingName);
 			
-			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+dto.getUser_image());
+			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 		}
 
 		Map<String, Object> res = new HashMap<String, Object>();
@@ -679,7 +679,8 @@ public class OfficeServiceImpl implements OfficeService {
 		log.info("space_intruduce_office()....");
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		OfficeInfoMap info_map = new OfficeInfoMap();
+		OptionEngToKorMap_office info_map = new OptionEngToKorMap_office();
+		
 
 		String backoffice_no = bdto.getBackoffice_no();
 
@@ -689,7 +690,7 @@ public class OfficeServiceImpl implements OfficeService {
 		OfficeInfo_ViewDto odto = dao.select_one_office_info(backoffice_no);
 		List<String> type_list = new ArrayList<String>();
 		List<String> tag_list = new ArrayList<String>();
-		List<String> img_list = new ArrayList<String>();
+		String[] img_list = null;
 		List<String> option_list = new ArrayList<String>();
 		List<String> around_option_list = new ArrayList<String>();
 
@@ -827,7 +828,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 				dto.setUser_name(maskingName);
 				
-				dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+dto.getUser_image());
+				dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 			}
 		}
 
@@ -891,7 +892,7 @@ public class OfficeServiceImpl implements OfficeService {
 
 			dto.setUser_name(maskingName);
 			
-			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/"+dto.getUser_image());
+			dto.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+dto.getUser_image());
 		}
 
 		// backoffice 기본 정보
