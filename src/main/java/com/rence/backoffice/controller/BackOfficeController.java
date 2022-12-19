@@ -40,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Api(tags = "백오피스 컨트롤러")
 @RequestMapping("/backoffice")
-@RequiredArgsConstructor
 public class BackOfficeController {
 
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -63,10 +62,9 @@ public class BackOfficeController {
 	@PostMapping("/insertOK")
 	public String backoffice_insertOK(BackOfficeDTO vo, BackOfficeOperatingTimeDTO ovo,
 			MultipartHttpServletRequest mtfRequest,
-			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room,
-			@RequestParam(value = "multipartFile_host") MultipartFile multipartFile_host) throws ParseException {
+			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room) throws ParseException {
 
-		vo = fileService.backoffice_image_upload(vo, mtfRequest, multipartFile_room, multipartFile_host);
+		vo = fileService.backoffice_image_upload(vo, mtfRequest, multipartFile_room);
 
 		Map<String, String> map = service.insertOK(vo, ovo);
 
@@ -137,18 +135,18 @@ public class BackOfficeController {
 	/**
 	 * 로그아웃 처리
 	 */
-//	@ApiOperation(value = "로그아웃", notes = "로그아웃")
-//	@GetMapping("/logoutOK")
-//	public String backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
-//
-//		Map<String, String> map = new HashMap<String, String>();
-//
-//		map.put("result", "1");
-//
-//		String json = gson.toJson(map);
-//
-//		return json;
-//	}
+	@ApiOperation(value = "로그아웃", notes = "로그아웃")
+	@GetMapping("/logoutOK")
+	public String backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("result", "1");
+
+		String json = gson.toJson(map);
+
+		return json;
+	}
 
 	/**
 	 * 비밀번호 초기화(찾기), 이메일로 임시 비밀번호 전송

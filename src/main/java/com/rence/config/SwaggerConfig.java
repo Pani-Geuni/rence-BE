@@ -1,7 +1,13 @@
 package com.rence.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -57,15 +63,31 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
 	
 	// cors 설정
-	@Override
-    public void addCorsMappings(CorsRegistry registry) { //.allowedOriginsPattern("*")
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET","POST", "HEAD", "PUT","DELETE", "OPTIONS", "PATCH")
-                .allowedHeaders("Content-Type","X-Requested-With","accept", "Origin",
-                        "Access-Control-Request-Method","submissionid")
-                .exposedHeaders("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
-                        "Access-Control-Allow-Credentials").maxAge(3600L);
-        
-    }
+//	@Override
+//    public void addCorsMappings(CorsRegistry registry) { //.allowedOriginsPattern("*")
+//        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET","POST", "HEAD", "PUT","DELETE", "OPTIONS", "PATCH")
+//                .allowedHeaders("Content-Type","X-Requested-With","accept", "Origin",
+//                        "Access-Control-Request-Method","submissionid")
+//                .exposedHeaders("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
+//                        "Access-Control-Allow-Credentials").maxAge(3600L);
+//        
+//    }
+	
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowCredentials(true);
+	    configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+	    configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+	    configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type","Content-Type","X-Requested-With","accept", "Origin",
+                "Access-Control-Request-Method","submissionid"));
+	    configuration.setExposedHeaders(List.of("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
+                        "Access-Control-Allow-Credentials"));
+	    
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
+	}
 	
 
 	@Override
