@@ -66,6 +66,7 @@ public class BackofficeDAOImpl implements BackOfficeDAO {
 
 		vo.setBackoffice_state("W");
 		vo.setApply_date(new Date());
+		vo.setHost_image("img_host_001.jpg");
 
 //		ModelMapper modelMapper = new ModelMapper();
 		BackOfficeEntity bvo = new BackOfficeEntity();
