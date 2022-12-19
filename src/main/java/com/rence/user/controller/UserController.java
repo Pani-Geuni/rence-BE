@@ -66,6 +66,8 @@ public class UserController {
 		String user_no = udto.getUser_no();
 		String user_image = udto.getUser_image();
 		
+		session.setAttribute("user_id", udto.getUser_id());
+		
 		log.info("User Login success.....");
 		map.put("result", "1"); // 로그인 성공
 
