@@ -233,8 +233,12 @@ public class DashboardDAOImpl implements DashboardDAO {
 	@Override
 	public BackOfficeDTO select_one_backoffice_info(String backoffice_no) {
 
+		BackOfficeDTO bvo = new BackOfficeDTO();
+		
 		BackOfficeEntity be = b_repository.select_one_backoffice_info(backoffice_no);
-		BackOfficeDTO bvo = modelMapper.map(be, BackOfficeDTO.class);
+		if (be!=null) {
+			bvo = modelMapper.map(be, BackOfficeDTO.class);
+		}
 
 		return bvo;
 	}
@@ -257,6 +261,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 			re.setRoom_price(50000);
 		}
 		re.setBackoffice_no(backoffice_no);
+		re.setRoom_state("T");
 
 		return rm_repository.backoffice_insertOK_room(re);
 	}

@@ -147,7 +147,10 @@ public class DashboardServiceImpl implements DashboardService {
 
 		RoomDTO rmvo = new RoomDTO();
 
-		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
+		String type = bvo.getBackoffice_type();
+		if (type.contains("meeting_room")) {
+			type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
+		}
 		rmvo.setRoom_type(type);
 
 		List<String> type_list = new ArrayList<String>();
