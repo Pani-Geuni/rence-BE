@@ -62,10 +62,9 @@ public class BackOfficeController {
 	@PostMapping("/insertOK")
 	public String backoffice_insertOK(BackOfficeDTO vo, BackOfficeOperatingTimeDTO ovo,
 			MultipartHttpServletRequest mtfRequest,
-			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room,
-			@RequestParam(value = "multipartFile_host") MultipartFile multipartFile_host) throws ParseException {
+			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room) throws ParseException {
 
-		vo = fileService.backoffice_image_upload(vo, mtfRequest, multipartFile_room, multipartFile_host);
+		vo = fileService.backoffice_image_upload(vo, mtfRequest, multipartFile_room);
 
 		Map<String, String> map = service.insertOK(vo, ovo);
 
