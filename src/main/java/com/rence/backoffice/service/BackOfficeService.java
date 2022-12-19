@@ -24,7 +24,7 @@ public interface BackOfficeService {
 
 	public Map<String, String> backoffice_authOK(String backoffice_email, String auth_code);
 
-	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response);
+	public Map<String, String> backoffice_loginOK(String username, HttpSession session, HttpServletResponse response);
 
 	public Map<String, String> backoffice_reset_pw(BackOfficeDTO bvo, EmailVO evo);
 
@@ -32,5 +32,7 @@ public interface BackOfficeService {
 			HttpServletResponse response);
 
 	public void auth_auto_delete(String user_email);
+
+	public Map<String, String> backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response);
 
 }

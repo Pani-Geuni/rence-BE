@@ -9,8 +9,10 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,6 @@ import com.rence.backoffice.service.BackOfficeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,8 +51,8 @@ public class BackOfficeController {
 	@Autowired
 	BackOfficeFileService fileService;
 
-//	@Autowired
-//	HttpSession session;
+	@Autowired
+	HttpSession session;
 	
 	/**
 	 * 백오피스 신청 처리
@@ -62,7 +63,7 @@ public class BackOfficeController {
 	@PostMapping("/insertOK")
 	public String backoffice_insertOK(BackOfficeDTO vo, BackOfficeOperatingTimeDTO ovo,
 			MultipartHttpServletRequest mtfRequest,
-			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room) throws ParseException {
+			@RequestParam(value = "multipartFile_room" , required = false) MultipartFile multipartFile_room) throws ParseException {
 
 		vo = fileService.backoffice_image_upload(vo, mtfRequest, multipartFile_room);
 
@@ -109,7 +110,7 @@ public class BackOfficeController {
 	@PostMapping("/loginSuccess")
 	public String backoffice_loginOK(@RequestParam String username, HttpServletResponse response) {
 
-		Map<String, String> map = service.backoffice_loginOK(username, response);
+		Map<String, String> map = service.backoffice_loginOK(username, session, response);
 
 		String json = gson.toJson(map);
 
@@ -139,10 +140,8 @@ public class BackOfficeController {
 	@GetMapping("/logoutOK")
 	public String backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
 
-		Map<String, String> map = new HashMap<String, String>();
-
-		map.put("result", "1");
-
+		Map<String, String> map = service.backoffice_logoutOK(request,response);
+		
 		String json = gson.toJson(map);
 
 		return json;

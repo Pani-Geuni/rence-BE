@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
@@ -22,8 +21,8 @@ import org.springframework.web.util.WebUtils;
 import com.rence.backoffice.common.BackOfficeSendEmail;
 import com.rence.backoffice.dao.BackOfficeDAO;
 import com.rence.backoffice.model.AuthDTO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.BackOfficeDTO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.backoffice.service.BackOfficeService;
 
@@ -139,41 +138,21 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 로그인 성공 처리
 	 */
 	@Override
-	public Map<String, String> backoffice_loginOK(String username, HttpServletResponse response) {
+	public Map<String, String> backoffice_loginOK(String username, HttpSession session, HttpServletResponse response) {
 
 		BackOfficeDTO bvo = dao.backoffice_login_info(username);
 
 		Map<String, String> map = new HashMap<String, String>();
 
-//		log.info("JsessionId::{}",session.getId());
-//		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
-		
+
+		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 		
 		Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
-//		cookie_no.setPath("/");
 		cookie_no.setMaxAge(-1);
 		Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
-//		cookie_profile.setPath("/");
 		cookie_profile.setMaxAge(-1);
 		response.addCookie(cookie_no);
 		response.addCookie(cookie_profile);
-		    
-		
-		
-//		ResponseCookie cookie = ResponseCookie.from("backoffice_no", bvo.getBackoffice_no())
-//	            .sameSite("None")
-//	            .secure(true)
-//	            .path("/backoffice").maxAge(60 * 30).httpOnly(true)
-//	            .build();
-//		ResponseCookie cookie2 = ResponseCookie.from("host_image", bvo.getHost_image())
-//				.sameSite("None")
-//				.secure(true)
-//				.path("/backoffice").maxAge(60 * 30).httpOnly(true)
-//				.build();
-//		response.setHeader("Set-Cookie", cookie.toString());
-//		response.addHeader("Set-Cookie", cookie2.toString());
-//		response.addHeader("backoffice_id", bvo.getBackoffice_id());
-		
 		
 
 		map.put("result", "1");
@@ -182,6 +161,31 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		map.put("backoffice_no", bvo.getBackoffice_no());
 		map.put("host_image", bvo.getHost_image());
 		map.put("backoffice_id", bvo.getBackoffice_id());
+
+		return map;
+	}
+
+	/**
+	 * 로그아웃 성공 처리
+	 */
+	@Override
+	public Map<String, String> backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+
+			for (int i = 0; i < cookies.length; i++) {
+
+				cookies[i].setMaxAge(0);
+
+				response.addCookie(cookies[i]);
+
+			}
+
+		}
+		map.put("result", "1");
 
 		return map;
 	}
@@ -202,8 +206,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 				int flag = dao.backoffice_resetOK_pw(bvo2);
 				if (flag == 1) {
 					map.put("result", "1");
-				}
-				else {
+				} else {
 					log.info("save failed...");
 					map.put("result", "0");
 				}
@@ -226,20 +229,15 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	public Map<String, String> backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request,
 			HttpServletResponse response) {
 
-//		Cookie[] cookies = request.getCookies();
+		Cookie[] cookies = request.getCookies();
 		String backoffice_no = "";
-//		if (cookies != null) {
-//			for (Cookie cookie : cookies) {
-//				if (cookie.getName().equals("backoffice_no")) {
-//					backoffice_no = cookie.getValue();
-//				}
-//			}
-//		}
-		
-		Cookie cookie = WebUtils.getCookie(request, "backoffice_no");
-		if (cookie != null) {
-			backoffice_no = cookie.getValue();
-		} 
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("backoffice_no")) {
+					backoffice_no = cookie.getValue();
+				}
+			}
+		}
 
 		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = dao.backoffice_settingOK_pw(bvo);
@@ -247,13 +245,13 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Map<String, String> map = new HashMap<String, String>();
 
 		if (result == 1) {
-//			if (session.getAttribute("backoffice_id") != null) {
-				if (backoffice_no.equals(bvo.getBackoffice_no())) {
-					// HOST 로그인 session이 존재할 때
-					// Host 환경설정 > 비밀번호 수정
-					log.info("succeed...setting");
-					map.put("result", "1");
-//				}
+			if (session.getAttribute("backoffice_id") != null) {
+			if (backoffice_no.equals(bvo.getBackoffice_no())) {
+				// HOST 로그인 session이 존재할 때
+				// Host 환경설정 > 비밀번호 수정
+				log.info("succeed...setting");
+				map.put("result", "1");
+				}
 			} else {
 				// 가입 신청이 완료되어
 				// 신청자의 메일에서 링크 페이지를 열고 수정 했을 때
@@ -277,5 +275,6 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	public void auth_auto_delete(String user_email) {
 		dao.auth_auto_delete(user_email);
 	}
+
 
 }
