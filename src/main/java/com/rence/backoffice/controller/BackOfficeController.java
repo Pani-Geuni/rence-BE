@@ -56,6 +56,20 @@ public class BackOfficeController {
 	HttpSession session;
 	
 	/**
+	 * 로그인 여부
+	 */
+	@ApiOperation(value = "대쉬보드 로그인 여부", notes = "대쉬보드 로그인 여부")
+	@GetMapping("/loginCheck")
+	public String dashboard_login_check() {
+
+		Map<String, Object> map = service.login_check(session);
+
+		String json = gson.toJson(map);
+
+		return json;
+	}
+	
+	/**
 	 * 백오피스 신청 처리
 	 * 
 	 * @throws ParseException
@@ -142,7 +156,7 @@ public class BackOfficeController {
 	@GetMapping("/logoutOK")
 	public String backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
 
-		Map<String, String> map = service.backoffice_logoutOK(request,response);
+		Map<String, String> map = service.backoffice_logoutOK(request,response,session);
 		
 		String json = gson.toJson(map);
 
@@ -187,7 +201,7 @@ public class BackOfficeController {
 	@PostMapping("/settingOK_pw")
 	public String backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
-		Map<String, String> map = service.backoffice_settingOK_pw(bvo, request, response);
+		Map<String, String> map = service.backoffice_settingOK_pw(bvo, request, response,session);
 
 		String json = gson.toJson(map);
 

@@ -57,19 +57,6 @@ public class DashboardController {
 	@Autowired
 	HttpSession session;
 
-	/**
-	 * 대쉬보드 로그인 여부
-	 */
-	@ApiOperation(value = "대쉬보드 로그인 여부", notes = "대쉬보드 로그인 여부")
-	@GetMapping("/loginCheck")
-	public String dashboard_login_check() {
-
-		Map<String, Object> map = service.dashboard_login_check(session);
-
-		String json = gson.toJson(map);
-
-		return json;
-	}
 	
 	/**
 	 * 대쉬보드 메인

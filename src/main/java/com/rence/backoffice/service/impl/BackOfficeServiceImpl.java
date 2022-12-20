@@ -41,8 +41,22 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	@Autowired
 	BackOfficeSendEmail authSendEmail;
 
-	@Autowired
-	HttpSession session;
+//	@Autowired
+//	HttpSession session;
+	
+	@Override
+	public Map<String, Object> login_check(HttpSession session) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("backoffice_id") != null) {
+			map.put("result", "1");
+		}else {
+			map.put("result", "0");
+		}
+		
+		return map;
+	}
 
 	/**
 	 * 백오피스 신청 처리
@@ -174,7 +188,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 * 로그아웃 성공 처리
 	 */
 	@Override
-	public Map<String, String> backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String, String> backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -235,7 +249,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	 */
 	@Override
 	public Map<String, String> backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request,
-			HttpServletResponse response) throws UnsupportedEncodingException {
+			HttpServletResponse response, HttpSession session) throws UnsupportedEncodingException {
 		
         /* base64 decoding */
 		Decoder decoder = Base64.getDecoder();
