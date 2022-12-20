@@ -309,6 +309,23 @@ public class DashboardDAOImpl implements DashboardDAO {
 	public void backoffice_deleteOK_room(String backoffice_no, String room_no) {
 		rm_repository.backoffice_deleteOK_room(backoffice_no, room_no);
 	}
+	
+	/**
+	 * 공간관리 - 공간 삭제 후, 문의 처리
+	 */
+	@Override
+	public void backoffice_qna_insert(String backoffice_no, String room_no) {
+		
+		List<String> q_no_list = c_repository.select_qna_f(room_no);
+		if (q_no_list!=null) {
+			for (String q : q_no_list) {
+				int flag = c_repository.backoffice_qna_insert(backoffice_no,room_no,q);
+				if (flag==1) {
+					c_repository.update_comment_state_T(backoffice_no, q);
+				}
+			}
+		} 
+	}
 
 	/**
 	 * 공간관리 -문의(리스트)
@@ -584,6 +601,22 @@ public class DashboardDAOImpl implements DashboardDAO {
 	@Override
 	public int backoffice_room_deleteALL(BackOfficeDTO bvo) {
 		return b_repository.backoffice_room_deleteALL(bvo.getBackoffice_no());
+	}
+	
+	/**
+	 * 환경설정 - 업체 탈퇴 요청 (공간 삭제)
+	 */
+	@Override
+	public void backoffice_qna_insert(String backoffice_no) {
+		List<CommentEntity> q_no_list = c_repository.select_qna_f_all(backoffice_no);
+		if (q_no_list!=null) {
+			for (CommentEntity q : q_no_list) {
+				int flag = c_repository.backoffice_qna_insert(backoffice_no,q.getRoom_no(),q.getComment_no());
+				if (flag==1) {
+					c_repository.update_comment_state_T(backoffice_no, q.getComment_no());
+				}
+			}
+		} 
 	}
 
 	/**
@@ -985,6 +1018,5 @@ public class DashboardDAOImpl implements DashboardDAO {
 		reserveAutoUpdateRepository.reserve_auto_delete(reserve_no);
 		
 	}
-
 
 }
