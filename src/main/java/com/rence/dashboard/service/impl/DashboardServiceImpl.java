@@ -48,20 +48,6 @@ public class DashboardServiceImpl implements DashboardService {
 	@Autowired
 	DashboardDAO dao;
 	
-	@Override
-	public Map<String, Object> dashboard_login_check(HttpSession session) {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		if (session.getAttribute("backoffice_id") != null) {
-			map.put("result", "1");
-		}else {
-			map.put("result", "0");
-		}
-		
-		return map;
-	}
-
 	/**
 	 * 대쉬보드 메인
 	 */

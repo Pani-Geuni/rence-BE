@@ -17,8 +17,6 @@ import com.rence.dashboard.model.RoomDTO;
 
 public interface DashboardService {
 	
-	public Map<String, Object> dashboard_login_check(HttpSession session);
-
 	public Map<String, Object> dashboard_main(String backoffice_no);
 
 	public Map<String, Object> dashboard_room_list(String backoffice_no, Integer page);
