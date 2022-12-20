@@ -61,7 +61,7 @@ public class DashboardController {
 	 * 대쉬보드 로그인 여부
 	 */
 	@ApiOperation(value = "대쉬보드 로그인 여부", notes = "대쉬보드 로그인 여부")
-	@GetMapping("/logincheck")
+	@GetMapping("/loginCheck")
 	public String dashboard_login_check() {
 
 		Map<String, Object> map = service.dashboard_login_check(session);

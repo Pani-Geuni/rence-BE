@@ -286,12 +286,14 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 
 		if (result == 1) {
+			dao.backoffice_qna_insert(backoffice_no,room_no);
+			
 			log.info("successed...");
 			map.put("result", "1");
 		}
 
 		else {
-			log.info("failed...");
+			log.info("room delete failed...");
 			map.put("result", "0"); // 남은 예약이 있을 시
 		}
 
@@ -767,6 +769,7 @@ public class DashboardServiceImpl implements DashboardService {
 		if (result == 1) {
 			int flag = dao.backoffice_room_deleteALL(bvo);
 			if (flag == 1) {
+				dao.backoffice_qna_insert(bvo.getBackoffice_no());
 				log.info("successed...");
 				map.put("result", "1");
 			} else {
