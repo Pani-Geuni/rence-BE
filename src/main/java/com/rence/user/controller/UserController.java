@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,17 +57,17 @@ public class UserController {
 	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
 		log.info("user_loginOK ()...");
 		log.info("username: {}", username);
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 
 		UserDto udto = service.user_login_info(username);
-		
+
 		String user_id = udto.getUser_id();
 		String user_no = udto.getUser_no();
 		String user_image = udto.getUser_image();
-		
+
 		session.setAttribute("user_id", udto.getUser_id());
-		
+
 		log.info("User Login success.....");
 		map.put("result", "1"); // 로그인 성공
 
@@ -80,11 +81,35 @@ public class UserController {
 	}
 
 	// **********************
+	// 로그인 여부 체크(세션 체크)
+	// **********************
+	@ApiOperation(value = "로그인 여부체크", notes = "로그인 여부체크 입니다")
+	@GetMapping("/loginCheck")
+	public String user_loginCheck() {
+		log.info("user_loginCheck()....");
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+	
+		log.info("(테스트 로그)session==== {}", session.getAttribute("user_id"));
+		
+
+		if(session.getAttribute("user_id") != null) {
+			map.put("result", "1");
+		}
+		else {
+			map.put("result", "0");
+		}
+		String jsonObject = gson.toJson(map);
+
+		return jsonObject;
+	}
+
+	// **********************
 	// 로그인 실패
 	// **********************
 	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
 	@PostMapping("/loginFail")
-	@ResponseBody
 	public String user_loginFail(UserDto udto, HttpServletResponse response) {
 		log.info("user_loginFail ()...");
 		log.info("result: {}", udto);
@@ -109,9 +134,9 @@ public class UserController {
 		log.info("result: {}", udto);
 
 		Map<String, String> map = new HashMap<String, String>();
-		
-		String findId_res = service.user_find_Id(udto,evo);
-		
+
+		String findId_res = service.user_find_Id(udto, evo);
+
 		map.put("result", findId_res);
 		String jsonObject = gson.toJson(map);
 
@@ -127,16 +152,14 @@ public class UserController {
 	public String user_find_pw(UserDto udto, EmailVO evo) {
 		log.info("user_find_pw ()...");
 		log.info("udto{}", udto); // 넘어오는 값 출력
-		
+
 		Map<String, String> map = new HashMap<String, String>();
-		
-		
-		String findPw_res = service.user_find_pw(udto,evo);
-		
+
+		String findPw_res = service.user_find_pw(udto, evo);
+
 		map.put("result", findPw_res);
 		String jsonObject = gson.toJson(map);
 
-		
 		return jsonObject;
 	}
 
