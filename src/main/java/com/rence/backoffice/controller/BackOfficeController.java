@@ -5,6 +5,7 @@
  */
 package com.rence.backoffice.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,10 +106,11 @@ public class BackOfficeController {
 
 	/**
 	 * 로그인 성공 처리
+	 * @throws UnsupportedEncodingException 
 	 */
 	@ApiOperation(value = "로그인 성공", notes = "로그인 성공")
 	@PostMapping("/loginSuccess")
-	public String backoffice_loginOK(@RequestParam String username, HttpServletResponse response) {
+	public String backoffice_loginOK(@RequestParam String username, HttpServletResponse response) throws UnsupportedEncodingException {
 
 		Map<String, String> map = service.backoffice_loginOK(username, session, response);
 
@@ -179,10 +181,11 @@ public class BackOfficeController {
 
 	/**
 	 * 비밀번호 초기화 완료
+	 * @throws UnsupportedEncodingException 
 	 */
 	@ApiOperation(value = "비밀번호 초기화 처리", notes = "호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
 	@PostMapping("/settingOK_pw")
-	public String backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request, HttpServletResponse response) {
+	public String backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
 		Map<String, String> map = service.backoffice_settingOK_pw(bvo, request, response);
 

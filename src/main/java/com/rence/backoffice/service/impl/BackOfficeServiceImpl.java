@@ -5,8 +5,12 @@
  */
 package com.rence.backoffice.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -136,31 +140,32 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 	/**
 	 * 로그인 성공 처리
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Override
-	public Map<String, String> backoffice_loginOK(String username, HttpSession session, HttpServletResponse response) {
+	public Map<String, String> backoffice_loginOK(String username, HttpSession session, HttpServletResponse response) throws UnsupportedEncodingException {
 
 		BackOfficeDTO bvo = dao.backoffice_login_info(username);
 
 		Map<String, String> map = new HashMap<String, String>();
+		
+		/* base64 encoding */
+		Encoder encoder = Base64.getEncoder(); // 쿠키 정보 암호화
 
-
+        String backoffice_no = encoder.encodeToString(bvo.getBackoffice_no().getBytes("UTF-8"));
+        String host_image = encoder.encodeToString(bvo.getHost_image().getBytes("UTF-8"));
+        
 		session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 		
-		Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
+		Cookie cookie_no = new Cookie("backoffice_no", backoffice_no);
 		cookie_no.setMaxAge(-1);
-		Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
+		Cookie cookie_profile = new Cookie("host_image", host_image);
 		cookie_profile.setMaxAge(-1);
 		response.addCookie(cookie_no);
 		response.addCookie(cookie_profile);
-		
 
 		map.put("result", "1");
 		log.info("successed...");
-		map.put("JsessionId", session.getId());
-		map.put("backoffice_no", bvo.getBackoffice_no());
-		map.put("host_image", bvo.getHost_image());
-		map.put("backoffice_id", bvo.getBackoffice_id());
 
 		return map;
 	}
@@ -173,6 +178,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 		Map<String, String> map = new HashMap<String, String>();
 
+		session.removeAttribute("backoffice_id"); 
+		
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 
@@ -224,10 +231,14 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 	/**
 	 * 비밀번호 초기화 완료
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Override
 	public Map<String, String> backoffice_settingOK_pw(BackOfficeDTO bvo, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws UnsupportedEncodingException {
+		
+        /* base64 decoding */
+		Decoder decoder = Base64.getDecoder();
 
 		Cookie[] cookies = request.getCookies();
 		String backoffice_no = "";
@@ -235,6 +246,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("backoffice_no")) {
 					backoffice_no = cookie.getValue();
+					backoffice_no = new String(decoder.decode(backoffice_no.getBytes("UTF-8")));
+					log.info("backoffice_no :: {}",backoffice_no);
 				}
 			}
 		}

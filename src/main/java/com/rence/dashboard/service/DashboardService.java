@@ -7,6 +7,8 @@ package com.rence.dashboard.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.rence.backoffice.model.BackOfficeDTO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeDTO;
 import com.rence.dashboard.model.CommentDTO;
@@ -14,6 +16,8 @@ import com.rence.dashboard.model.ReserveUpdateDTO;
 import com.rence.dashboard.model.RoomDTO;
 
 public interface DashboardService {
+	
+	public Map<String, Object> dashboard_login_check(HttpSession session);
 
 	public Map<String, Object> dashboard_main(String backoffice_no);
 
@@ -85,5 +89,6 @@ public interface DashboardService {
 	public ReserveUpdateDTO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no);
 
 	public void reserve_auto_delete(String reserve_no);
+
 
 }
