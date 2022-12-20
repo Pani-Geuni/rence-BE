@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,18 +53,35 @@ public class DashboardController {
 
 	@Autowired
 	HostPaymentCancelService cancelService;
+	
+	@Autowired
+	HttpSession session;
 
+	/**
+	 * 대쉬보드 로그인 여부
+	 */
+	@ApiOperation(value = "대쉬보드 로그인 여부", notes = "대쉬보드 로그인 여부")
+	@GetMapping("/logincheck")
+	public String dashboard_login_check() {
+
+		Map<String, Object> map = service.dashboard_login_check(session);
+
+		String json = gson.toJson(map);
+
+		return json;
+	}
+	
 	/**
 	 * 대쉬보드 메인
 	 */
 	@ApiOperation(value = "대쉬보드 메인", notes = "대쉬보드 메인 페이지")
 	@GetMapping("/main")
 	public String dashboard_main_rsu(String backoffice_no) {
-
+		
 		Map<String, Object> map = service.dashboard_main(backoffice_no);
-
+		
 		String json = gson.toJson(map);
-
+		
 		return json;
 	}
 

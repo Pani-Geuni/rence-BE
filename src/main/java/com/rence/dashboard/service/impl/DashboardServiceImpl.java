@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,20 @@ public class DashboardServiceImpl implements DashboardService {
 
 	@Autowired
 	DashboardDAO dao;
+	
+	@Override
+	public Map<String, Object> dashboard_login_check(HttpSession session) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("backoffice_id") != null) {
+			map.put("result", "1");
+		}else {
+			map.put("result", "0");
+		}
+		
+		return map;
+	}
 
 	/**
 	 * 대쉬보드 메인
@@ -1146,4 +1162,6 @@ public class DashboardServiceImpl implements DashboardService {
 	public void reserve_auto_delete(String reserve_no) {
 		dao.reserve_auto_delete(reserve_no);
 	}
+
+	
 }
